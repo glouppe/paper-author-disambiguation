@@ -1,0 +1,76 @@
+\documentclass{article}
+
+% For figures
+\usepackage{graphicx} % more modern
+%\usepackage{epsfig} % less modern
+\usepackage{subfigure}
+
+% For citations
+\usepackage{natbib}
+
+% For algorithms
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\usepackage{hyperref}
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+\usepackage[accepted]{icml2015}
+
+
+% Header ======================================================================
+
+\icmltitlerunning{Semi-supervised author disambiguation for scientific publications}
+
+\begin{document}
+
+\twocolumn[
+\icmltitle{Semi-supervised author disambiguation for scientific publications}
+
+\icmlauthor{Gilles Louppe}{g.louppe@cern.ch}
+\icmlauthor{Hussein Al-Natsheh}{}
+\icmlauthor{Mateusz Susik}{}
+\icmladdress{CERN, CH-1211 Geneva 23, Switzerland}
+
+\icmlkeywords{variable importances, random forest}
+
+\vskip 0.3in
+]
+
+\begin{abstract}
+The purpose of this document is to provide both the basic paper template and
+submission guidelines.
+\end{abstract}
+
+
+% Background ==================================================================
+
+\section{Background}
+\label{background}
+
+
+% Methods =====================================================================
+
+\section{Methods}
+\label{methods}
+
+
+% Results and discussion ======================================================
+
+\section{Results and discussion}
+\label{results}
+
+
+% Conclusions =================================================================
+
+\section{Conclusions}
+\label{conclusions}
+
+
+% References ==================================================================
+\nocite{langley00}
+
+\bibliography{bib}
+\bibliographystyle{icml2015}
+
+\end{document}
