@@ -43,22 +43,80 @@ submission guidelines.
 \end{abstract}
 
 
-% Background ==================================================================
+% Introduction ==================================================================
 
-\section{Background}
-\label{background}
+\section{Introduction}
+\label{introduction}
 
+% general introduction to the disambiguation issues
+% summary of what we did
+% outline of the paper
+
+
+% Related works ==================================================================
+
+\section{Related works}
+\label{relate-works}
+
+% levin
 
 % Methods =====================================================================
 
-\section{Methods}
+\section{Semi-supervised author disambiguation}
 \label{methods}
+
+\subsection{Overview}
+% figure, notations, etc
+
+\subsection{Distance learning}
+% distance learning as a supervised problem
+% balancing difficult and easy cases
+
+\subsection{Blocking}
+% motivation
+% last name, first initial
+% phonetics something (dm)
+
+\subsection{Semi-supervised clustering}
+% hierarchical clustering
+% semi-supervised clustering
+% cold start problem (when no labels in a block)
+
+\subsection{Matching}
+% general description in a real system
+
+
+% Implementation ======================================================
+
+\section{Implementation}
+\label{implementation}
 
 
 % Results and discussion ======================================================
 
-\section{Results and discussion}
-\label{results}
+\section{Experiments}
+\label{experiments}
+
+\subsection{Data}
+% source of the data, labels in the data, etc
+% release the data
+
+\subsection{Evaluation protocol}
+% measures (b^3, paired, size of clusters)
+% training / valid / test sets
+
+\subsection{Distance learning}
+% feature engineering
+% variable importance analysis
+% supervised learning model
+
+\subsection{Blocking}
+
+\subsection{Semi-supervised clustering}
+% compare agglomerative algorithms
+% compare threshold strategies
+% compare cold start solutions
+% talk about impact of small improvements in terms of citations statistics
 
 
 % Conclusions =================================================================
@@ -66,9 +124,11 @@ submission guidelines.
 \section{Conclusions}
 \label{conclusions}
 
+% future improvements
+
 
 % References ==================================================================
-\nocite{langley00}
+\nocite{langley00} % todo remove
 
 \bibliography{bib}
 \bibliographystyle{icml2015}
