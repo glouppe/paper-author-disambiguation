@@ -1,1 +1,1 @@
-# paper-author-disambiguation
+# Semi-supervised author disambiguation for scientific publications
