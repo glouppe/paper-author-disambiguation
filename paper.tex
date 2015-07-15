@@ -1,9 +1,11 @@
-\documentclass[11pt]{article}
-\usepackage[margin=1.2in]{geometry}
+\documentclass{article}
+%\usepackage[margin=1.2in]{geometry}
+
+\usepackage{nips15submit_e}
+
 
 % For figures
-\usepackage{graphicx} % more modern
-%\usepackage{epsfig} % less modern
+\usepackage{graphicx}
 \usepackage{subfigure}
 \usepackage{color}
 
@@ -14,23 +16,29 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
+% For links
 \usepackage{hyperref}
 \newcommand{\theHalgorithm}{\arabic{algorithm}}
-
-\usepackage{titlesec}
-\titleformat{\section}{\sf\large}{\thesection.}{1em}{}
-\titleformat{\subsection}{\sf}{\thesubsection}{1em}{}
-\titleformat{\subsubsection}{\sf \small}{\thesubsubsection}{1em}{\it }
 
 \newcommand{\glnote}[1]{\textcolor{red}{GL: #1}}
 
 
 % Header ======================================================================
 
-\title{Semi-supervised author disambiguation for large and partially annotated databases of scientific publications}
-\author{Gilles Louppe, Hussein Al-Natsheh and Mateusz Susik\\
-       \it{CERN, Geneva, Switzerland}}
+\title{Semi-supervised author disambiguation of scientific publications}
+
+\author{Gilles Louppe\\
+        CERN, Switzerland\\
+        \texttt{g.louppe@cern.ch}\\
+\And Hussein Al-Natsheh\\
+        CERN, Switzerland\\
+        \texttt{hussein.al.natsheh@cern.ch }\\
+\And Mateusz Susik\\
+        CERN, Switzerland\\
+        \texttt{mateusz.susik@cern.ch }\\ }
 \date{}
+
+\nipsfinalcopy
 
 \begin{document}
 
@@ -50,13 +58,13 @@ leveraged to build an automated disambiguation system generalizing to
 unlabelled publications. In this context, we propose a semi-supervised machine
 learning disambiguation solution in the case large and partially annotated
 databases of scientific publications. We describe how this annotated data can
-be used to learn an accurate classifier for identifying corefering authors,
-guide the clustering of scientific publications by distinct authors and finally
-match the resulting clusters to existing profiles. Evaluation is carried out on
-a real-world database of 1 million manual annotations and demonstrates the
-very good accuracy of the proposed solution. In particular, our analysis of
-parameters and features reveal that... \glnote{To be completed with actual
-results.}
+be used at several stages of disambiguation, to learn an accurate classifier
+for identifying corefering authors, to guide the clustering of scientific
+publications by distinct authors and finally to match the resulting clusters
+with existing profiles. Evaluation is carried out on a real-world database of 1
+million manual annotations and demonstrates the very good accuracy of the
+proposed solution. In particular, our analysis of parameters and features
+reveal that... \glnote{To be completed with actual results.}
 
 \end{abstract}
 
