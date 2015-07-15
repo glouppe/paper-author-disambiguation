@@ -48,21 +48,21 @@
 
 Author name disambiguation in bibliographic databases is the problem of
 grouping together scientific publications written by a same person. This
-problem is often difficult because (i) an author may use different spellings,
-variants or synonyms across her career and/or (ii) distinct authors may share
-the same name. Among solutions ot this problem, digital libraries are
-increasingly offering tools for authors to manually curate their publications
-and claim which ones are theirs. Indirectly, these tools allow for the
-inexpensive collection of large annotated training data, which can be further
-leveraged to build an automated disambiguation system capable of inferring
-features or patterns for identifying publications written by a same person.  In
-this context, we propose a semi-supervised machine learning disambiguation
-solution in the case large and partially annotated databases of scientific
-publications. Using a real-world dataset of 1 million manual annotations, we
-demonstrate how to exploit this data to learn an accurate classifier for
-identifying corefering authors, to guide the clustering of scientific
-publications by distinct authors in a semi-supervised way and finally to match
-the resulting clusters with existing profiles.  Our analysis of parameters and
+problem is often difficult because an author may use different spellings,
+variants or synonyms across her career and/or distinct authors may share the
+same name. Among solutions ot this problem, digital libraries are increasingly
+offering tools for authors to manually curate their publications and claim
+which ones are theirs. Indirectly, these tools allow for the inexpensive
+collection of large annotated training data, which can be further leveraged to
+build an automated disambiguation system capable of inferring features or
+patterns for identifying publications written by a same person.  In this
+context, we propose a semi-supervised machine learning disambiguation solution
+in the case large and partially annotated databases of scientific publications.
+Using a real-world dataset of 1 million manual annotations, we demonstrate how
+to exploit this data (i) to learn an accurate classifier for identifying
+corefering authors, (ii) to guide the clustering of scientific publications by
+distinct authors in a semi-supervised way and finally (iii) to match the
+resulting clusters with existing profiles.  Our analysis of parameters and
 features reveal that... \glnote{To be completed with actual results.}
 
 \end{abstract}
@@ -74,41 +74,49 @@ features reveal that... \glnote{To be completed with actual results.}
 \label{introduction}
 
 % general introduction to the disambiguation issues
+% often based on small dataset or fully unsupervised
 % summary of what we did
 % outline of the paper
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada
-eleifend pretium. Nulla semper aliquam arcu vel euismod. Curabitur dapibus
-tortor varius, pretium lectus at, tempus lectus. Mauris pellentesque, turpis
-vitae vulputate auctor, enim metus hendrerit nulla, ac elementum felis leo in
-nulla. Cras sed suscipit magna. Donec enim enim, egestas facilisis odio quis,
-laoreet maximus ligula. Nam vel metus at enim venenatis fringilla. Fusce nisl
-nunc, pellentesque eget arcu a, tempor interdum arcu. Duis non urna ligula.
-Vivamus consequat cursus auctor.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada
-eleifend pretium. Nulla semper aliquam arcu vel euismod. Curabitur dapibus
-tortor varius, pretium lectus at, tempus lectus. Mauris pellentesque, turpis
-vitae vulputate auctor, enim metus hendrerit nulla, ac elementum felis leo in
-nulla. Cras sed suscipit magna. Donec enim enim, egestas facilisis odio quis,
-laoreet maximus ligula. Nam vel metus at enim venenatis fringilla. Fusce nisl
-nunc, pellentesque eget arcu a, tempor interdum arcu. Duis non urna ligula.
-Vivamus consequat cursus auctor.
+In academic digital libraries, author name disambiguation is the problem of
+grouping together publications written by a same person.  With the fast growth
+of the scientific literature, this has become a pressing issue because the
+accuracy of information managed at the individual level directly affects the
+relevance search results (e.g., when querying for all publications written by a
+given individual), the reliability of bibliometrics (e.g., citation counts or
+other impact metrics) or the relevance of scientific network analysis. Author
+name disambiguation is often a difficult problem because an author may use
+different spellings, variants or synonyms across her career and/or distinct
+authors may share the same name. In particular, author disambiguation becomes
+even more critical for researchers from Eastern cultures, where personal names
+may be traditionally less diverse (leading to homonym issues) or for which
+transliteration to latin characters may not be unique (leading to synonym
+issues).
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada
-eleifend pretium. Nulla semper aliquam arcu vel euismod. Curabitur dapibus
-tortor varius, pretium lectus at, tempus lectus. Mauris pellentesque, turpis
-vitae vulputate auctor, enim metus hendrerit nulla, ac elementum felis leo in
-nulla. Cras sed suscipit magna. Donec enim enim, egestas facilisis odio quis,
-laoreet maximus ligula. Nam vel metus at enim venenatis fringilla. Fusce nisl
-nunc, pellentesque eget arcu a, tempor interdum arcu. Duis non urna ligula.
-Vivamus consequat cursus auctor.
+Efforts and solutions to author disambiguation have been proposed in numerous
+fields.
+
+
+
+
+
+
 
 
 % Related works ==================================================================
 
 \section{Related works}
 \label{relate-works}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada
+eleifend pretium. Nulla semper aliquam arcu vel euismod. Curabitur dapibus
+tortor varius, pretium lectus at, tempus lectus. Mauris pellentesque, turpis
+vitae vulputate auctor, enim metus hendrerit nulla, ac elementum felis leo in
+nulla. Cras sed suscipit magna. Donec enim enim, egestas facilisis odio quis,
+laoreet maximus ligula. Nam vel metus at enim venenatis fringilla. Fusce nisl
+nunc, pellentesque eget arcu a, tempor interdum arcu. Duis non urna ligula.
+Vivamus consequat cursus auctor.
 
 % levin
 
