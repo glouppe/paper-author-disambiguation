@@ -50,24 +50,22 @@
 \begin{abstract}
 
 Author name disambiguation in bibliographic databases is the problem of
-grouping together scientific publications written by a same person. This
-problem is often difficult because an author may use different spellings,
-variants or synonyms across her career and/or distinct authors may share the
-same name. Among solutions ot this problem, digital libraries are increasingly
-offering tools for authors to manually curate their publications and claim
-which ones are theirs. Indirectly, these tools allow for the inexpensive
-collection of large annotated training data, which can be further leveraged to
-build an automated disambiguation system capable of inferring features or
-patterns for identifying publications written by a same person.  In this
-context, we propose a semi-supervised machine learning disambiguation solution
-in the case large and partially annotated databases of scientific publications.
-Using a real-world dataset of 1 million manual annotations, we demonstrate how
-we exploited this data (i) to learn an accurate classifier for identifying
-corefering authors, (ii) to guide the clustering of scientific publications by
-distinct authors in a semi-supervised way and finally (iii) to match the
-resulting clusters with existing profiles.  Our analysis of parameters and
-features on this large training set reveal that... \glnote{To be completed with
-actual results.}
+grouping together scientific publications written by a same person, accounting
+for potential homonyms and/or synonyms. Among solutions ot this problem, digital
+libraries are increasingly offering tools for authors to manually curate their
+publications and claim which ones are theirs. Indirectly, these tools allow for
+the inexpensive collection of large annotated training data, which can be
+further leveraged to build an automated disambiguation system capable of
+inferring features or patterns for identifying publications written by a same
+person.  In this context, we propose a semi-supervised machine learning
+disambiguation solution in the case large and partially annotated databases of
+scientific publications. Using a real-world dataset of 1 million manual
+annotations, we demonstrate how we exploited this data (i) to learn an accurate
+classifier for identifying corefering authors, (ii) to guide the clustering of
+scientific publications by distinct authors in a semi-supervised way and
+finally (iii) to match the resulting clusters with existing profiles.  Our
+analysis of parameters and features on this large training set reveal that...
+\glnote{To be completed with actual results.}
 
 \end{abstract}
 
@@ -102,18 +100,20 @@ communities \citep{liu2014author}. On the one hand, libraries have maintained
 authorship control through manual curation, either in a centralized way by
 hiring collaborators or by developing services inviting authors to register
 their publications themselves (e.g., Google Scholar, Inspire-HEP). Recently,
-efforts started to assign persistent digital identifiers to researchers (e.g.,
-ORCID, ResearchedID), with the further objective to embed these identifiers in
-the submission workflow of publishers or repositeries (e.g., Elsevier, arXiv,
-Inspire-HEP), thereby univocally solving any disambiguation issue. With the
-large cost of centralized manual authorship control or until the larger
-adoption of crowdsourced solutions, the impact of these efforts are
-unfortunately limited by the efficiency, motivation and integrity of their
-active contributors. For these reasons, fully automated machine learning-based
-methods have been proposed during the past decade \glnote{Add references} to provide less costly and
-more efficient solutions to author disambiguation. In this work, our goal is to
-explore and demonstrate how both approaches can coexist and benefit from each
-other.  In particular, we study how curated data obtained through manual
+efforts also started to assign persistent digital identifiers to researchers
+(e.g., ORCID, ResearchedID), with the further objective to embed these
+identifiers in the submission workflow of publishers or repositeries (e.g.,
+Elsevier, arXiv, Inspire-HEP), thereby univocally solving any disambiguation
+issue. With the large cost of centralized manual authorship control or until
+the larger adoption of crowdsourced solutions, the impact of these efforts are
+unfortunately limited by the efficiency, motivation or integrity of their
+active contributors. Similarly, the success of persistent digital identifier
+efforts is conditioned to a large and ubiquituous adoption by both reseachers and publishers.
+For these reasons, fully automated machine learning-based methods have been
+proposed during the past decade \glnote{Add references} to provide immediate, less costly
+and efficient solutions to author disambiguation. In this work, our goal
+is to explore and demonstrate how both approaches can coexist and benefit from
+each other.  In particular, we study how curated data obtained through manual
 curation (either centralized or crowdsourced) can be exploited (i) to learn an
 accurate classifier for identifying corefering authors, (ii) to guide the
 clustering of scientific publications by distinct authors in a semi-supervised
