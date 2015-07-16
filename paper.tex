@@ -28,14 +28,17 @@
 \title{Semi-supervised author disambiguation of scientific publications}
 
 \author{Gilles Louppe\\
-        CERN, Switzerland\\
-        \texttt{g.louppe@cern.ch}\\
+        CERN\\
+        Switzerland\\
 \And Hussein Al-Natsheh\\
-        CERN, Switzerland\\
-        \texttt{hussein.al.natsheh@cern.ch }\\
+        CERN\\
+        Switzerland\\
 \And Mateusz Susik\\
-        CERN, Switzerland\\
-        \texttt{mateusz.susik@cern.ch }\\ }
+        CERN\\
+        Switzerland\\
+\And Eamonn Maguire\\
+        CERN\\
+        Switzerland}
 \date{}
 
 \nipsfinalcopy
@@ -59,11 +62,12 @@ patterns for identifying publications written by a same person.  In this
 context, we propose a semi-supervised machine learning disambiguation solution
 in the case large and partially annotated databases of scientific publications.
 Using a real-world dataset of 1 million manual annotations, we demonstrate how
-to exploit this data (i) to learn an accurate classifier for identifying
+we exploited this data (i) to learn an accurate classifier for identifying
 corefering authors, (ii) to guide the clustering of scientific publications by
 distinct authors in a semi-supervised way and finally (iii) to match the
 resulting clusters with existing profiles.  Our analysis of parameters and
-features reveal that... \glnote{To be completed with actual results.}
+features on this large training set reveal that... \glnote{To be completed with
+actual results.}
 
 \end{abstract}
 
@@ -81,9 +85,9 @@ features reveal that... \glnote{To be completed with actual results.}
 In academic digital libraries, author name disambiguation is the problem of
 grouping together publications written by a same person.  With the fast growth
 of the scientific literature, this has become a pressing issue because the
-accuracy of information managed at the individual level directly affects the
-relevance search results (e.g., when querying for all publications written by a
-given individual), the reliability of bibliometrics (e.g., citation counts or
+accuracy of information managed at the level of individuals directly affects
+the relevance search results (e.g., when querying for all publications written
+by a given author), the reliability of bibliometrics (e.g., citation counts or
 other impact metrics) or the relevance of scientific network analysis. Author
 name disambiguation is often a difficult problem because an author may use
 different spellings, variants or synonyms across her career and/or distinct
@@ -93,8 +97,9 @@ may be traditionally less diverse (leading to homonym issues) or for which
 transliteration to latin characters may not be unique (leading to synonym
 issues).
 
-Efforts and solutions to author disambiguation have been proposed in various
-fields.
+Efforts and solutions to author disambiguation have been proposed from various
+communities. On the one hand, libraries have maintained and developed
+authorship control with manual curation
 
 
 
