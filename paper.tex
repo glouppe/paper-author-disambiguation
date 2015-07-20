@@ -51,7 +51,7 @@
 
 Author name disambiguation in bibliographic databases is the problem of
 grouping together scientific publications written by a same person, accounting
-for potential homonyms and/or synonyms. Among solutions ot this problem, digital
+for potential homonyms and/or synonyms. Among solutions to this problem, digital
 libraries are increasingly offering tools for authors to manually curate their
 publications and claim which ones are theirs. Indirectly, these tools allow for
 the inexpensive collection of large annotated training data, which can be
@@ -90,7 +90,7 @@ other impact metrics) or the relevance of scientific network analysis. Author
 name disambiguation is often a difficult problem because an author may use
 different spellings, variants or synonyms across her career and/or distinct
 authors may share the same name. In particular, author disambiguation becomes
-even more critical for researchers from Eastern cultures, where personal names
+even more critical for researchers from non-Western cultures, where personal names
 may be traditionally less diverse (leading to homonym issues) or for which
 transliteration to latin characters may not be unique (leading to synonym
 issues).
@@ -99,16 +99,16 @@ Efforts and solutions to author disambiguation have been proposed from various
 communities \citep{liu2014author}. On the one hand, libraries have maintained
 authorship control through manual curation, either in a centralized way by
 hiring collaborators or by developing services inviting authors to register
-their publications themselves (e.g., Google Scholar, Inspire-HEP). Recently,
-efforts also started to assign persistent digital identifiers to researchers
-(e.g., ORCID, ResearchedID), with the further objective to embed these
+their publications themselves (e.g., Google Scholar, Inspire-HEP, ...). Recently,
+efforts also started to create persistent digital identifiers assigned to researchers
+(e.g., ORCID, ResearchedID, ...), with the further objective to embed these
 identifiers in the submission workflow of publishers or repositeries (e.g.,
-Elsevier, arXiv, Inspire-HEP), thereby univocally solving any disambiguation
+Elsevier, arXiv, Inspire-HEP, ...), thereby univocally solving any disambiguation
 issue. With the large cost of centralized manual authorship control or until
 the larger adoption of crowdsourced solutions, the impact of these efforts are
 unfortunately limited by the efficiency, motivation or integrity of their
 active contributors. Similarly, the success of persistent digital identifier
-efforts is conditioned to a large and ubiquituous adoption by both reseachers and publishers.
+efforts is conditioned to a large and ubiquituous adoption by both researchers and publishers.
 For these reasons, fully automated machine learning-based methods have been
 proposed during the past decade \glnote{Add references} to provide immediate, less costly
 and efficient solutions to author disambiguation. In this work, our goal
@@ -140,9 +140,39 @@ The remaining of this report is structured as follows. In Section~\ref{related-w
 
 \subsection{Overview}
 % figure, notations, etc
-Before presenting the methodology, we need to define some terminologies we will use to describe the data entities. An author's full name, or author name, is the string variation that was mention in the database record to refer to the author. The full name is a composition of the author last name and the author other names. For example, in the full name (Kerth, Leroy T.), the last name is Kerth and the other names will be (Leroy T.). We also use the terminology initials. In our full name example, the initials will be (L T). First initial then will be (L). So, grouping publications  What we refer to as the real author is the real person behind the publication. We will use the term signature as the entity that we apply clustering on.  A signature is a unique combination between a publication and an author name as mentioned in the database. The term blocking means grouping the signature by a certain version of the author name. For example, blocking by the author last name and first name initial means grouping together all signatures that have in common the same author's last name and first name initial. In our example, grouping by the string (Kerth L). What we mean by claimed publications is the publications in which their real author identity were claimed. We use these claimed publications to generate our ground truth data.
 
-Our methodology consists in 4 main components: Distance learning, blocking, semi-supervised clustering and matching. A distance function is learned from a training set of signiture pairs sampled from ground-truth data. Each pair is labeled whether the 2 signatures are for the same real author or not. The learned distance function will then be used for computing the dissimilarity matrix of a block of signatures. A block of signatures is grouping signatures that have in common similar author names, for example same last name. This affinity matrix would be the main input of our semi-supervised clustering algorithm. The predicted clusters of each block will lastly be combined into a final predicted clusters result. Each cluster label represents the predicted single author of the publications in the cluster. Finally, we present a strategy for matching the predicted results with the publications in which their authors were claimed.
+Before presenting the methodology, we need to define some terminologies we will
+use to describe the data entities. An author's full name, or author name, is
+the string variation that was mention in the database record to refer to the
+author. The full name is a composition of the author last name and the author
+other names. For example, in the full name (Kerth, Leroy T.), the last name is
+Kerth and the other names will be (Leroy T.). We also use the terminology
+initials. In our full name example, the initials will be (L T). First initial
+then will be (L). So, grouping publications  What we refer to as the real
+author is the real person behind the publication. We will use the term
+signature as the entity that we apply clustering on.  A signature is a unique
+combination between a publication and an author name as mentioned in the
+database. The term blocking means grouping the signature by a certain version
+of the author name. For example, blocking by the author last name and first
+name initial means grouping together all signatures that have in common the
+same author's last name and first name initial. In our example, grouping by the
+string (Kerth L). What we mean by claimed publications is the publications in
+which their real author identity were claimed. We use these claimed
+publications to generate our ground truth data.
+
+Our methodology consists in 4 main components: Distance learning, blocking,
+semi-supervised clustering and matching. A distance function is learned from a
+training set of signiture pairs sampled from ground-truth data. Each pair is
+labeled whether the 2 signatures are for the same real author or not. The
+learned distance function will then be used for computing the dissimilarity
+matrix of a block of signatures. A block of signatures is grouping signatures
+that have in common similar author names, for example same last name. This
+affinity matrix would be the main input of our semi-supervised clustering
+algorithm. The predicted clusters of each block will lastly be combined into a
+final predicted clusters result. Each cluster label represents the predicted
+single author of the publications in the cluster. Finally, we present a
+strategy for matching the predicted results with the publications in which
+their authors were claimed.
 
 \subsection{Distance learning}
 % distance learning as a supervised problem
