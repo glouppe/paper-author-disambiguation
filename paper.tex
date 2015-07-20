@@ -139,23 +139,23 @@ The remaining of this report is structured as follows. In Section~\ref{related-w
 \label{methods}
 
 \subsection{Overview}
-% figure, notations, etc
 
 Formally, let us assume a set of publications ${\cal P} = \{ p_0, ...,
-p_{N-1}\}$ and a set of authors ${\cal A} = \{ a_0, ..., a_{M-1}\}$
-corresponding to individuals.  Let us define a signature $s \in p$ from a
-publication as a unique piece of information identifying one of the authors of
-$p$ (e.g., the author name, his affiliation, along with any other metadata can
-be derived from $p$). Let us denote by ${\cal S} = \{ s | s \in p, p \in {\cal
-P} \}$ the set of all signatures that can be extracted from all publications in
-${\cal P}$. In this context, the author disambiguation problem can be stated as
-the problem of finding a partition ${\cal C} = \{ c_0, ..., c_{M-1} \}$ of
-${\cal S}$ such that ${\cal S} = \cup_{i=0}^{M-1} c_i$, $c_i \cap c_j = \phi$
-for all $i \neq j$, and where subsets $c_i$, or clusters, each corresponds to
-the set of all signatures belonging to the same individual $a_i$. Note that in
-practice, the set ${\cal A}$ often remains unknown and the task therefore boils
-down to finding a partition ${\cal C}$ such that subsets   $c_i$  each
-corresponds to the set of all signatures from a same individual.
+p_{N-1}\}$ along with the set of unique individuals ${\cal A} = \{ a_0, ...,
+a_{M-1}\}$ having together authored all publications in ${\cal P}$.  Let us
+define a signature $s \in p$ from a publication as a unique piece of
+information identifying one of the authors of $p$ (e.g., the author name, his
+affiliation, along with any other metadata can be derived from $p$). Let us
+denote by ${\cal S} = \{ s | s \in p, p \in {\cal P} \}$ the set of all
+signatures that can be extracted from all publications in ${\cal P}$. In this
+context, the author disambiguation problem can be stated as the problem of
+finding a partition ${\cal C} = \{ c_0, ..., c_{M-1} \}$ of ${\cal S}$ such
+that ${\cal S} = \cup_{i=0}^{M-1} c_i$, $c_i \cap c_j = \phi$ for all $i \neq
+j$, and where subsets $c_i$, or clusters, each corresponds to the set of all
+signatures belonging to the same individual $a_i$. Note that in practice, the
+set ${\cal A}$ often remains unknown and the task therefore boils down to
+finding a partition ${\cal C}$ such that subsets   $c_i$  each corresponds to
+the set of all signatures from a same individual.
 
 
 
