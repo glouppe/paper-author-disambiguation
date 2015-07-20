@@ -20,7 +20,7 @@
 \usepackage{hyperref}
 \newcommand{\theHalgorithm}{\arabic{algorithm}}
 
-\newcommand{\glnote}[1]{\textcolor{red}{GL: #1}}
+\newcommand{\glnote}[1]{\textcolor{red}{[GL: #1]}}
 
 
 % Header ======================================================================
@@ -152,10 +152,19 @@ context, the author disambiguation problem can be stated as the problem of
 finding a partition ${\cal C} = \{ c_0, ..., c_{M-1} \}$ of ${\cal S}$ such
 that ${\cal S} = \cup_{i=0}^{M-1} c_i$, $c_i \cap c_j = \phi$ for all $i \neq
 j$, and where subsets $c_i$, or clusters, each corresponds to the set of all
-signatures belonging to the same individual $a_i$. Note that in practice, the
-set ${\cal A}$ often remains unknown and the task therefore boils down to
-finding a partition ${\cal C}$ such that subsets   $c_i$  each corresponds to
-the set of all signatures from a same individual.
+signatures belonging to the same individual $a_i$. Alternatively, the set
+${\cal A}$ may remain (possibly partially) unknown, such that author
+disambiguation therefore boils down to finding a partition ${\cal C}$ where
+subsets $c_i$  each corresponds to the set of all signatures from a same
+individual. Finally, in the case of partially annotated databases as studied in
+this work, the setting extends with the partial knowledge of pairs $(a, s) \in
+{\cal A} \times {\cal S}$, each indicating that signature $s$ is known to
+belong to individual $a$.
+
+In this work, author disambiguation is cast into a semi-supervised clustering
+problem, as inspired from several previous works \glnote{Add references}.
+Our algorithm is made of four elements: ...
+
 
 
 
@@ -192,14 +201,14 @@ the set of all signatures from a same individual.
 % strategy for matching the predicted results with the publications in which
 % their authors were claimed.
 
-\subsection{Distance learning}
-% distance learning as a supervised problem
-% balancing difficult and easy cases
-
 \subsection{Blocking}
 % motivation
 % last name, first initial
 % phonetics something (dm)
+
+\subsection{Distance learning}
+% distance learning as a supervised problem
+% balancing difficult and easy cases
 
 \subsection{Semi-supervised clustering}
 % hierarchical clustering
@@ -229,12 +238,12 @@ the set of all signatures from a same individual.
 % measures (b^3, paired, size of clusters)
 % training / valid / test sets
 
+\subsection{Blocking}
+
 \subsection{Distance learning}
 % feature engineering
 % variable importance analysis
 % supervised learning model
-
-\subsection{Blocking}
 
 \subsection{Semi-supervised clustering}
 % compare agglomerative algorithms
