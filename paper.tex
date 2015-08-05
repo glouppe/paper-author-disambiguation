@@ -83,8 +83,8 @@ analysis on this large training set reveal that...
 In academic digital libraries, author name disambiguation is the problem of
 grouping together publications written by a same person.  Author name
 disambiguation is often a difficult problem because an author may use different
-spellings, variants or synonyms across her career and/or distinct authors may
-share the same name. Most notably, author disambiguation is often even more
+spellings or name variants across her career (synonymy) and/or distinct authors may
+share the same name (polysemy). Most notably, author disambiguation is often even more
 troublesome in the case of researchers from non-Western cultures, where
 personal names may be traditionally less diverse (leading to homonym issues) or
 for which transliteration to latin characters may not be unique (leading to
@@ -129,11 +129,29 @@ The remaining of this report is structured as follows. In Section~\ref{related-w
 \section{Related works}
 \label{related-works}
 
-Depending on the type and amount of data available, machine learning approaches
-for author disambiguation are usually inventorized into three classes of
-algorithms \citep{smalheiser2009author,levin2012citation}.
+As reviewed in
+\citep{smalheiser2009author,ferreira2012brief,levin2012citation}, author
+disambiguation algorithms are usually composed of two components: (i) a
+similarity function determining whether two publications have been written by a
+same author and (ii) a clustering algorithm producing clusters of publications
+assumed to be written by a same author. Approaches can be inventorized along
+several axes, depending on the type and amount of data available, the way the
+similarity function is learned or defined, or the clustering procedure used to
+group publications. Methods relying on supervised learning usually make use of
+hand-labeled pairs of publications identified as being either from the same or
+from different authors for learning automatically a similarity function between
+publications \citep{han2004two,huang2006efficient,
+culotta2007author,treeratpituk2009disambiguating,tran2014author}. Because
+training data is often not easily available, unsupervised approaches propose
+instead to use domain-specific similarity functions designed for author
+disambiguation
+\citep{malin2005unsupervised,mcrae2006also,song2007efficient,kang2009co,fan2011graph,schulz2014exploiting}.
+These later approaches have the advantage of requiring no hand-labeled data, but
+often do not perform as well as the supervised approaches. To reconcile
+both worlds, semi-supervised
 
-% levin
+
+
 
 % Methods =====================================================================
 
