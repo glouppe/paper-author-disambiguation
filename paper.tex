@@ -25,7 +25,7 @@
 
 % Header ======================================================================
 
-\title{Semi-supervised author disambiguation of scientific publications}
+\title{Semi-supervised author disambiguation of large-scale collections of labeled scientific publications}
 
 \author{Gilles Louppe\\
         CERN\\
@@ -92,8 +92,8 @@ synonym issues). With the fast growth of the scientific literature, author
 disambiguation has become a pressing issue because the accuracy of information
 managed at the level of individuals directly affects the relevance search
 results (e.g., when querying for all publications written by a given author),
-the reliability of bibliometrics (e.g., citation counts or other impact
-metrics) or the relevance of scientific network analysis.
+the reliability of bibliometrics and author rankings (e.g., citation counts or other impact
+metrics, as studied in \citep{strotmann2012author}) or the relevance of scientific network analysis.
 
 Efforts and solutions to author disambiguation have been proposed from various
 communities \citep{liu2014author}. On the one hand, libraries have maintained
@@ -110,7 +110,7 @@ unfortunately limited by the efficiency, motivation or integrity of their
 active contributors. Similarly, the success of persistent digital identifier
 efforts is conditioned to a large and ubiquituous adoption by both researchers and publishers.
 For these reasons, fully automated machine learning-based methods have been
-proposed during the past decade \glnote{Add references} to provide immediate, less costly
+proposed during the past decade (See Section~\ref{related-works}) to provide immediate, less costly
 and efficient solutions to author disambiguation. In this work, our goal
 is to explore and demonstrate how both approaches can coexist and benefit from
 each other.  In particular, we study how labeled data obtained through manual
@@ -129,7 +129,9 @@ The remaining of this report is structured as follows. In Section~\ref{related-w
 \section{Related works}
 \label{related-works}
 
-\glnote{I will take care of this}
+Depending on the type and amount of data available, machine learning approaches
+for author disambiguation are usually inventorized into three classes of
+algorithms \citep{smalheiser2009author,levin2012citation}.
 
 % levin
 
@@ -164,28 +166,6 @@ belong to individual $a$.
 In this work, author disambiguation is cast into a semi-supervised clustering
 problem, as inspired from several previous works \glnote{Add references}.
 Our algorithm is made of four elements: ...
-
-
-
-
-% Before presenting the methodology, we need to define some terminologies we will
-% use to describe the data entities. An author's full name, or author name, is
-% the string variation that was mention in the database record to refer to the
-% author. The full name is a composition of the author last name and the author
-% other names. For example, in the full name (Kerth, Leroy T.), the last name is
-% Kerth and the other names will be (Leroy T.). We also use the terminology
-% initials. In our full name example, the initials will be (L T). First initial
-% then will be (L). So, grouping publications  What we refer to as the real
-% author is the real person behind the publication. We will use the term
-% signature as the entity that we apply clustering on.  A signature is a unique
-% combination between a publication and an author name as mentioned in the
-% database. The term blocking means grouping the signature by a certain version
-% of the author name. For example, blocking by the author last name and first
-% name initial means grouping together all signatures that have in common the
-% same author's last name and first name initial. In our example, grouping by the
-% string (Kerth L). What we mean by claimed publications is the publications in
-% which their real author identity were claimed. We use these claimed
-% publications to generate our ground truth data.
 
 % Our methodology consists in 4 main components: Distance learning, blocking,
 % semi-supervised clustering and matching. A distance function is learned from a
