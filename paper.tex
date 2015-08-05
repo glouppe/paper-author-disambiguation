@@ -25,7 +25,7 @@
 
 % Header ======================================================================
 
-\title{Semi-supervised author disambiguation of large-scale collections of labeled scientific publications}
+\title{Author disambiguation of large-scale semi-labeled collections of scientific articles}
 
 \author{Gilles Louppe\\
         CERN\\
@@ -110,7 +110,7 @@ unfortunately limited by the efficiency, motivation or integrity of their
 active contributors. Similarly, the success of persistent digital identifier
 efforts is conditioned to a large and ubiquituous adoption by both researchers and publishers.
 For these reasons, fully automated machine learning-based methods have been
-proposed during the past decade (See Section~\ref{related-works}) to provide immediate, less costly
+proposed during the past decade to provide immediate, less costly
 and efficient solutions to author disambiguation. In this work, our goal
 is to explore and demonstrate how both approaches can coexist and benefit from
 each other.  In particular, we study how labeled data obtained through manual
@@ -143,13 +143,36 @@ from different authors for learning automatically a similarity function between
 publications \citep{han2004two,huang2006efficient,
 culotta2007author,treeratpituk2009disambiguating,tran2014author}. Because
 training data is often not easily available, unsupervised approaches propose
-instead to use domain-specific similarity functions designed for author
-disambiguation
-\citep{malin2005unsupervised,mcrae2006also,song2007efficient,kang2009co,fan2011graph,schulz2014exploiting}.
-These later approaches have the advantage of requiring no hand-labeled data, but
-often do not perform as well as the supervised approaches. To reconcile
-both worlds, semi-supervised
+instead to use domain-specific similarity functions tailored for author
+disambiguation \citep{malin2005unsupervised,mcrae2006also,song2007efficient,
+soler2007separating, kang2009co,fan2011graph,schulz2014exploiting}. These later
+approaches have the advantage of not requiring  hand-labeled data, but often do
+not perform as well as the supervised approaches. To reconcile both worlds,
+semi-supervised methods make use of small, manually verified, clusters of
+publications and/or of high-precision domain-specific rules to build a training
+set of pairs of publications, from which a similarity function is then built
+using supervised learning
+\citep{ferreira2010effective,torvik2009author,levin2012citation}.
+Coincidentally, semi-supervised approaches also allow for the tuning of the
+clustering algorithm when the later is applied to a mixed set of labeled
+and unlabeled publications, e.g., by maximizing some clustering performance
+metric on the known clusters \citep{levin2012citation}.
 
+Because of the lack of a large and publicly available dataset of curated
+clusters of publications, studies on author disambiguation are usually
+constrained to validate their results on manually built datasets of limited
+size and scope (from a few hundreds to a few thousands of papers, with a sparse
+coverage of ambiguous cases), making the true performance of these methods
+often difficult to assess with high confidence. In addition, despite devoted
+efforts to construct them, these datasets are very rarely released publicly,
+making it even more difficult to compare methods on a common benchmark.
+
+In this context, we position the work presented in this paper as a
+semi-supervised  solution for author disambiguation, but with the significant
+advantage of having a very large collection of more than 1 million annotations
+of publications known to be from the same author. In particular, the extent and coverage
+of this data allows us to revisit, validate and nuance previous findings regarding
+supervised learning of similarity functions.
 
 
 
@@ -182,7 +205,7 @@ this work, the setting extends with the partial knowledge of pairs $(a, s) \in
 belong to individual $a$.
 
 In this work, author disambiguation is cast into a semi-supervised clustering
-problem, as inspired from several previous works \glnote{Add references}.
+problem, as inspired from several previous works described in Section~\ref{related-works}.
 Our algorithm is made of four elements: ...
 
 % Our methodology consists in 4 main components: Distance learning, blocking,
