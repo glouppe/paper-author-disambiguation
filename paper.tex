@@ -56,7 +56,7 @@ libraries are increasingly offering tools for authors to manually curate their
 publications and claim which ones are theirs. Indirectly, these tools allow for
 the inexpensive collection of large annotated training data, which can be
 further leveraged to build an automated disambiguation system capable of
-inferring features or patterns for identifying publications written by a same
+inferring patterns for identifying publications written by a same
 person.  In this context, we propose a semi-supervised machine learning
 disambiguation solution in the case large and partially annotated databases of
 scientific publications. Using a real-world dataset of 1 million manual
@@ -64,7 +64,7 @@ annotations, we demonstrate how we exploited this data (i) to learn an accurate
 classifier for identifying corefering authors, (ii) to guide the clustering of
 scientific publications by distinct authors in a semi-supervised way and
 finally (iii) to match the resulting clusters with existing profiles.  Our
-analysis of parameters and features on this large training set reveal that...
+analysis on this large training set reveal that...
 \glnote{To be completed with actual results.}
 
 \end{abstract}
@@ -81,19 +81,19 @@ analysis of parameters and features on this large training set reveal that...
 % outline of the paper
 
 In academic digital libraries, author name disambiguation is the problem of
-grouping together publications written by a same person.  With the fast growth
-of the scientific literature, this has become a pressing issue because the
-accuracy of information managed at the level of individuals directly affects
-the relevance search results (e.g., when querying for all publications written
-by a given author), the reliability of bibliometrics (e.g., citation counts or
-other impact metrics) or the relevance of scientific network analysis. Author
-name disambiguation is often a difficult problem because an author may use
-different spellings, variants or synonyms across her career and/or distinct
-authors may share the same name. In particular, author disambiguation becomes
-even more critical for researchers from non-Western cultures, where personal names
-may be traditionally less diverse (leading to homonym issues) or for which
-transliteration to latin characters may not be unique (leading to synonym
-issues).
+grouping together publications written by a same person.  Author name
+disambiguation is often a difficult problem because an author may use different
+spellings, variants or synonyms across her career and/or distinct authors may
+share the same name. Most notably, author disambiguation is often even more
+troublesome in the case of researchers from non-Western cultures, where
+personal names may be traditionally less diverse (leading to homonym issues) or
+for which transliteration to latin characters may not be unique (leading to
+synonym issues). With the fast growth of the scientific literature, author
+disambiguation has become a pressing issue because the accuracy of information
+managed at the level of individuals directly affects the relevance search
+results (e.g., when querying for all publications written by a given author),
+the reliability of bibliometrics (e.g., citation counts or other impact
+metrics) or the relevance of scientific network analysis.
 
 Efforts and solutions to author disambiguation have been proposed from various
 communities \citep{liu2014author}. On the one hand, libraries have maintained
@@ -145,7 +145,7 @@ p_{N-1}\}$ along with the set of unique individuals ${\cal A} = \{ a_0, ...,
 a_{M-1}\}$ having together authored all publications in ${\cal P}$.  Let us
 define a signature $s \in p$ from a publication as a unique piece of
 information identifying one of the authors of $p$ (e.g., the author name, his
-affiliation, along with any other metadata can be derived from $p$). Let us
+affiliation, along with any other metadata that can be derived from $p$). Let us
 denote by ${\cal S} = \{ s | s \in p, p \in {\cal P} \}$ the set of all
 signatures that can be extracted from all publications in ${\cal P}$. In this
 framework, author disambiguation can be stated as the problem of
