@@ -218,27 +218,13 @@ to belong to individual $a$.
 In this work, author disambiguation is cast into a semi-supervised clustering
 problem, as inspired from several previous works described in Section~\ref
 {related-works}. Our algorithm is made of four elements: (i) a blocking
-function $b$ whose goal is to rhoughly pre-cluster signatures in order to
+function $b$ whose goal is to rhoughly pre-cluster signatures ${\cal S}$ into smaller groups in order to
 reduce computational complexity; (ii) the construction of a similarity function
-$d$ between signatures using supervised learning algorithms; (iii) the
+$d$ between signatures using supervised learning; (iii) the
 semi-supervised clustering of all signatures within a same block, using $d$; (iv) the matching
 of predicted clusters to existing profiles in a database.
 
 \glnote{Figure required here (Eamonn)}
-
-% Our methodology consists in 4 main components: Distance learning, blocking,
-% semi-supervised clustering and matching. A distance function is learned from a
-% training set of signiture pairs sampled from ground-truth data. Each pair is
-% labeled whether the 2 signatures are for the same real author or not. The
-% learned distance function will then be used for computing the dissimilarity
-% matrix of a block of signatures. A block of signatures is grouping signatures
-% that have in common similar author names, for example same last name. This
-% affinity matrix would be the main input of our semi-supervised clustering
-% algorithm. The predicted clusters of each block will lastly be combined into a
-% final predicted clusters result. Each cluster label represents the predicted
-% single author of the publications in the cluster. Finally, we present a
-% strategy for matching the predicted results with the publications in which
-% their authors were claimed.
 
 \subsection{Blocking}
 
