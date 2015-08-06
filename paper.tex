@@ -21,6 +21,7 @@
 \newcommand{\theHalgorithm}{\arabic{algorithm}}
 
 \newcommand{\glnote}[1]{\textcolor{red}{[GL: #1]}}
+\newcommand{\msnote}[1]{\textcolor{blue}{[MS: #1]}}
 
 
 % Header ======================================================================
@@ -66,6 +67,8 @@ knowledge, our analysis is the first to be carried out on data of this size and
 coverage. It reveals that... \glnote{To be completed with actual results.}
 
 \end{abstract}
+
+\glnote{Note sure if we should talk about matching in this paper?}
 
 
 % Introduction ==================================================================
@@ -209,12 +212,17 @@ disambiguation boils down to finding a partition ${\cal C}$ where
 subsets $c_i$  each corresponds to the set of all signatures from a same
 individual. Finally, in the case of partially annotated databases as studied in
 this work, the setting extends with the partial knowledge of pairs $(a, s) \in
-{\cal A} \times {\cal S}$, each indicating that signature $s$ is known to
-belong to individual $a$.
+{\cal A} \times {\cal S}$, each indicating that signature $s$ is known with high confidence
+to belong to individual $a$.
 
 In this work, author disambiguation is cast into a semi-supervised clustering
-problem, as inspired from several previous works described in Section~\ref{related-works}.
-Our algorithm is made of four elements: ...
+problem, as inspired from several previous works described in Section~\ref
+{related-works}. Our algorithm is made of four elements: (i) a blocking
+function $b$ whose goal is to rhoughly pre-cluster signatures in order to
+reduce computational complexity; (ii) the construction of a similarity function
+$d$ between signatures using supervised learning algorithms; (iii) the
+semi-supervised clustering of all signatures within a same block, using $d$; (iv) the matching
+of predicted clusters to existing profiles in a database.
 
 \glnote{Figure required here (Eamonn)}
 
@@ -243,6 +251,7 @@ Our algorithm is made of four elements: ...
 \subsection{Learning a similarity function}
 % distance learning as a supervised problem
 % balancing difficult and easy cases
+% sampling pairs from block only
 
 \subsection{Semi-supervised clustering}
 % hierarchical clustering
@@ -278,6 +287,7 @@ Our algorithm is made of four elements: ...
 % training / valid / test sets
 
 \subsection{Blocking}
+% compare with torvik & smalheiser (2009) who argue that lnfi blocking has recall around 98%
 
 \subsection{Learning a similarity function}
 % feature engineering
