@@ -119,7 +119,14 @@ way and finally (iii) to match the resulting clusters with existing profiles.
 Our analysis of parameters and features on this large training set reveals
 that... \glnote{To be completed with actual results.}
 
-The remaining of this report is structured as follows. In Section~\ref{related-works}, ...
+The remaining of this report is structured as follows. In Section~\ref{related-works},
+we first briefly review machine learning solutions for author disambiguation.
+The components of our method are then defined in Section~\ref{methods}
+and its implementation described in Section~\ref{implementation}. Experiments
+are carried out in Section~\ref{experiments}, where we explore and validate
+features for the supervised learning of a similarity function and compare
+strategies for the semi-supervised clustering of publications.
+Finally, conclusions and future works are discussed in Section~\ref{conclusions}.
 
 
 % Related works ==================================================================
@@ -129,7 +136,7 @@ The remaining of this report is structured as follows. In Section~\ref{related-w
 
 As reviewed in
 \citep{smalheiser2009author,ferreira2012brief,levin2012citation}, author
-disambiguation algorithms are usually composed of two components: (i) a
+disambiguation algorithms are usually composed of two main components: (i) a
 similarity function determining whether two publications have been written by a
 same author and (ii) a clustering algorithm producing clusters of publications
 assumed to be written by a same author. Approaches can be inventorized along
@@ -167,10 +174,13 @@ making it even more difficult to compare methods on a common benchmark.
 
 In this context, we position the work presented in this paper as a
 semi-supervised  solution for author disambiguation, but with the significant
-advantage of having a very large collection of more than 1 million annotations
+advantage of having a very large collection of more than 1 million crowdsourced annotations
 of publications known to be from the same author. In particular, the extent and coverage
 of this data allows us to revisit, validate and nuance previous findings regarding
-supervised learning of similarity functions.
+supervised learning of similarity functions and to better explore strategies
+for semi-supervised clustering. Additionally, by releasing the data publicly,
+we hope to set a benchmark on further research an author disambiguation
+and related topics can  build upon.
 
 
 
@@ -205,6 +215,8 @@ belong to individual $a$.
 In this work, author disambiguation is cast into a semi-supervised clustering
 problem, as inspired from several previous works described in Section~\ref{related-works}.
 Our algorithm is made of four elements: ...
+
+\glnote{Figure required here (Eamonn)}
 
 % Our methodology consists in 4 main components: Distance learning, blocking,
 % semi-supervised clustering and matching. A distance function is learned from a
@@ -273,7 +285,6 @@ Our algorithm is made of four elements: ...
 % compare agglomerative algorithms
 % compare threshold strategies
 % compare cold start solutions
-% talk about impact of small improvements in terms of citations statistics
 
 
 % Conclusions =================================================================
