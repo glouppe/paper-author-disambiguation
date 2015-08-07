@@ -56,19 +56,21 @@ for potential homonyms and/or synonyms. Among solutions to this problem,
 digital libraries are increasingly offering tools for authors to manually
 curate their publications and claim which ones are theirs. Indirectly, these
 tools allow for the inexpensive collection of large annotated training data,
-which can be further leveraged to build an automated disambiguation system
+which can be further leveraged to build a complementary automated disambiguation system
 capable of inferring patterns for identifying publications written by a same
-person.  Using a real-world dataset of 1 million manual annotations, we propose
-and demonstrate how to exploit this data (i) to learn an accurate classifier
-for identifying corefering authors, (ii) to guide the clustering of scientific
-publications by distinct authors in a semi-supervised way and finally (iii) to
-match the resulting clusters with existing profiles. To the best of our
-knowledge, our analysis is the first to be carried out on data of this size and
-coverage. It reveals that... \glnote{To be completed with actual results.}
+person.  Building upon more than 1 million crowdsourced annotations, we
+propose a automated author disambiguation solution exploiting this data (i) to learn
+an accurate classifier for identifying corefering authors, (ii) to guide the
+clustering of scientific publications by distinct authors in a semi-supervised
+way and finally (iii) to match the resulting clusters with existing profiles.
+To the best of our knowledge, our analysis is the first to be carried out on
+data of this size and coverage. It reveals that... \glnote{To be completed with
+actual results.}
 
 \end{abstract}
 
 \glnote{Note sure if we should talk about matching in this paper?}
+\glnote{Insist on the complementarity of having both crowdsourced and automated disambiguation.}
 
 
 % Introduction ==================================================================
@@ -95,32 +97,36 @@ managed at the level of individuals directly affects the relevance search of
 results (e.g., when querying for all publications written by a given author),
 the reliability of bibliometrics and author rankings (e.g., citation counts or other impact
 metrics, as studied in \citep{strotmann2012author}) or the relevance of scientific network analysis.
+\glnote{Add more references.}
 
 Efforts and solutions to author disambiguation have been proposed from various
 communities \citep{liu2014author}. On the one hand, libraries have maintained
 authorship control through manual curation, either in a centralized way by
 hiring collaborators or by developing services inviting authors to register
-their publications themselves (e.g., Google Scholar, Inspire-HEP, ...). Recently,
-efforts also started to create persistent digital identifiers assigned to researchers
-(e.g., ORCID, ResearchedID, ...), with the further objective to embed these
-identifiers in the submission workflow of publishers or repositeries (e.g.,
-Elsevier, arXiv, Inspire-HEP, ...), thereby univocally solving any disambiguation
-issue. With the large cost of centralized manual authorship control, or until
-the larger adoption of crowdsourced solutions, the impact of these efforts are
-unfortunately limited by the efficiency, motivation and integrity of their
-active contributors. Similarly, the success of persistent digital identifier
-efforts is conditioned to a large and ubiquituous adoption by both researchers and publishers.
-For these reasons, fully automated machine learning-based methods have been
-proposed during the past decade to provide immediate, less costly
-and efficient solutions to author disambiguation. In this work, our goal
-is to explore and demonstrate how both approaches can coexist and benefit from
-each other.  In particular, we study how labeled data obtained through manual
-curation (either centralized or crowdsourced) can be exploited (i) to learn an
-accurate classifier for identifying corefering authors, (ii) to guide the
-clustering of scientific publications by distinct authors in a semi-supervised
-way and finally (iii) to match the resulting clusters with existing profiles.
-Our analysis of parameters and features on this large training set reveals
-that... \glnote{To be completed with actual results.}
+their publications themselves (e.g., Google Scholar, Inspire-HEP, ...).
+Recently, efforts also started to create persistent digital identifiers
+assigned to researchers (e.g., ORCID, ResearchedID, ...), with the further
+objective to embed these identifiers in the submission workflow of publishers
+or repositeries (e.g., Elsevier, arXiv, Inspire-HEP, ...), thereby univocally
+solving any disambiguation issue. With the large cost of centralized manual
+authorship control, or until the larger adoption of crowdsourced solutions, the
+impact of these efforts are unfortunately limited by the efficiency, motivation
+and integrity of their active contributors. Similarly, the success of
+persistent digital identifier efforts is conditioned to a large and ubiquituous
+adoption by both researchers and publishers. For these reasons, fully automated
+machine learning-based methods have been proposed during the past decade to
+provide immediate, less costly and efficient solutions to author
+disambiguation. In this work, our goal is to explore and demonstrate how both
+approaches can coexist and benefit from each other.  In particular, we study
+how labeled data obtained through manual curation (either centralized or
+crowdsourced) can be exploited (i) to learn an accurate classifier for
+identifying corefering authors, (ii) to guide the clustering of scientific
+publications by distinct authors in a semi-supervised way and finally (iii) to
+match the resulting clusters with existing profiles. Our analysis of parameters
+and features on this large training set reveals that... \glnote{To be completed
+with actual results.} \glnote{Also mention error analysis, suggesting that
+uncertain disambiguation results should be suggested to human curators, thereby
+closing the loop and creating a vertuous circle.}
 
 The remaining of this report is structured as follows. In Section~\ref{related-works},
 we first briefly review machine learning solutions for author disambiguation.
@@ -146,6 +152,7 @@ assumed to be written by a same author. Approaches can be inventorized along
 several axes, depending on the type and amount of data available, the way the
 similarity function is learned or defined, or the clustering procedure used to
 group publications. Methods relying on supervised learning usually make use of
+a small set of
 hand-labeled pairs of publications identified as being either from the same or
 from different authors for learning automatically a similarity function between
 publications \citep{han2004two,huang2006efficient,
@@ -178,7 +185,7 @@ making it even more difficult to compare methods on a common benchmark.
 In this context, we position the work presented in this paper as a
 semi-supervised  solution for author disambiguation, but with the significant
 advantage of having a very large collection of more than 1 million crowdsourced annotations
-of publications known to be from the same author. In particular, the extent and coverage
+of publications whose true authors are identified. In particular, the extent and coverage
 of this data allows us to revisit, validate and nuance previous findings regarding
 supervised learning of similarity functions and to better explore strategies
 for semi-supervised clustering. Additionally, by releasing the data publicly,
