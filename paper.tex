@@ -14,11 +14,18 @@
 
 % For algorithms
 \usepackage{algorithm}
-\usepackage{algorithmic}
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
 
 % For links
 \usepackage{hyperref}
 \newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+% For "Jabłoński"
+\usepackage[utf8]{inputenc}
+
+% For placing tables in correct place
+\usepackage{placeins}
 
 \newcommand{\glnote}[1]{\textcolor{red}{[GL: #1]}}
 \newcommand{\msnote}[1]{\textcolor{blue}{[MS: #1]}}
@@ -235,14 +242,78 @@ of predicted clusters to existing profiles in a database.
 
 \subsection{Blocking}
 
-\glnote{By Mateusz}
+If the goal of the algorithm is to disambiguate millions of signatures and the algorithm
+complexity is $\Omega{(n^2)}$ in terms of the number of signatures due to pairwise
+comparisons, the disambiguation might take weeks or months to finish. In order to prevent
+that, we \textit{block} the signatures \citep{fellegi69}. The simplest strategy groups the
+signatures together if they share the same surnames and first given name initial (e.g.,
+"Wang, Z"). As the clustering will be performed only within the
+blocks, such strategy might prevent the further steps of the algorithm from assigning
+correctly two signatures to the same author. We extracted from our training set all pairs
+where the signatures belong to different blocks and the same author after the last name and
+first initial strategy was used. We observed that we can classify majority of these pairs
+into few categories:
+\begin{enumerate}
+  \item Author has multiple surnames and on some of his signatures all the surnames but the
+  last one are contained within given names (e.g., "Martinez Torres, A." and "Torres, A.
+  Martinez").
+  \item Author has multiple surnames and on some of his signatures only the first surname is
+  present (e.g., "Smith-Jones, A." and "Smith, A.")
+  \item Author comes from a country that doesn't use latin alphabet and there are different
+  ways of transcripting his name or his name sometimes contains a typo on the signatures
+  (e.g., "Mueller, R." and "Muller, R.", "Tchaikovsky, P." and "Czajkowski, P.").
+  \item Author sometimes uses on the signature a different name than his first one (e.g.,
+  "Smith, Jack" and "Smith, A.J.")
+  \item Author changed his surname (e.g., because of marrying somebody).
+\end{enumerate}
 
-% motivation
-% last name, first initial
-% phonetics something (dm)
+We tackled first four categories\msnote{Should I mention why not all of them?} and
+implemented a blocking strategy that produces less pairs with signatures from the same
+author but different blocks, and the blocks output by the algorithm are small. Before
+performing blocking, the names on the signatures are \textit{normalized}: the accents are
+removed (e.g., "Jabłoński, Ł" $\rightarrow$ "Jablonski, L") and common affixes are removed
+(e.g., "van der Waals, J. D."  $\rightarrow$ "Waals, J. D.")\msnote{Better explanation of
+"affix" needed?}.
+\begin{algorithm}
+  \caption{Blocking using phonetic algorithm}
+  \begin{algorithmic}[1]
+    \newcommand{\myindent}[1]{
+        \newline\makebox[#1cm]{}
+    }
+    \Require{$S$ - set of signatures. The names on the signatures should be
+             \textit{normalized},
+             \myindent{0}$phonetic\_surnames$ - functions that outputs phonetic
+             representation of surnames from \myindent{1.38}given signature,
+             \myindent{0}$given\_names$ - function that ouputs all the given names from
+             given signature.}
+
+    \Function{Phonetic blocking}{$S$}
+      \State $blocks\gets \emptyset$
+      \Comment{Blocks are indexed by a phonetic representation of a surname}
+      \ForAll{$s$ in $S$ with single surname}
+         \myindent{0.92}assign $s$ to the block of $phonetic\_surnames(s)[0]$
+      \EndFor
+      \ForAll{$s$ in $S$ with multiple surnames}
+         \If{block of $phonetic\_surnames(s)[-1]$ contains a signature $t$
+         \myindent{1.84}where $phonetic\_surnames(s)[0] = given\_names(t)[-1]$}
+         \myindent{1.38}assign $s$ to the block of $phonetc\_surnames(s)[-1]$
+         \ElsIf{block of $phonetic\_surnames(s)[0]$ exists}
+          \myindent{1.38}assign $s$ to the block of $phonetic\_surnames(s)[0]$
+         \Else
+          \myindent{1.38}assign $s$ to the block of $phonetic\_surnames(s)[-1]$
+         \EndIf
+      \EndFor
+      \Return $blocks$
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+
+\msnote{Should I explain that if the block does not exist, an empty one is created?}
+
+After this algorithm is finished, all the blocks from the result of the function above can
+be additionally split over the first given name initial.
 
 \subsection{Learning a similarity function}
-
 \glnote{By Gilles}
 
 % distance learning as a supervised problem
@@ -264,9 +335,55 @@ of predicted clusters to existing profiles in a database.
 \label{implementation}
 
 \glnote{By Mateusz}
+\msnote{If the matching is not described in this paper, change appearances of "four elements"}
 
-% cite sklearn paper
-% cite sklearn api paper
+Having the algorithm split into four elements, we implemented each of them separately.
+Learning a similarity function and semi-supervised clustering steps required sophisticated
+machine learning algorithms which implementations transcended the scope of this project.
+Thus, we used ready-to-go \textit{Scikit-learn} library \citep{scikit-learn} and
+semi-supervised clustering from \textit{SciPy} \citep{scipy}. In order to keep the code
+maintainable and abstract, we followed practices introduces by \textit{Scikit-learn API}
+\citep{scikit-learn-API}.
+
+Performance-wise, the clustering step appeared to be the bottleneck. We improved the
+algorithmic efficiency by parallelizing it. Having $n$ cores available, one can run the
+semi-supervised clustering for $n$ different blocks in the same moment. In the production
+systems the disambiguation often need not be run on the whole dataset. Once the dataset has
+been disambiguated once, it is possible to avoid rerunning the whole algorithm when the new
+signatures arrive in the digital library. First of all, the similarity function can be
+reused. Moreover, the clustering has to be applied only to the blocks the new signatures are
+contained within.
+
+\msnote{Fill the table with times}
+\msnote{Add times for clustering with phonetic blockings if they prove to be better}
+
+\FloatBarrier
+\begin{table}[H]
+\caption{Time performance (2 GHz per CPU core, 32GB RAM)}
+\centering
+\begin{tabular}{|l|l|}
+  \hline
+  \textbf{algorithm} & \textbf{time}\\
+  \hline
+  blocking 1200000 signatures & dfsf \\
+  \hline
+  learning similarity function on 1000 pairs on reduced set of features & w1k2\\
+  \hline
+  learning similarity function on 1000000 pairs on reduced set of features & w2k2 \\
+  \hline
+  learning similarity function on 1000000 pairs on full set of features & sdfsdf \\
+  \hline
+  clustering 1200000 signatures on reduced set of features using 16 cores & asdsda \\
+  \hline
+  clustering 1200000 signatures on reduced set of features using 1 cores & aasdfs \\
+  \hline
+  clustering 1200000 signatures on full set of features using 16 cores & ssesdf \\
+  \hline
+  matching clusters from 1200000 signatures with the old onews & asdsd \\
+  \hline
+\end{tabular}
+\end{table}
+
 
 
 % Results and discussion ======================================================
@@ -286,8 +403,124 @@ of predicted clusters to existing profiles in a database.
 % measures (b^3, paired, size of clusters)
 % training / valid / test sets
 
+\subsection{Base experiment}
+
+The starting point of our analysis is an algorithm that blocks the signatures using the last
+name and first initial strategy, samples the pairs in balanced way, uses gradient boosting
+with all features included for learning the similarity function and clusters using
+semi-supervised hierarchical approach.
+
+\FloatBarrier
+\begin{table}[H]
+\caption{Base experiment evaluation)}
+\centering
+\begin{tabular}{|r|r|l|l|l|}
+  \hline
+  Evaluation & Set & Precision & Recall & F-score \\
+  \hline
+  Pairwise & test & 0.9948 & 0.9738 & 0.9842 \\
+  \hline
+  Pairwise & train & 0.9976 & 0.9747 & 0.986 \\
+  \hline
+  Pairwise & overall & 0.9952 & 0.9739 & 0.9844 \\
+  \hline
+  $B^3$ & test & 0.9901 & 0.976 & 0.983 \\
+  \hline
+  $B^3$ & train & 0.997 & 0.979 & 0.9879 \\
+  \hline
+  $B^3$ & overall & 0.9907 & 0.9761 & 0.9834 \\
+  \hline
+\end{tabular}
+\end{table}
+
 \subsection{Blocking}
+
+Let us introduce a term \textit{blocking limited maximum recall} to describe the highest
+recall that the algorithm can theoretically reach after blocking is done.
+Formally, for the set of signatures ${\cal S}$, blocking function $F: \mathcal{S}
+\rightarrow \mathcal{B}$, where $ \mathcal{B} = \{s_{0}, \ldots{} , s_{N-1}\}$ is a
+partition of $\mathcal{S} $ , the recall function $\mathcal{R}: \mathcal{C}_{gold},
+\mathcal{C}_{predicted} \rightarrow \langle0,1\rangle$ where $\mathcal{C}_{gold}$ is the
+partition of $\mathcal{S}$ where for every author there is a set in $\mathcal{C}_{gold}$
+that contains only all the signatures of this author, $\mathcal{C}_{predicted}$ is the
+partition of $\mathcal{S}$ output by the algorithm, and $\mathcal{Q} = \{\cup_{i=0}^{N-1}
+q_i $ : $\forall_{i \in \langle0,N-1\rangle} q_i$ is a partition of $s_i$\}. Then
+\textit{blocking limited maximum recall} is defined as $\max_{q \in \mathcal{Q}}
+\mathcal{R}(\mathcal{C}_{gold}, q)$. For sanely defined recall functions, such as $B^{3}$
+recall or \textit{pairwise} recall \msnote{Further explanation needed, why it is
+equivalent?}, it is equivalent to $\mathcal{R}(\mathcal{C}_{gold}, \mathcal{B})$.
+
+The \textit{blocking limited maximum recall} for the last name and first initial blocking
+and $B^3$ scoring equals 0.9827. Comparing it to the $B^3$ recall of the base experiment,
+one can see that a huge part of errors comes from the blocking step which forbids some of
+the pairs to be merged together. To prevent that, we tried the phonetic blocking algorithm
+using three different phonetic algorithms: Double Metaphone \citep{doublemetaphone}, NYSIIS
+\citep{nysiis} and Soundex \citep{Soundex}. As Double Metaphone can return two results for a
+string, we always discarded the second one when we used this algorithm.
+
+\FloatBarrier
+\begin{table}[H]
+\caption{Blocking limited maximum recalls (BLMR) on the whole dataset without splitting over
+the first given name initial}
+\centering
+\begin{tabular}{|r|l|l|}
+  \hline
+  blocking function & BLMR with $B^{3}$ recall & BLMR with pairwise recall \\
+  \hline
+  last name and first initial & 0.9827 & 0.9776 \\
+  \hline
+  phonetic using double metaphone & 0.9967 & 0.9953 \\
+  \hline
+  phonetic using nysiis & 0.9961 & 0.9951 \\
+  \hline
+  phonetic using soundex & 0.9966 & 0.9953 \\
+  \hline
+\end{tabular}
+\end{table}
+
+\msnote{Mention two new features for this experiments, other than that everything is the
+same as in the base experiment}
+
+\FloatBarrier
+\begin{table}[H]
+\caption{Phonetic algorithm performance}
+\centering
+\begin{tabular}{|r|r|r|l|l|l|}
+  \hline
+  Phonetic Algorithm & Split over initial & Evaluation & Precision & Recall & F-score \\
+  \hline
+  Double Metaphone & yes & pairwise & 0.9934 & 0.982 & 0.9876 \\
+  \hline
+  Double Metaphone & yes & $B^3$ & 0.9867 & 0.983 & 0.9848 \\
+  \hline
+  Double Metaphone & no & pairwise & - & - & - \\
+  \hline
+  Double Metaphone & no & $B^3$ & - & - & - \\
+  \hline
+  NYSIIS & yes & pairwise & 0.9942 & 0.9818 & 0.9879 \\
+  \hline
+  NYSIIS & yes & $B^3$ & 0.9884 & 0.9828 & 0.9856 \\
+  \hline
+  NYSIIS & no & pairwise & - & - & - \\
+  \hline
+  NYSIIS & no & $B^3$ & - & - & - \\
+  \hline
+  Soundex & yes & pairwise & - & - & - \\
+  \hline
+  Soundex & yes & $B^3$ & - & - & - \\
+  \hline
+  Soundex & no & pairwise & - & - & - \\
+  \hline
+  Soundex & no & $B^3$ & - & - & - \\
+  \hline
+\end{tabular}
+\end{table}
+
+\msnote{Fill the table}
+
 % compare with torvik & smalheiser (2009) who argue that lnfi blocking has recall around 98%
+% MS - recall for lnfi (blocking only) 0.9776, lnfi (whole algorithm) 0.9739,
+% MS - all three results use pairwise scoring
 
 \subsection{Learning a similarity function}
 % feature engineering
