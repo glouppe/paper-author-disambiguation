@@ -63,20 +63,18 @@ for potential homonyms and/or synonyms. Among solutions to this problem,
 digital libraries are increasingly offering tools for authors to manually
 curate their publications and claim which ones are theirs. Indirectly, these
 tools allow for the inexpensive collection of large annotated training data,
-which can be further leveraged to build a complementary automated disambiguation system
-capable of inferring patterns for identifying publications written by a same
-person.  Building upon more than 1 million crowdsourced annotations, we
-propose an automated author disambiguation solution exploiting this data (i) to learn
-an accurate classifier for identifying corefering authors, (ii) to guide the
-clustering of scientific publications by distinct authors in a semi-supervised
-way and finally (iii) to match the resulting clusters with existing profiles.
-To the best of our knowledge, our analysis is the first to be carried out on
-data of this size and coverage. It reveals that... \glnote{To be completed with
-actual results.}
+which can be further leveraged to build a complementary automated
+disambiguation system capable of inferring patterns for identifying
+publications written by a same person.  Building upon more than 1 million
+crowdsourced annotations, we propose an automated author disambiguation
+solution exploiting this data (i) to learn an accurate classifier for
+identifying corefering authors and (ii) to guide the clustering of scientific
+publications by distinct authors in a semi-supervised way. To the best of our
+knowledge, our analysis is the first to be carried out on data of this size and
+coverage. It reveals that... \glnote{To be completed with actual results.}
 
 \end{abstract}
 
-\glnote{Note sure if we should talk about matching in this paper?}
 \glnote{Insist on the complementarity of having both crowdsourced and automated disambiguation.}
 
 
@@ -127,9 +125,8 @@ disambiguation. In this work, our goal is to explore and demonstrate how both
 approaches can coexist and benefit from each other.  In particular, we study
 how labeled data obtained through manual curation (either centralized or
 crowdsourced) can be exploited (i) to learn an accurate classifier for
-identifying corefering authors, (ii) to guide the clustering of scientific
-publications by distinct authors in a semi-supervised way and finally (iii) to
-match the resulting clusters with existing profiles. Our analysis of parameters
+identifying corefering authors and (ii) to guide the clustering of scientific
+publications by distinct authors in a semi-supervised way. Our analysis of parameters
 and features on this large training set reveals that... \glnote{To be completed
 with actual results.} \glnote{Also mention error analysis, suggesting that
 uncertain disambiguation results should be suggested to human curators, thereby
@@ -231,12 +228,11 @@ to belong to individual $a$.
 
 In this work, author disambiguation is cast into a semi-supervised clustering
 problem, as inspired from several previous works described in Section~\ref
-{related-works}. Our algorithm is made of four elements: (i) a blocking
+{related-works}. Our algorithm is made of three elements: (i) a blocking
 function $b$ whose goal is to rhoughly pre-cluster signatures ${\cal S}$ into smaller groups in order to
 reduce computational complexity; (ii) the construction of a similarity function
 $d$ between signatures using supervised learning; (iii) the
-semi-supervised clustering of all signatures within a same block, using $d$; (iv) the matching
-of predicted clusters to existing profiles in a database.
+semi-supervised clustering of all signatures within a same block, using $d$ as a pseudo distance metric.
 
 \glnote{Figure required here (Eamonn)}
 
@@ -325,8 +321,9 @@ be additionally split over the first given name initial.
 % semi-supervised clustering
 % cold start problem (when no labels in a block)
 
-\subsection{Matching}
+% \subsection{Matching}
 % general description in a real system
+% GL: out of scope, let us mention that in Conclusions instead
 
 
 % Implementation ======================================================
