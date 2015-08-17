@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{subfigure}
 \usepackage{color}
+\usepackage{amsmath}
 
 % For citations
 \usepackage{natbib}
@@ -210,9 +211,28 @@ p_{N-1}\}$ along with the set of unique individuals ${\cal A} = \{ a_0, ...,
 a_{M-1}\}$ having together authored all publications in ${\cal P}$.  Let us
 define a signature $s \in p$ from a publication as a unique piece of
 information identifying one of the authors of $p$ (e.g., the author name, his
-affiliation, along with any other metadata that can be derived from $p$). Let us
+affiliation, along with any other metadata that can be derived from $p$, as illustrated in Figure~\ref{fig:signature}). Let us
 denote by ${\cal S} = \{ s | s \in p, p \in {\cal P} \}$ the set of all
-signatures that can be extracted from all publications in ${\cal P}$. In this
+signatures that can be extracted from all publications in ${\cal P}$ and
+by $S=|{\cal S}|$ the total number of signatures.
+
+\begin{figure}
+\label{fig:signature}
+\begin{tabular}{ l l l }
+  $s:$ & Title & Lorem ipsum dolor sit amet, consectetur adipiscing elit \\
+  & Author & Doe, John \\
+  & Affiliation & University of Foo \\
+  & Co-authors & Smith, John; Chen, Wang\\
+  & Year & 2015\\
+\end{tabular}
+
+\caption{An example of signature $s$ for "Doe, John". A \textit{signature} is
+defined as unique piece of information identifying an author on a publication,
+along with any other metadata that can be derived from it, such as publication
+title, co-authors or date of publication.}
+\end{figure}
+
+In this
 framework, author disambiguation can be stated as the problem of
 finding a partition ${\cal C} = \{ c_0, ..., c_{M-1} \}$ of ${\cal S}$ such
 that ${\cal S} = \cup_{i=0}^{M-1} c_i$, $c_i \cap c_j = \phi$ for all $i \neq
@@ -331,10 +351,7 @@ be additionally split over the first given name initial.
 \section{Implementation}
 \label{implementation}
 
-\glnote{By Mateusz}
-\msnote{If the matching is not described in this paper, change appearances of "four elements"}
-
-Having the algorithm split into four elements, we implemented each of them separately.
+Having the algorithm split into three elements, we implemented each of them separately.
 Learning a similarity function and semi-supervised clustering steps required sophisticated
 machine learning algorithms which implementations transcended the scope of this project.
 Thus, we used ready-to-go \textit{Scikit-learn} library \citep{scikit-learn} and
@@ -375,8 +392,6 @@ contained within.
   clustering 1200000 signatures on reduced set of features using 1 cores & aasdfs \\
   \hline
   clustering 1200000 signatures on full set of features using 16 cores & ssesdf \\
-  \hline
-  matching clusters from 1200000 signatures with the old onews & asdsd \\
   \hline
 \end{tabular}
 \end{table}
