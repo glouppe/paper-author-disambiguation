@@ -347,53 +347,27 @@ explicitly handled.
 \section{Implementation}
 \label{implementation}
 
-\glnote{To proofread / improve}
+As part of this work, we developed a stand-alone application for author
+disambiguation, publicly available
+online\footnote{\url{https://github.com/inveniosoftware/beard}} for free reuse
+or study.  Our implementation builds upon the Python scientific stack, making
+use of the Scikit-Learn library \citep{scikitlearn} for the supervised learning
+of the similarity function and of SciPy \citep{scipy} for clustering. All
+components of the disambiguation pipeline have been designed to follow the
+Scikit-Learn API \citep{scikitlearnAPI}, making them easy to maintain,
+understand and reuse.
 
-Having the algorithm split into three elements, we implemented each of them separately.
-Learning a similarity function and semi-supervised clustering steps required sophisticated
-machine learning algorithms which implementations transcended the scope of this project.
-Thus, we used ready-to-go \textit{Scikit-learn} library \citep{scikit-learn} and
-semi-supervised clustering from \textit{SciPy} \citep{scipy}. In order to keep the code
-maintainable and abstract, we followed practices introduces by \textit{Scikit-learn API}
-\citep{scikit-learn-API}.
+\glnote{Not sure we should talk about parallelization?}
+\glnote{Mention (future) deployment in Inspire?}
 
-Performance-wise, the clustering step appeared to be the bottleneck. We improved the
-algorithmic efficiency by parallelizing it. Having $n$ cores available, one can run the
-semi-supervised clustering for $n$ different blocks in the same moment. In the production
-systems the disambiguation often need not be run on the whole dataset. Once the dataset has
-been disambiguated once, it is possible to avoid rerunning the whole algorithm when the new
-signatures arrive in the digital library. First of all, the similarity function can be
-reused. Moreover, the clustering has to be applied only to the blocks the new signatures are
-contained within.
-
-\msnote{Fill the table with times}
-\msnote{Add times for clustering with phonetic blockings if they prove to be better}
-
-\FloatBarrier
-\begin{table}[H]
-\caption{Time performance (2 GHz per CPU core, 32GB RAM)}
-\centering
-\begin{tabular}{|l|l|}
-  \hline
-  \textbf{algorithm} & \textbf{time}\\
-  \hline
-  blocking 1200000 signatures & dfsf \\
-  \hline
-  learning similarity function on 1000 pairs on reduced set of features & w1k2\\
-  \hline
-  learning similarity function on 1000000 pairs on reduced set of features & w2k2 \\
-  \hline
-  learning similarity function on 1000000 pairs on full set of features & sdfsdf \\
-  \hline
-  clustering 1200000 signatures on reduced set of features using 16 cores & asdsda \\
-  \hline
-  clustering 1200000 signatures on reduced set of features using 1 cores & aasdfs \\
-  \hline
-  clustering 1200000 signatures on full set of features using 16 cores & ssesdf \\
-  \hline
-\end{tabular}
-\end{table}
-
+% Performance-wise, the clustering step appeared to be the bottleneck. We improved the
+% algorithmic efficiency by parallelizing it. Having $n$ cores available, one can run the
+% semi-supervised clustering for $n$ different blocks in the same moment. In the production
+% systems the disambiguation often need not be run on the whole dataset. Once the dataset has
+% been disambiguated once, it is possible to avoid rerunning the whole algorithm when the new
+% signatures arrive in the digital library. First of all, the similarity function can be
+% reused. Moreover, the clustering has to be applied only to the blocks the new signatures are
+% contained within.
 
 
 % Results and discussion ======================================================
@@ -417,7 +391,7 @@ contained within.
 
 \subsection{Base experiment}
 
-\glnote{To proofread / improve}
+\glnote{To review}
 
 The starting point of our analysis is an algorithm that blocks the signatures using the last
 name and first initial strategy, samples the pairs in balanced way, uses gradient boosting
@@ -449,7 +423,7 @@ semi-supervised hierarchical approach.
 
 \subsection{Blocking}
 
-\glnote{To proofread / improve}
+\glnote{To review}
 
 Let us introduce a term \textit{blocking limited maximum recall} to describe the highest
 recall that the algorithm can theoretically reach after blocking is done.
