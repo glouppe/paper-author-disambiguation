@@ -246,10 +246,10 @@ this work, the setting extends with the partial knowledge of pairs $(a, s) \in
 {\cal A} \times {\cal S}$, each indicating that signature $s$ is known with high confidence
 to belong to individual $a$.
 
-In this work, author disambiguation is cast into a semi-supervised clustering
-problem, as inspired from several previous works described in Section~\ref
-{related-works}. Our algorithm is made of three elements: (i) a blocking
-function $b$ whose goal is to rhoughly pre-cluster signatures ${\cal S}$ into smaller groups in order to
+As inspired from several previous works described in Section~\ref{related-works},
+we cast in this work author disambiguation into a semi-supervised clustering
+problem.  Our algorithm is made of three parts: (i) a blocking
+scheme whose goal is to rhoughly pre-cluster signatures ${\cal S}$ into smaller groups in order to
 reduce computational complexity; (ii) the construction of a similarity function
 $d$ between signatures using supervised learning; (iii) the
 semi-supervised clustering of all signatures within a same block, using $d$ as a pseudo distance metric.
@@ -257,6 +257,28 @@ semi-supervised clustering of all signatures within a same block, using $d$ as a
 \glnote{Figure required here (Eamonn)}
 
 \subsection{Blocking}
+\label{methods:blocking}
+
+As in previous works, the first part of our algorithm consists in grouping
+signatures ${\cal S}$ into disjoint subsets ${\cal S}_{b_0}, ..., {\cal
+S}_{b_{K-1}}$, or \textit{blocks} \citep{fellegi69}, and then to carry out
+author disambiguation independently on each one of these blocks. In doing so,
+computational complexity of clustering (see Section~\ref{methods:clustering})
+typically reduces from $O(S^2)$ to $O(\sum_b S_b^2)$, which becomes much more
+tractable as the number of signatures increases. Since disambiguation is
+performed independently per block, a good blocking strategy should also be
+designed such that signatures from the same author are all mapped to the same
+block, otherwise directly preventing their correct clustering in later stages. As a
+result, blocking should balance between reduced complexity and maximum recall.
+
+The simplest and most common strategy for blocking \glnote{add references}
+groups signatures together if they share the same surname(s) and the same first
+given name initial (e.g., "Doe, J").
+
+
+\vspace{3cm}
+
+
 
 If the goal of the algorithm is to disambiguate millions of signatures and the algorithm
 complexity is $\Omega{(n^2)}$ in terms of the number of signatures due to pairwise
@@ -337,6 +359,8 @@ be additionally split over the first given name initial.
 % sampling pairs from block only
 
 \subsection{Semi-supervised clustering}
+\label{methods:clustering}
+
 % hierarchical clustering
 % semi-supervised clustering
 % cold start problem (when no labels in a block)
