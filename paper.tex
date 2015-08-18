@@ -273,85 +273,55 @@ result, blocking should balance between reduced complexity and maximum recall.
 
 The simplest and most common strategy for blocking \glnote{add references}
 groups signatures together if they share the same surname(s) and the same first
-given name initial (e.g., "Doe, J").
+given name initial (e.g., "Doe, J"). Despite satisfying performance, such
+a simple strategy fails in several cases, as listed below for
+pairs of signatures that should be clustered together but that are put into distinct
+blocks:
 
-
-\vspace{3cm}
-
-
-
-If the goal of the algorithm is to disambiguate millions of signatures and the algorithm
-complexity is $\Omega{(n^2)}$ in terms of the number of signatures due to pairwise
-comparisons, the disambiguation might take weeks or months to finish. In order to prevent
-that, we \textit{block} the signatures \citep{fellegi69}. The simplest strategy groups the
-signatures together if they share the same surnames and first given name initial (e.g.,
-"Wang, Z"). As the clustering will be performed only within the
-blocks, such strategy might prevent the further steps of the algorithm from assigning
-correctly two signatures to the same author. We extracted from our training set all pairs
-where the signatures belong to different blocks and the same author after the last name and
-first initial strategy was used. We observed that we can classify majority of these pairs
-into few categories:
 \begin{enumerate}
-  \item Author has multiple surnames and on some of his signatures all the surnames but the
+  \item There are different
+  ways of transcripting an author name or some of signatures contain a typo
+  (e.g., "Mueller, R." and "Muller, R.", "Tchaikovsky, P." and "Czajkowski, P.").
+
+  \item An author has multiple surnames and, on some of his signatures, all the surnames but the
   last one are contained within given names (e.g., "Martinez Torres, A." and "Torres, A.
   Martinez").
-  \item Author has multiple surnames and on some of his signatures only the first surname is
+
+  \item An author has multiple surnames and, on some of his signatures, only the first surname is
   present (e.g., "Smith-Jones, A." and "Smith, A.")
-  \item Author comes from a country that doesn't use latin alphabet and there are different
-  ways of transcripting his name or his name sometimes contains a typo on the signatures
-  (e.g., "Mueller, R." and "Muller, R.", "Tchaikovsky, P." and "Czajkowski, P.").
-  \item Author sometimes uses on the signature a different name than his first one (e.g.,
-  "Smith, Jack" and "Smith, A.J.")
-  \item Author changed his surname (e.g., because of marrying somebody).
+
+  \item An author as multiple given names and they are not always mentioned on his signatures (e.g.,
+  "Smith, Jack" and "Smith, A. J.")
+
+  \item An author changed his surname (e.g., because of marrying somebody).
 \end{enumerate}
 
-We tackled first four categories\msnote{Should I mention why not all of them?} and
-implemented a blocking strategy that produces less pairs with signatures from the same
-author but different blocks, and the blocks output by the algorithm are small. Before
-performing blocking, the names on the signatures are \textit{normalized}: the accents are
-removed (e.g., "Jabłoński, Ł" $\rightarrow$ "Jablonski, L") and common affixes are removed
-(e.g., "van der Waals, J. D."  $\rightarrow$ "Waals, J. D.")\msnote{Better explanation of
-"affix" needed?}.
-\begin{algorithm}
-  \caption{Blocking using phonetic algorithm}
-  \begin{algorithmic}[1]
-    \newcommand{\myindent}[1]{
-        \newline\makebox[#1cm]{}
-    }
-    \Require{$S$ - set of signatures. The names on the signatures should be
-             \textit{normalized},
-             \myindent{0}$phonetic\_surnames$ - functions that outputs phonetic
-             representation of surnames from \myindent{1.38}given signature,
-             \myindent{0}$given\_names$ - function that ouputs all the given names from
-             given signature.}
+To account for these issues we propose instead to block signatures based on the
+phonetic representation of the normalized surname. Normalization consists in
+stripping accents (e.g., "Jabłoński, Ł" $\rightarrow$ "Jablonski, L") and name
+affixes that inconsistenly appear in signatures (e.g., "van der Waals, J. D."
+$\rightarrow$ "Waals, J. D."), while phonetization is based either on the
+Double Metaphone \citep{doublemetaphone}, the NYSIIS \citep{nysiis} or the
+Soundex \citep{Soundex} algorithms. Together, these processing steps allow to
+group most name variants of a same person in the same block while not
+significantly increasing computational complexity, thereby solving case 1.
 
-    \Function{Phonetic blocking}{$S$}
-      \State $blocks\gets \emptyset$
-      \Comment{Blocks are indexed by a phonetic representation of a surname}
-      \ForAll{$s$ in $S$ with single surname}
-         \myindent{0.92}assign $s$ to the block of $phonetic\_surnames(s)[0]$
-      \EndFor
-      \ForAll{$s$ in $S$ with multiple surnames}
-         \If{block of $phonetic\_surnames(s)[-1]$ contains a signature $t$
-         \myindent{1.84}where $phonetic\_surnames(s)[0] = given\_names(t)[-1]$}
-         \myindent{1.38}assign $s$ to the block of $phonetc\_surnames(s)[-1]$
-         \ElsIf{block of $phonetic\_surnames(s)[0]$ exists}
-          \myindent{1.38}assign $s$ to the block of $phonetic\_surnames(s)[0]$
-         \Else
-          \myindent{1.38}assign $s$ to the block of $phonetic\_surnames(s)[-1]$
-         \EndIf
-      \EndFor
-      \Return $blocks$
-    \EndFunction
-  \end{algorithmic}
-\end{algorithm}
+In the case of multiple surnames (cases 2 and 3), we further propose to block
+signatures in two phases. In the first phase, all the signatures with  one
+surname are clustered together. Every different surname token creates a new
+block. In the second phase, the signatures  with multiple surnames are compared
+with the blocks for the first and last surname.  If the first surnames of an
+author were already used as the last given names on some of the signatures, the
+new signature is assigned to the block of the last surname (case 2). Otherwise,
+the signature is assigned to the block of the first surname (case 3). Finally,
+to prevent the creation of too large blocks, signatures are further divided
+along their first given name initial.  Cases 4 and 5 are therefore not
+explicitly handled.
 
-\msnote{Should I explain that if the block does not exist, an empty one is created?}
-
-After this algorithm is finished, all the blocks from the result of the function above can
-be additionally split over the first given name initial.
+\glnote{I am not sure we need an explicit algorithm, but adding a few examples would help.}
 
 \subsection{Learning a similarity function}
+\label{methods:similarity}
 \glnote{By Gilles}
 
 % distance learning as a supervised problem
@@ -360,6 +330,8 @@ be additionally split over the first given name initial.
 
 \subsection{Semi-supervised clustering}
 \label{methods:clustering}
+\glnote{By Gilles}
+
 
 % hierarchical clustering
 % semi-supervised clustering
@@ -374,6 +346,8 @@ be additionally split over the first given name initial.
 
 \section{Implementation}
 \label{implementation}
+
+\glnote{To proofread / improve}
 
 Having the algorithm split into three elements, we implemented each of them separately.
 Learning a similarity function and semi-supervised clustering steps required sophisticated
@@ -436,10 +410,14 @@ contained within.
 
 \subsection{Evaluation protocol}
 
+\glnote{By Gilles}
+
 % measures (b^3, paired, size of clusters)
 % training / valid / test sets
 
 \subsection{Base experiment}
+
+\glnote{To proofread / improve}
 
 The starting point of our analysis is an algorithm that blocks the signatures using the last
 name and first initial strategy, samples the pairs in balanced way, uses gradient boosting
@@ -470,6 +448,8 @@ semi-supervised hierarchical approach.
 \end{table}
 
 \subsection{Blocking}
+
+\glnote{To proofread / improve}
 
 Let us introduce a term \textit{blocking limited maximum recall} to describe the highest
 recall that the algorithm can theoretically reach after blocking is done.
