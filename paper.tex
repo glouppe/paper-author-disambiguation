@@ -328,24 +328,47 @@ automatic construction of a pair-wise linkage function between signatures, for
 later use during clustering to group all signatures from a same author.
 Formally, the goal is to build a function $d: {\cal S} \times {\cal S} \mapsto
 [0, 1]$, such that $d(s_1, s_2)$ tends to $0$ if both signatures $s_1$ and
-$s_2$ belong to the same author, and $1$ otherwise.
-
-As in previous works on author disambiguation, we cast this problem as a
-classification task, where inputs are pairs of signatures and outputs are
-classes $0$ (same authors) and $1$ (distinct authors).
+$s_2$ belong to the same author, and $1$ otherwise. Coincidentally, this
+problem can be cast as a standard supervised classification task, where inputs
+are pairs of signatures and outputs are classes $0$ (same authors) and $1$
+(distinct authors).
 
 \textit{Input features.} In most cases, supervised learning algorithms assume
 the input space ${\cal X}$ to be numeric (e.g., $\mathbb{R}^p$), making them
 not directly applicable to structured input spaces such as ${\cal S} \times
-{\cal S}$. Following previous works, pairs of signatures $(s_1, s_2)$ are
-transformed to vectors $v \in \mathbb{R}^p$ by building so-called similarity
-profiles \citep{treeratpituk2009disambiguating} on which supervised learning is
-then carried on. In this work, we design and evaluate 15 standard input features based
-on the comparison of signature fields, as reported in Table~\ref{table:features}.
-As an illustrative example, the \textit{Full name} feature corresponds to ...
+{\cal S}$. Following previous works \glnote{add references}, pairs of
+signatures $(s_1, s_2)$ are therefore first transformed to vectors $v \in
+\mathbb{R}^p$ by building so-called similarity profiles
+\citep{treeratpituk2009disambiguating}, and on which supervised learning is
+then carried on. In this work, we design and evaluate 15 standard input
+features based on the comparison of signature fields, as reported in the first
+half of Table~\ref{table:features}. As an illustrative example, the
+\textit{Full name} feature corresponds to the similarity between the (full)
+author name fields of the two signatures, as measured using the cosine
+similarity between their respective TF-IDF vector representations as
+comparator. Similarly, the \textit{Year difference} feature measures the
+absolute difference between the publication date of the articles to which the
+two signatures respectively belong.
+
+Observing that author names from different cultures or origins are likely to be
+disambiguated using different strategies (e.g., pairs of signatures with French
+author names versus pairs of signatures with Chinese author names), and as
+corroborated in \citep{treeratpituk2012name} or \citep{chin2014effective}, we
+propose to complement our feature set with 7 additional new features, each
+evaluating the degree of belonging of both signatures to several ethnic groups,
+as reported in the second half of Table~\ref{table:features}. More
+specifically, using census data extracted from \citep{rugglesintegrated}, we
+built a logistic regression classifier for mapping the TF-IDF representation of
+an author name to one of the 7 ethnic groups reported in that dataset. Given a
+pair of signatures $(s_1, s_2)$, the proposed ethnicity features are each
+computed as the estimated probability of $s_1$ to belong to the respective
+ethnic group, multiplied by the estimated probability of $s_2$ to belong to the
+same group. In doing so, the expectation is for the linkage function to become
+sensitive to the actual origin of the authors depending on the values of these
+features.
 
 \begin{table}
-\caption{Input features}
+\caption{Input features for learning a linkage function}
 \label{table:features}
 \centering
 \begin{tabular}{|l|l|}
@@ -369,10 +392,16 @@ As an illustrative example, the \textit{Full name} feature corresponds to ...
   Subject & Cosine similarity of TF-IDF\\
   Year difference & Absolute difference\\
   \hline
+  White & Product of estimated probabilities\\
+  Black & Product of estimated probabilities\\
+  American Indian or Alaska Native & Product of estimated probabilities\\
+  Chinese & Product of estimated probabilities\\
+  Japanese & Product of estimated probabilities\\
+  Other Asian or Pacific Islander & Product of estimated probabilities\\
+  Others & Product of estimated probabilities\\
+  \hline
 \end{tabular}
 \end{table}
-
-% ethnicity features
 
 
 \textit{Building a training set.}
