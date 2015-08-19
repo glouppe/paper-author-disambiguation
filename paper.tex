@@ -76,8 +76,6 @@ coverage. It reveals that... \glnote{To be completed with actual results.}
 
 \end{abstract}
 
-\glnote{Insist on the complementarity of having both crowdsourced and automated disambiguation.}
-
 
 % Introduction ==================================================================
 
@@ -128,10 +126,14 @@ how labeled data obtained through manual curation (either centralized or
 crowdsourced) can be exploited (i) to learn an accurate classifier for
 identifying corefering authors and (ii) to guide the clustering of scientific
 publications by distinct authors in a semi-supervised way. Our analysis of parameters
-and features on this large training set reveals that... \glnote{To be completed
-with actual results.} \glnote{Also mention error analysis, suggesting that
+and features on this large training set reveals that...
+
+\glnote{To be completed with actual results.}\\
+\glnote{Also mention error analysis, suggesting that
 uncertain disambiguation results should be suggested to human curators, thereby
-closing the loop and creating a virtuous circle.}
+closing the loop and creating a virtuous circle.}\\
+\glnote{New idea: phonetization in blocking}\\
+\glnote{New idea: ethnicity features}
 
 The remaining of this report is structured as follows. In Section~\ref{related-works},
 we first briefly review machine learning solutions for author disambiguation.
@@ -337,16 +339,16 @@ are pairs of signatures and outputs are classes $0$ (same authors) and $1$
 the input space ${\cal X}$ to be numeric (e.g., $\mathbb{R}^p$), making them
 not directly applicable to structured input spaces such as ${\cal S} \times
 {\cal S}$. Following previous works \glnote{add references}, pairs of
-signatures $(s_1, s_2)$ are first transformed to vectors $v \in
-\mathbb{R}^p$ by building so-called similarity profiles
+signatures $(s_1, s_2)$ are first transformed to vectors $v \in \mathbb{R}^p$
+by building so-called similarity profiles
 \citep{treeratpituk2009disambiguating}, and on which supervised learning is
 then carried on. In this work, we design and evaluate 15 standard input
 features based on the comparison of signature fields, as reported in the first
 half of Table~\ref{table:features}. As an illustrative example, the
 \textit{Full name} feature corresponds to the similarity between the (full)
-author name fields of the two signatures, as measured using the cosine
-similarity between their respective TF-IDF vector representations as
-comparator. Similarly, the \textit{Year difference} feature measures the
+author name fields of the two signatures, as measured using as combination
+operator the cosine similarity between their respective TF-IDF vector
+representations. Similarly, the \textit{Year difference} feature measures the
 absolute difference between the publication date of the articles to which the
 two signatures respectively belong.
 
@@ -402,6 +404,8 @@ features.
   \hline
 \end{tabular}
 \end{table}
+
+\glnote{Add a few examples of transformed pairs?}
 
 
 \textit{Building a training set.}
