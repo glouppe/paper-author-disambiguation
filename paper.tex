@@ -96,7 +96,7 @@ spellings or name variants across her career (synonymy) and/or distinct authors 
 share the same name (polysemy). Most notably, author disambiguation is often even more
 troublesome in the case of researchers from non-Western cultures, where
 personal names may be traditionally less diverse (leading to homonym issues) or
-for which transliteration to latin characters may not be unique (leading to
+for which transliteration to Latin characters may not be unique (leading to
 synonym issues). With the fast growth of the scientific literature, author
 disambiguation has become a pressing issue because the accuracy of information
 managed at the level of individuals directly affects the relevance search of
@@ -113,12 +113,12 @@ their publications themselves (e.g., Google Scholar, Inspire-HEP, ...).
 Recently, efforts also started to create persistent digital identifiers
 assigned to researchers (e.g., ORCID, ResearchedID, ...), with the further
 objective to embed these identifiers in the submission workflow of publishers
-or repositeries (e.g., Elsevier, arXiv, Inspire-HEP, ...), thereby univocally
+or repositories (e.g., Elsevier, arXiv, Inspire-HEP, ...), thereby univocally
 solving any disambiguation issue. With the large cost of centralized manual
 authorship control, or until the larger adoption of crowdsourced solutions, the
 impact of these efforts are unfortunately limited by the efficiency, motivation
 and integrity of their active contributors. Similarly, the success of
-persistent digital identifier efforts is conditioned to a large and ubiquituous
+persistent digital identifier efforts is conditioned to a large and ubiquitous
 adoption by both researchers and publishers. For these reasons, fully automated
 machine learning-based methods have been proposed during the past decade to
 provide immediate, less costly and efficient solutions to author
@@ -131,7 +131,7 @@ publications by distinct authors in a semi-supervised way. Our analysis of param
 and features on this large training set reveals that... \glnote{To be completed
 with actual results.} \glnote{Also mention error analysis, suggesting that
 uncertain disambiguation results should be suggested to human curators, thereby
-closing the loop and creating a vertuous circle.}
+closing the loop and creating a virtuous circle.}
 
 The remaining of this report is structured as follows. In Section~\ref{related-works},
 we first briefly review machine learning solutions for author disambiguation.
@@ -153,7 +153,7 @@ As reviewed in
 disambiguation algorithms are usually composed of two main components: (i) a
 linkage function determining whether two publications have been written by a
 same author and (ii) a clustering algorithm producing clusters of publications
-assumed to be written by a same author. Approaches can be inventorized along
+assumed to be written by a same author. Approaches can be inventoried along
 several axes, depending on the type and amount of data available, the way the
 linkage function is learned or defined, or the clustering procedure used to
 group publications. Methods relying on supervised learning usually make use of
@@ -170,7 +170,7 @@ approaches have the advantage of not requiring  hand-labeled data, but often do
 not perform as well as the supervised approaches. To reconcile both worlds,
 semi-supervised methods make use of small, manually verified, clusters of
 publications and/or of high-precision domain-specific rules to build a training
-set of pairs of publications, from which a linakge function is then built
+set of pairs of publications, from which a linkage function is then built
 using supervised learning
 \citep{ferreira2010effective,torvik2009author,levin2012citation}.
 Coincidentally, semi-supervised approaches also allow for the tuning of the
@@ -249,7 +249,7 @@ to belong to individual $a$.
 As inspired from several previous works described in Section~\ref{related-works},
 we cast in this work author disambiguation into a semi-supervised clustering
 problem.  Our algorithm is made of three parts: (i) a blocking
-scheme whose goal is to rhoughly pre-cluster signatures ${\cal S}$ into smaller groups in order to
+scheme whose goal is to roughly pre-cluster signatures ${\cal S}$ into smaller groups in order to
 reduce computational complexity; (ii) the construction of a linkage function
 $d$ between signatures using supervised learning; (iii) the
 semi-supervised clustering of all signatures within a same block, using $d$ as a pseudo distance metric.
@@ -299,7 +299,7 @@ blocks:
 To account for these issues we propose instead to block signatures based on the
 phonetic representation of the normalized surname. Normalization consists in
 stripping accents (e.g., "Jabłoński, Ł" $\rightarrow$ "Jablonski, L") and name
-affixes that inconsistenly appear in signatures (e.g., "van der Waals, J. D."
+affixes that inconsistently appear in signatures (e.g., "van der Waals, J. D."
 $\rightarrow$ "Waals, J. D."), while phonetization is based either on the
 Double Metaphone \citep{doublemetaphone}, the NYSIIS \citep{nysiis} or the
 Soundex \citep{Soundex} algorithms. Together, these processing steps allow to
@@ -337,7 +337,7 @@ are pairs of signatures and outputs are classes $0$ (same authors) and $1$
 the input space ${\cal X}$ to be numeric (e.g., $\mathbb{R}^p$), making them
 not directly applicable to structured input spaces such as ${\cal S} \times
 {\cal S}$. Following previous works \glnote{add references}, pairs of
-signatures $(s_1, s_2)$ are therefore first transformed to vectors $v \in
+signatures $(s_1, s_2)$ are first transformed to vectors $v \in
 \mathbb{R}^p$ by building so-called similarity profiles
 \citep{treeratpituk2009disambiguating}, and on which supervised learning is
 then carried on. In this work, we design and evaluate 15 standard input
@@ -358,7 +358,7 @@ propose to complement our feature set with 7 additional new features, each
 evaluating the degree of belonging of both signatures to several ethnic groups,
 as reported in the second half of Table~\ref{table:features}. More
 specifically, using census data extracted from \citep{rugglesintegrated}, we
-built a logistic regression classifier for mapping the TF-IDF representation of
+build a logistic regression classifier for mapping the TF-IDF representation of
 an author name to one of the 7 ethnic groups reported in that dataset. Given a
 pair of signatures $(s_1, s_2)$, the proposed ethnicity features are each
 computed as the estimated probability of $s_1$ to belong to the respective
@@ -373,7 +373,7 @@ features.
 \centering
 \begin{tabular}{|l|l|}
   \hline
-  \textbf{Feature} & \textbf{Comparator}\\
+  \textbf{Feature} & \textbf{Combination operator}\\
   \hline
   \hline
   Full name & Cosine similarity of TF-IDF\\
