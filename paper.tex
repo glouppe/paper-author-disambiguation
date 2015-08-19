@@ -259,14 +259,14 @@ semi-supervised clustering of all signatures within a same block, using $d$ as a
 \subsection{Blocking}
 \label{methods:blocking}
 
-As in previous works, the first part of our algorithm consists in grouping
+As in previous works, the first part of our algorithm consists in dividing
 signatures ${\cal S}$ into disjoint subsets ${\cal S}_{b_0}, ..., {\cal
 S}_{b_{K-1}}$, or \textit{blocks} \citep{fellegi69}, and then to carry out
 author disambiguation independently on each one of these blocks. In doing so,
 computational complexity of clustering (see Section~\ref{methods:clustering})
 typically reduces from $O(S^2)$ to $O(\sum_b S_b^2)$, which becomes much more
 tractable as the number of signatures increases. Since disambiguation is
-performed independently per block, a good blocking strategy should also be
+performed independently per block, a good blocking strategy should ideally be
 designed such that signatures from the same author are all mapped to the same
 block, otherwise directly preventing their correct clustering in later stages. As a
 result, blocking should balance between reduced complexity and maximum recall.
@@ -325,6 +325,7 @@ explicitly handled.
 \glnote{By Gilles}
 
 % distance learning as a supervised problem
+% describe all features
 % balancing difficult and easy cases
 % sampling pairs from block only
 
@@ -352,7 +353,7 @@ disambiguation, publicly available
 online\footnote{\url{https://github.com/inveniosoftware/beard}} for free reuse
 or study.  Our implementation builds upon the Python scientific stack, making
 use of the Scikit-Learn library \citep{scikitlearn} for the supervised learning
-of the similarity function and of SciPy \citep{scipy} for clustering. All
+of a similarity function and of SciPy \citep{scipy} for clustering. All
 components of the disambiguation pipeline have been designed to follow the
 Scikit-Learn API \citep{scikitlearnAPI}, making them easy to maintain,
 understand and reuse.
