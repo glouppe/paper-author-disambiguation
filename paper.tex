@@ -25,9 +25,6 @@
 % For "Jabłoński"
 \usepackage[utf8]{inputenc}
 
-% For placing tables in correct place
-\usepackage{placeins}
-
 \newcommand{\glnote}[1]{\textcolor{red}{[GL: #1]}}
 \newcommand{\msnote}[1]{\textcolor{blue}{[MS: #1]}}
 
@@ -138,7 +135,7 @@ we first briefly review machine learning solutions for author disambiguation.
 The components of our method are then defined in Section~\ref{methods}
 and its implementation described in Section~\ref{implementation}. Experiments
 are carried out in Section~\ref{experiments}, where we explore and validate
-features for the supervised learning of a similarity function and compare
+features for the supervised learning of a linkage function and compare
 strategies for the semi-supervised clustering of publications.
 Finally, conclusions and future works are discussed in Section~\ref{conclusions}.
 
@@ -151,26 +148,26 @@ Finally, conclusions and future works are discussed in Section~\ref{conclusions}
 As reviewed in
 \citep{smalheiser2009author,ferreira2012brief,levin2012citation}, author
 disambiguation algorithms are usually composed of two main components: (i) a
-similarity function determining whether two publications have been written by a
+linkage function determining whether two publications have been written by a
 same author and (ii) a clustering algorithm producing clusters of publications
 assumed to be written by a same author. Approaches can be inventorized along
 several axes, depending on the type and amount of data available, the way the
-similarity function is learned or defined, or the clustering procedure used to
+linkage function is learned or defined, or the clustering procedure used to
 group publications. Methods relying on supervised learning usually make use of
 a small set of
 hand-labeled pairs of publications identified as being either from the same or
-from different authors for learning automatically a similarity function between
+from different authors for learning automatically a linkage function between
 publications \citep{han2004two,huang2006efficient,
 culotta2007author,treeratpituk2009disambiguating,tran2014author}. Because
 training data is often not easily available, unsupervised approaches propose
-instead to use domain-specific similarity functions tailored for author
+instead to use domain-specific linkage functions tailored for author
 disambiguation \citep{malin2005unsupervised,mcrae2006also,song2007efficient,
 soler2007separating, kang2009co,fan2011graph,schulz2014exploiting}. These later
 approaches have the advantage of not requiring  hand-labeled data, but often do
 not perform as well as the supervised approaches. To reconcile both worlds,
 semi-supervised methods make use of small, manually verified, clusters of
 publications and/or of high-precision domain-specific rules to build a training
-set of pairs of publications, from which a similarity function is then built
+set of pairs of publications, from which a linakge function is then built
 using supervised learning
 \citep{ferreira2010effective,torvik2009author,levin2012citation}.
 Coincidentally, semi-supervised approaches also allow for the tuning of the
@@ -192,7 +189,7 @@ semi-supervised  solution for author disambiguation, but with the significant
 advantage of having a very large collection of more than 1 million crowdsourced annotations
 of publications whose true authors are identified. In particular, the extent and coverage
 of this data allows us to revisit, validate and nuance previous findings regarding
-supervised learning of similarity functions and to better explore strategies
+supervised learning of linkage functions and to better explore strategies
 for semi-supervised clustering. Additionally, by releasing the data publicly,
 we hope to set a benchmark on which further research on author disambiguation
 and related topics can  build upon.
@@ -250,7 +247,7 @@ As inspired from several previous works described in Section~\ref{related-works}
 we cast in this work author disambiguation into a semi-supervised clustering
 problem.  Our algorithm is made of three parts: (i) a blocking
 scheme whose goal is to rhoughly pre-cluster signatures ${\cal S}$ into smaller groups in order to
-reduce computational complexity; (ii) the construction of a similarity function
+reduce computational complexity; (ii) the construction of a linkage function
 $d$ between signatures using supervised learning; (iii) the
 semi-supervised clustering of all signatures within a same block, using $d$ as a pseudo distance metric.
 
@@ -320,9 +317,24 @@ explicitly handled.
 
 \glnote{I am not sure we need an explicit algorithm, but adding a few examples would help.}
 
-\subsection{Learning a similarity function}
-\label{methods:similarity}
-\glnote{By Gilles}
+\subsection{Linkage function}
+\label{methods:linkage}
+
+\textit{Supervised classification.} The second part of the algorithm is the
+automatic construction of a pair-wise linkage function between signatures, for
+later reuse during clustering to group all signatures from a same author.
+Formally, the goal is to build a function $d: {\cal S} \times {\cal S} \mapsto
+[0, 1]$, such that $d(s_1, s_2)$ tends to $0$ if both signatures $s_1$ and
+$s_2$ belong to the same author, and $1$ otherwise.
+
+As in previous works on author disambiguation, we cast this problem as a
+classification task, where inputs are pairs of signatures and outputs are
+classes $0$ (same authors) and $1$ (distinct authors).
+
+\textit{Features engineering.}
+
+\textit{Building a training set.}
+% cite https://hpi.de/naumann/projects/repeatability/datasets/dblp-dataset.html
 
 % distance learning as a supervised problem
 % describe all features
@@ -353,7 +365,7 @@ disambiguation, publicly available
 online\footnote{\url{https://github.com/inveniosoftware/beard}} for free reuse
 or study.  Our implementation builds upon the Python scientific stack, making
 use of the Scikit-Learn library \citep{scikitlearn} for the supervised learning
-of a similarity function and of SciPy \citep{scipy} for clustering. All
+of a linkage function and of SciPy \citep{scipy} for clustering. All
 components of the disambiguation pipeline have been designed to follow the
 Scikit-Learn API \citep{scikitlearnAPI}, making them easy to maintain,
 understand and reuse.
@@ -399,7 +411,6 @@ name and first initial strategy, samples the pairs in balanced way, uses gradien
 with all features included for learning the similarity function and clusters using
 semi-supervised hierarchical approach.
 
-\FloatBarrier
 \begin{table}[H]
 \caption{Base experiment evaluation)}
 \centering
@@ -449,7 +460,6 @@ using three different phonetic algorithms: Double Metaphone \citep{doublemetapho
 \citep{nysiis} and Soundex \citep{Soundex}. As Double Metaphone can return two results for a
 string, we always discarded the second one when we used this algorithm.
 
-\FloatBarrier
 \begin{table}[H]
 \caption{Blocking limited maximum recalls (BLMR) on the whole dataset without splitting over
 the first given name initial}
@@ -472,7 +482,6 @@ the first given name initial}
 \msnote{Mention two new features for this experiments, other than that everything is the
 same as in the base experiment}
 
-\FloatBarrier
 \begin{table}[H]
 \caption{Phonetic algorithm performance}
 \centering
@@ -513,7 +522,7 @@ same as in the base experiment}
 % MS - recall for lnfi (blocking only) 0.9776, lnfi (whole algorithm) 0.9739,
 % MS - all three results use pairwise scoring
 
-\subsection{Learning a similarity function}
+\subsection{Learning a linkage function}
 % feature engineering
 % variable importance analysis
 % supervised learning model
