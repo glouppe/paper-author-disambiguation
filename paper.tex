@@ -8,7 +8,10 @@
 \usepackage{graphicx}
 \usepackage{subfigure}
 \usepackage{color}
+
+% Maths
 \usepackage{amsmath}
+\usepackage{amsfonts}
 
 % For citations
 \usepackage{natbib}
@@ -160,7 +163,7 @@ from different authors for learning automatically a linkage function between
 publications \citep{han2004two,huang2006efficient,
 culotta2007author,treeratpituk2009disambiguating,tran2014author}. Because
 training data is often not easily available, unsupervised approaches propose
-instead to use domain-specific linkage functions tailored for author
+instead to use domain-specific, often manually designed, linkage functions tailored for author
 disambiguation \citep{malin2005unsupervised,mcrae2006also,song2007efficient,
 soler2007separating, kang2009co,fan2011graph,schulz2014exploiting}. These later
 approaches have the advantage of not requiring  hand-labeled data, but often do
@@ -322,7 +325,7 @@ explicitly handled.
 
 \textit{Supervised classification.} The second part of the algorithm is the
 automatic construction of a pair-wise linkage function between signatures, for
-later reuse during clustering to group all signatures from a same author.
+later use during clustering to group all signatures from a same author.
 Formally, the goal is to build a function $d: {\cal S} \times {\cal S} \mapsto
 [0, 1]$, such that $d(s_1, s_2)$ tends to $0$ if both signatures $s_1$ and
 $s_2$ belong to the same author, and $1$ otherwise.
@@ -331,7 +334,46 @@ As in previous works on author disambiguation, we cast this problem as a
 classification task, where inputs are pairs of signatures and outputs are
 classes $0$ (same authors) and $1$ (distinct authors).
 
-\textit{Features engineering.}
+\textit{Input features.} In most cases, supervised learning algorithms assume
+the input space ${\cal X}$ to be numeric (e.g., $\mathbb{R}^p$), making them
+not directly applicable to structured input spaces such as ${\cal S} \times
+{\cal S}$. Following previous works, pairs of signatures $(s_1, s_2)$ are
+transformed to vectors $v \in \mathbb{R}^p$ by building so-called similarity
+profiles \citep{treeratpituk2009disambiguating} on which supervised learning is
+then carried on. In this work, we design and evaluate 15 standard input features based
+on the comparison of signature fields, as reported in Table~\ref{table:features}.
+As an illustrative example, the \textit{Full name} feature corresponds to ...
+
+\begin{table}
+\caption{Input features}
+\label{table:features}
+\centering
+\begin{tabular}{|l|l|}
+  \hline
+  \textbf{Feature} & \textbf{Comparator}\\
+  \hline
+  \hline
+  Full name & Cosine similarity of TF-IDF\\
+  Given names & Cosine similarity of TF-IDF\\
+  First given name & Jaro-Winkler distance\\
+  Second given name & Jaro-Winkler distance\\
+  Given name initial & Equality\\
+  Affiliation & Cosine similarity of TF-IDF\\
+  Co-authors & Cosine similarity of TF-IDF\\
+  Title & Cosine similarity of TF-IDF\\
+  Journal & Cosine similarity of TF-IDF\\
+  Abstract & Cosine similarity of TF-IDF\\
+  Keywords & Cosine similarity of TF-IDF\\
+  Collaborations & Cosine similarity of TF-IDF\\
+  References & Cosine similarity of TF-IDF\\
+  Subject & Cosine similarity of TF-IDF\\
+  Year difference & Absolute difference\\
+  \hline
+\end{tabular}
+\end{table}
+
+% ethnicity features
+
 
 \textit{Building a training set.}
 % cite https://hpi.de/naumann/projects/repeatability/datasets/dblp-dataset.html
