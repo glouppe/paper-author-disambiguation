@@ -1,0 +1,2 @@
+data.tar.gz filter=lfs diff=lfs merge=lfs -crlf
+folds.tar.gz filter=lfs diff=lfs merge=lfs -crlf
