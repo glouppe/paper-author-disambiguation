@@ -1,8 +1,5 @@
 \documentclass{article}
-%\usepackage[margin=1.2in]{geometry}
-
 \usepackage{nips15submit_e}
-
 
 % For figures
 \usepackage{graphicx}
@@ -20,10 +17,10 @@
 \usepackage{algorithm}
 \usepackage{algorithmicx}
 \usepackage[noend]{algpseudocode}
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
 
 % For links
 \usepackage{hyperref}
-\newcommand{\theHalgorithm}{\arabic{algorithm}}
 
 % For "Jabłoński"
 \usepackage[utf8]{inputenc}
@@ -334,7 +331,7 @@ $s_2$ belong to the same author, and $1$ otherwise. Coincidentally, this
 problem can be cast as a standard supervised classification task, where inputs
 are pairs of signatures and outputs are classes $0$ (same authors) and $1$
 (distinct authors). In this work, we evaluate Random Forests \citep{breiman2001random},
-Gradient Boosted Regression Trees \citep{friedman2001greedy} and Logistic Regression \glnote{add ref} as classifiers.
+Gradient Boosted Regression Trees \citep{friedman2001greedy} and Logistic Regression \citep{fan2008liblinear} as classifiers.
 
 \textit{Input features.} In most cases, supervised learning algorithms assume
 the input space ${\cal X}$ to be numeric (e.g., $\mathbb{R}^p$), making them
@@ -413,9 +410,31 @@ distinct actual persons.
 
 \glnote{Add a few examples of transformed pairs?}
 
-\textit{Building a training set.}
-% cite https://hpi.de/naumann/projects/repeatability/datasets/dblp-dataset.html
+\textit{Building a training set.} The distinctive aspect of our work is the
+knowledge of more than 1 million of crowdsourced annotations ${\cal C} = \{(a,
+s) \in {\cal A} \times {\cal S}\}$, each indicating that signature $s$ is known
+to correspond to individual $a$. In particular, this data can be used to
+generate positive pairs $(x=(s_1, s_2), y=0)$ for all $(s_1, a_1)$, $(s_2, a_2)
+\in {\cal C}$ such that $a_1=a_2$. Similarly, negative pairs $(x=(s_1, s_2), y=1)$
+can be extracted for all $(s_1, a_1)$, $(s_2, a_2)
+\in {\cal C}$ such that $a_1 \neq a_2$.
 
+The most straightforward approach for building a training set on which to learn
+a linkage function is to sample an equal number of positive and negative pairs,
+as suggested above. By observing that the linkage function $d$ will eventually
+be used only on pairs of signatures from the same block $S_b$, a further
+refinement for building a training set is to restrict  positive and negative
+pairs $(s_1, s_2)$ to only those for which $s_1$ and $s_2$ belong to the same
+block. In doing so, the trained classifier is forced to learn intra-block
+discriminative patterns rather than inter-block differences. Furthermore, as
+noted in \citep{lange2011frequency}, pairs of signatures are in the vast
+majority non-ambiguous: if both signatures share the same author names, then
+they correspond to the same individual, otherwise they do not. Rather than
+sampling pairs uniformly at random, we therefore propose to  oversample
+difficult cases when building the training set (i.e., pairs of signatures with
+different author names corresponding to same individual, and pairs of
+signatures with identical author names but corresponding to distinct
+individuals) in order to improve the overall accuracy of the linkage function.
 
 
 % balancing difficult and easy cases
