@@ -454,17 +454,18 @@ distinct authors, as calculated from the custom linkage function $d$.
 To form flat clusters out of the hierarchy, one must decide on a maximum
 distance threshold above which clusters are considered to correspond to
 distinct authors.  Exploiting knowledge from the partial clusters known in
-${\cal C}$, we evaluate the following semi-supervised cut-off strategies:
+$\bar{{\cal C}}$, we evaluate the following semi-supervised cut-off strategies:
 \begin{itemize}
 \item \textit{No cut:} all signatures from the same block are assumed to be from the same author.
-\item \textit{Global cut:} the threshold is chosen globally over all blocks, as the one maximizing some score $f({\cal C}, \hat{{\cal C}}_t)$.
-\item \textit{Block cut:} the threshold is chosen locally at each block $b$, as the one maximizing some score $f({\cal C}^b, \hat{{\cal C}}^b_t)$. In case ${\cal C}^b$ is empty, then
-                 all signatures from $b$ are clustered together.
+\item \textit{Global cut:} the threshold is chosen globally over all blocks,
+    as the one maximizing some score $f(\bar{{\cal C}}, \widehat{\bar{{\cal C}}}_t)$.
+\item \textit{Block cut:} the threshold is chosen locally at each block $b$,
+    as the one maximizing some score $f(\bar{{\cal C}}^b, \widehat{\bar{{\cal C}}^b_t})$.
+    In case $\bar{{\cal C}}^b$ is empty, then all signatures from $b$ are clustered together.
 \end{itemize}
-Where $\hat{{\cal C}}_t$ denotes the predicted clusters, restricted to the
-signatures in ${\cal C}$, when cutting the hierarchy at threshold $t$, and
-where ${\cal C}^b$ is the subset of ${\cal C}$ including only those signatures
-from block $b$.
+Where $\widehat{\bar{{\cal C}}}_t$ denotes the predicted clusters, restricted to the
+signatures in $\bar{{\cal C}}$, when cutting the hierarchy at threshold $t$, and
+where $\bar{{\cal C}^b}$ is limited to signatures of $\bar{{\cal C}}$ in block $b$.
 
 
 % hierarchical clustering
