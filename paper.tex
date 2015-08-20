@@ -240,11 +240,11 @@ signatures belonging to the same individual $a_i$. Alternatively, the set
 ${\cal A}$ may remain (possibly partially) unknown, such that author
 disambiguation boils down to finding a partition ${\cal C}$ where
 subsets $c_i$  each corresponds to the set of all signatures from a same
-individual. Finally, in the case of partially annotated databases as studied in
+individual (without knowing who). Finally, in the case of partially annotated databases as studied in
 this work, the setting extends with the partial knowledge of pairs ${\cal C} = \{ (a, s) \in
 {\cal A} \times {\cal S} \}$, each indicating that signature $s$ is known with high confidence
 to belong to individual $a$. Equivalently, ${\cal C}$ can be seen as a set of partial
-clusters $c_a$, each including all signatures $s$ for which $(s, a) \in {\cal C}$.
+clusters $c_a$, each including all signatures $s$ for which $(s, a) \in {\cal C}$. \glnote{Change notations for ${\cal C}$!!}
 
 As inspired from several previous works described in Section~\ref{related-works},
 we cast in this work author disambiguation into a semi-supervised clustering
@@ -454,7 +454,7 @@ distinct authors, as calculated from the custom linkage function $d$.
 To form flat clusters out of the hierarchy, one must decide on a maximum
 distance threshold above which clusters are considered to correspond to
 distinct authors.  Exploiting knowledge from the partial clusters known in
-${\cal C}$, we evaluate three cut-off strategies:
+${\cal C}$, we evaluate the following semi-supervised cut-off strategies:
 \begin{itemize}
 \item \textit{No cut:} all signatures from the same block are assumed to be from the same author.
 \item \textit{Global cut:} the threshold is chosen globally over all blocks, as the one maximizing some score $f({\cal C}, \hat{{\cal C}}_t)$.
