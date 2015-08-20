@@ -241,10 +241,10 @@ ${\cal A}$ may remain (possibly partially) unknown, such that author
 disambiguation boils down to finding a partition ${\cal C}$ where
 subsets $c_i$  each corresponds to the set of all signatures from a same
 individual (without knowing who). Finally, in the case of partially annotated databases as studied in
-this work, the setting extends with the partial knowledge of pairs ${\cal C} = \{ (a, s) \in
-{\cal A} \times {\cal S} \}$, each indicating that signature $s$ is known with high confidence
-to belong to individual $a$. Equivalently, ${\cal C}$ can be seen as a set of partial
-clusters $c_a$, each including all signatures $s$ for which $(s, a) \in {\cal C}$. \glnote{Change notations for ${\cal C}$!!}
+this work, the setting extends with the partial knowledge $\bar{{\cal C}} = \{ \bar{c_0}, ..., \bar{c_{M-1}} \}$ of ${\cal C}$,
+such that $\bar{c_i} \subseteq c_i$, with $\bar{c_i}$ possibly empty.
+Or put otherwise, the setting extends with the knowledge that all signatures
+$s \in \bar{c_i}$ belong to author $a_i$.
 
 As inspired from several previous works described in Section~\ref{related-works},
 we cast in this work author disambiguation into a semi-supervised clustering
@@ -412,13 +412,13 @@ distinct actual persons.
 \glnote{Add a few examples of transformed pairs?}
 
 \textit{Building a training set.} The distinctive aspect of our work is the
-knowledge of more than 1 million of crowdsourced annotations ${\cal C} = \{(a,
-s) \in {\cal A} \times {\cal S}\}$, each indicating that signature $s$ is known
-to correspond to individual $a$. In particular, this data can be used to
-generate positive pairs $(x=(s_1, s_2), y=0)$ for all $(s_1, a_1)$, $(s_2, a_2)
-\in {\cal C}$ such that $a_1=a_2$. Similarly, negative pairs $(x=(s_1, s_2), y=1)$
-can be extracted for all $(s_1, a_1)$, $(s_2, a_2)
-\in {\cal C}$ such that $a_1 \neq a_2$.
+knowledge of more than 1 million of crowdsourced annotations $\bar{\cal C} = \{
+\bar{c_0}, ..., \bar{c_{M-1}} \}$, indicating together that all signature $s \in
+\bar{c_i}$ are known to correspond to the same individual $a_i$. In particular,
+this data can be used to generate positive pairs $(x=(s_1, s_2), y=0)$ for all
+$s_1, s_2 \in \bar{c_i}$, for all $i$. Similarly, negative pairs $(x=(s_1,
+s_2), y=1)$ can be extracted for all $s_1 \in \bar{c_i}, s_2 \in \bar{c_j}$, for
+all $i \neq j$.
 
 The most straightforward approach for building a training set on which to learn
 a linkage function is to sample an equal number of positive and negative pairs,
