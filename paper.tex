@@ -333,7 +333,8 @@ Formally, the goal is to build a function $d: {\cal S} \times {\cal S} \mapsto
 $s_2$ belong to the same author, and $1$ otherwise. Coincidentally, this
 problem can be cast as a standard supervised classification task, where inputs
 are pairs of signatures and outputs are classes $0$ (same authors) and $1$
-(distinct authors). \glnote{Mention RF, boosting, lr}
+(distinct authors). In this work, we evaluate Random Forests \citep{breiman2001random},
+Gradient Boosted Regression Trees \citep{friedman2001greedy} and Logistic Regression \glnote{add ref} as classifiers.
 
 \textit{Input features.} In most cases, supervised learning algorithms assume
 the input space ${\cal X}$ to be numeric (e.g., $\mathbb{R}^p$), making them
@@ -347,10 +348,12 @@ features based on the comparison of signature fields, as reported in the first
 half of Table~\ref{table:features}. As an illustrative example, the
 \textit{Full name} feature corresponds to the similarity between the (full)
 author name fields of the two signatures, as measured using as combination
-operator the cosine similarity between their respective TF-IDF vector
-representations. Similarly, the \textit{Year difference} feature measures the
-absolute difference between the publication date of the articles to which the
-two signatures respectively belong.
+operator the cosine similarity between their respective $(n,m)$-TF-IDF vector
+representations\footnote{$(n,m)$ denotes that the TF-IDF vectors are computed
+from character $n$, $n+1$, ..., $m$-grams. When not specified, TF-IDF vector
+are otherwise computed from words.}. Similarly, the \textit{Year difference}
+feature measures the absolute difference between the publication date of the
+articles to which the two signatures respectively belong.
 
 Observing that author names from different cultures or origins are likely to be
 disambiguated using different strategies (e.g., pairs of signatures with French
@@ -360,7 +363,7 @@ propose to complement our feature set with 7 additional new features, each
 evaluating the degree of belonging of both signatures to several ethnic groups,
 as reported in the second half of Table~\ref{table:features}. More
 specifically, using census data extracted from \citep{rugglesintegrated}, we
-build a logistic regression classifier for mapping the TF-IDF representation of
+build a logistic regression classifier for mapping the $(1,5)$-TF-IDF representation of
 an author name to one of the 7 ethnic groups reported in that dataset. Given a
 pair of signatures $(s_1, s_2)$, the proposed ethnicity features are each
 computed as the estimated probability of $s_1$ to belong to the respective
@@ -378,15 +381,15 @@ features.
   \textbf{Feature} & \textbf{Combination operator}\\
   \hline
   \hline
-  Full name & Cosine similarity of TF-IDF\\
-  Given names & Cosine similarity of TF-IDF\\
+  Full name & Cosine similarity of $(2,4)$-TF-IDF\\
+  Given names & Cosine similarity of $(2,4)$-TF-IDF\\
   First given name & Jaro-Winkler distance\\
   Second given name & Jaro-Winkler distance\\
   Given name initial & Equality\\
-  Affiliation & Cosine similarity of TF-IDF\\
+  Affiliation & Cosine similarity of $(2,4)$-TF-IDF\\
   Co-authors & Cosine similarity of TF-IDF\\
-  Title & Cosine similarity of TF-IDF\\
-  Journal & Cosine similarity of TF-IDF\\
+  Title & Cosine similarity of $(2,4)$-TF-IDF\\
+  Journal & Cosine similarity of $(2,4)$-TF-IDF\\
   Abstract & Cosine similarity of TF-IDF\\
   Keywords & Cosine similarity of TF-IDF\\
   Collaborations & Cosine similarity of TF-IDF\\
