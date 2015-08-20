@@ -456,13 +456,15 @@ distance threshold above which clusters are considered to correspond to
 distinct authors.  Exploiting knowledge from the partial clusters known in
 ${\cal C}$, we evaluate three cut-off strategies:
 \begin{itemize}
-\item No cut: all signatures from the same block are assumed to be from the same author;
-\item Global cut: the threshold is chosen globally over all blocks, as the one maximizing some score $f({\cal C}, \hat{{\cal C}}_t)$;
-\item Block cut: the threshold is chosen locally at each block $b$, as the one maximizing some score $f({\cal C}^b, \hat{{\cal C}}^b_t)$;
+\item \textit{No cut:} all signatures from the same block are assumed to be from the same author.
+\item \textit{Global cut:} the threshold is chosen globally over all blocks, as the one maximizing some score $f({\cal C}, \hat{{\cal C}}_t)$.
+\item \textit{Block cut:} the threshold is chosen locally at each block $b$, as the one maximizing some score $f({\cal C}^b, \hat{{\cal C}}^b_t)$. In case ${\cal C}^b$ is empty, then
+                 all signatures from $b$ are clustered together.
 \end{itemize}
-where $\hat{{\cal C}}_t$ denotes the predicted clusters,
-restricted to the signatures in ${\cal C}$, when cutting the hierarchy at threshold $t$, and
-where ${\cal C}^b$ is the subset of ${\cal C}$ including only those signatures from block $b$.
+Where $\hat{{\cal C}}_t$ denotes the predicted clusters, restricted to the
+signatures in ${\cal C}$, when cutting the hierarchy at threshold $t$, and
+where ${\cal C}^b$ is the subset of ${\cal C}$ including only those signatures
+from block $b$.
 
 
 % hierarchical clustering
