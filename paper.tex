@@ -350,7 +350,7 @@ half of Table~\ref{table:features}. As an illustrative example, the
 author name fields of the two signatures, as measured using as combination
 operator the cosine similarity between their respective $(n,m)$-TF-IDF vector
 representations\footnote{$(n,m)$ denotes that the TF-IDF vectors are computed
-from character $n$, $n+1$, ..., $m$-grams. When not specified, TF-IDF vector
+from character $n$, $n+1$, ..., $m$-grams. When not specified, TF-IDF vectors
 are otherwise computed from words.}. Similarly, the \textit{Year difference}
 feature measures the absolute difference between the publication date of the
 articles to which the two signatures respectively belong.
@@ -363,14 +363,17 @@ propose to complement our feature set with 7 additional new features, each
 evaluating the degree of belonging of both signatures to several ethnic groups,
 as reported in the second half of Table~\ref{table:features}. More
 specifically, using census data extracted from \citep{rugglesintegrated}, we
-build a logistic regression classifier for mapping the $(1,5)$-TF-IDF representation of
-an author name to one of the 7 ethnic groups reported in that dataset. Given a
-pair of signatures $(s_1, s_2)$, the proposed ethnicity features are each
-computed as the estimated probability of $s_1$ to belong to the respective
-ethnic group, multiplied by the estimated probability of $s_2$ to belong to the
-same group. In doing so, the expectation is for the linkage function to become
-sensitive to the actual origin of the authors depending on the values of these
-features.
+build a logistic regression classifier for mapping the $(1,5)$-TF-IDF
+representation of an author name to one of the 7 ethnic groups reported in that
+dataset. Given a pair of signatures $(s_1, s_2)$, the proposed ethnicity
+features are each computed as the estimated probability of $s_1$ to belong to
+the corresponding ethnic group, multiplied by the estimated probability of
+$s_2$ to belong to the same group. In doing so, the expectation is for the
+linkage function to become sensitive to the actual origin of the authors
+depending on the values of these features. Indirectly, let us also note that these
+features hold discriminative power since, if author names are predicted
+to belong to different ethnic groups, then they are also likely to correspond to
+distinct actual persons.
 
 \begin{table}
 \caption{Input features for learning a linkage function}
@@ -410,12 +413,11 @@ features.
 
 \glnote{Add a few examples of transformed pairs?}
 
-
 \textit{Building a training set.}
 % cite https://hpi.de/naumann/projects/repeatability/datasets/dblp-dataset.html
 
-% distance learning as a supervised problem
-% describe all features
+
+
 % balancing difficult and easy cases
 % sampling pairs from block only
 
