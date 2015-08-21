@@ -537,8 +537,8 @@ disambiguation research.
 
 Experiments carried out to study the impact of the proposed algorithmic
 components and refinements, as described in Section~\ref{methods}, follow a
-standard 3-fold cross-validation protocol, using ${\cal S}^\prime$ as ground-
-truth dataset. To mimic the $|{\cal S}^\prime| / |{\cal S}| \approx 13\%$ ratio
+standard 3-fold cross-validation protocol, using ${\cal S}^\prime$ as
+ground-truth dataset. To mimic the $|{\cal S}^\prime| / |{\cal S}| \approx 13\%$ ratio
 of claimed signatures with respect to the total set of signatures, as on the
 INSPIRE platform, cross-validation folds are constructed by sampling a training
 set ${\cal S}_\text{train}^\prime \subseteq {\cal S}^\prime$ of 13\% of claimed
@@ -547,19 +547,30 @@ C}_\text{train}^\prime = \{ c^\prime \cap {\cal S}_\text{train}^\prime |
 c^\prime \in {\cal C}^\prime \}$ is used to represent the partial known
 clusters on the training fold.
 
-We evaluate the predicted clusters over training data ${\cal
+As commonly used in author disambiguation research \citep{levin2012citation},
+we evaluate the predicted clusters over training data ${\cal
 C}_\text{train}^\prime$, testing data ${\cal C}_\text{test}^\prime$ and the
-whole data ${\cal C}^\prime$, using both B3 and pairwise precision, recall
-and F1-measures, as defined below:
-
+whole data ${\cal C}^\prime$, using both B3 \glnote{add ref} and pairwise \glnote{add ref} precision, recall
+and F-measure, as defined below:
 \begin{align}
-P_\text{B3}({\cal C}, \widehat{\cal C}) &= \\
-R_\text{B3}({\cal C}, \widehat{\cal C}) &= \\
-F_\text{B3}({\cal C}, \widehat{\cal C}) &= \frac{2 P_\text{B3}({\cal C}, \widehat{\cal C}) R_\text{B3}({\cal C}, \widehat{\cal C})}{P_\text{B3}({\cal C}, \widehat{\cal C}) + P_\text{B3}({\cal C}, \widehat{\cal C})}\\
-P_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \\
-R_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \\
+P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{1}{|{\cal S}|} \sum_{s \in {\cal S}} \frac{|c(s) \cap \widehat{c}(s)|}{|\widehat{c}(s)|} \\
+R_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{1}{|{\cal S}|} \sum_{s \in {\cal S}} \frac{|c(s) \cap \widehat{c}(s)|}{|c(s)|}\\
+F_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{2 P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) R_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S})}{P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) + P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S})}\\
+P_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{|p({\cal C}) \cap p(\widehat{\cal C})|}{|p(\widehat{\cal C})|}\\
+R_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{|p({\cal C}) \cap p(\widehat{\cal C})|}{|p({\cal C})|}\\
 F_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{2 P_\text{pairwise}({\cal C}, \widehat{\cal C}) R_\text{pairwise}({\cal C}, \widehat{\cal C})}{P_\text{pairwise}({\cal C}, \widehat{\cal C}) + R_\text{pairwise}({\cal C}, \widehat{\cal C})}
 \end{align}
+where $c(s)$ (resp. $\widehat{c}(s)$) is the cluster $c \in {\cal C}$ such that
+$s \in c$ (resp. the cluster $\widehat{c} \in \widehat{\cal C}$ such that $s
+\in \widehat{c}$), and where $p({\cal C}) = \cup_{c \in {\cal C}} \{ (s_1, s_2)
+| s_1, s_2 \in c, s_1 \neq s_2 \}$ is the set of all pairs of signatures from
+the same clusters in ${\cal C}$. Intuitively, precision evaluates if signatures
+are grouped only with signatures from the same true clusters, while recall
+measures the extent to which all signatures from the same true clusters are
+effectively grouped together. The F-measure is the harmonic mean between these
+two quantities. In the analysis below, we rely primarily on B3 measures for discussing
+the results, as pairwise measures tend to favor large clusters (because the number of pairs is quadratic with the cluster size),
+hence unfairly giving preference to authors with many publications.
 
 % measures (b^3, paired, size of clusters)
 % training / valid / test sets
