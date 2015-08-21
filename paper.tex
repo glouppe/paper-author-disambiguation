@@ -522,140 +522,138 @@ publications, forming in total a set ${\cal S}$ of more than 10 millions
 signatures. Out of these, around 13\% have been \textit{claimed} by their
 original authors or marked as such by professional curators. Together, they
 constitute a trusted set $\bar{\cal C}$ of 15388 distinct individuals sharing
-36340 unique author names spread within 1201763 signatures. This data covers
-several decades in time and dozens of author nationalities worldwide.
+36340 unique author names spread within 1201763 signatures on 360066
+publications. This data covers several decades in time and dozens of author
+nationalities worldwide.
 
-Following INSPIRE terms of use, the data is released
+Following INSPIRE terms of use, the dataset $\bar{\cal C}$ is released
 online\footnote{\url{https://github.com/glouppe/paper-author-disambiguation}}
 under the CC0 license. To the best of our knowledge, data of this size and
 coverage is the first to be publicly released in the scope of author
 disambiguation research.
 
-% source of the data, labels in the data, etc
-% release the data
-
 \subsection{Evaluation protocol}
 
-\glnote{By Gilles}
+
 
 % measures (b^3, paired, size of clusters)
 % training / valid / test sets
 
 \subsection{Base experiment}
 
-\glnote{To review}
+% \glnote{To review}
 
-The starting point of our analysis is an algorithm that blocks the signatures using the last
-name and first initial strategy, samples the pairs in balanced way, uses gradient boosting
-with all features included for learning the similarity function and clusters using
-semi-supervised hierarchical approach.
+% The starting point of our analysis is an algorithm that blocks the signatures using the last
+% name and first initial strategy, samples the pairs in balanced way, uses gradient boosting
+% with all features included for learning the similarity function and clusters using
+% semi-supervised hierarchical approach.
 
-\begin{table}[H]
-\caption{Base experiment evaluation)}
-\centering
-\begin{tabular}{|r|r|l|l|l|}
-  \hline
-  Evaluation & Set & Precision & Recall & F-score \\
-  \hline
-  Pairwise & test & 0.9948 & 0.9738 & 0.9842 \\
-  \hline
-  Pairwise & train & 0.9976 & 0.9747 & 0.986 \\
-  \hline
-  Pairwise & overall & 0.9952 & 0.9739 & 0.9844 \\
-  \hline
-  $B^3$ & test & 0.9901 & 0.976 & 0.983 \\
-  \hline
-  $B^3$ & train & 0.997 & 0.979 & 0.9879 \\
-  \hline
-  $B^3$ & overall & 0.9907 & 0.9761 & 0.9834 \\
-  \hline
-\end{tabular}
-\end{table}
+% \begin{table}[H]
+% \caption{Base experiment evaluation)}
+% \centering
+% \begin{tabular}{|r|r|l|l|l|}
+%   \hline
+%   Evaluation & Set & Precision & Recall & F-score \\
+%   \hline
+%   Pairwise & test & 0.9948 & 0.9738 & 0.9842 \\
+%   \hline
+%   Pairwise & train & 0.9976 & 0.9747 & 0.986 \\
+%   \hline
+%   Pairwise & overall & 0.9952 & 0.9739 & 0.9844 \\
+%   \hline
+%   $B^3$ & test & 0.9901 & 0.976 & 0.983 \\
+%   \hline
+%   $B^3$ & train & 0.997 & 0.979 & 0.9879 \\
+%   \hline
+%   $B^3$ & overall & 0.9907 & 0.9761 & 0.9834 \\
+%   \hline
+% \end{tabular}
+% \end{table}
 
 \subsection{Blocking}
 
-\glnote{To review}
+% \glnote{To review}
 
-Let us introduce a term \textit{blocking limited maximum recall} to describe the highest
-recall that the algorithm can theoretically reach after blocking is done.
-Formally, for the set of signatures ${\cal S}$, blocking function $F: \mathcal{S}
-\rightarrow \mathcal{B}$, where $ \mathcal{B} = \{s_{0}, \ldots{} , s_{N-1}\}$ is a
-partition of $\mathcal{S} $ , the recall function $\mathcal{R}: \mathcal{C}_{gold},
-\mathcal{C}_{predicted} \rightarrow \langle0,1\rangle$ where $\mathcal{C}_{gold}$ is the
-partition of $\mathcal{S}$ where for every author there is a set in $\mathcal{C}_{gold}$
-that contains only all the signatures of this author, $\mathcal{C}_{predicted}$ is the
-partition of $\mathcal{S}$ output by the algorithm, and $\mathcal{Q} = \{\cup_{i=0}^{N-1}
-q_i $ : $\forall_{i \in \langle0,N-1\rangle} q_i$ is a partition of $s_i$\}. Then
-\textit{blocking limited maximum recall} is defined as $\max_{q \in \mathcal{Q}}
-\mathcal{R}(\mathcal{C}_{gold}, q)$. For sanely defined recall functions, such as $B^{3}$
-recall or \textit{pairwise} recall \msnote{Further explanation needed, why it is
-equivalent?}, it is equivalent to $\mathcal{R}(\mathcal{C}_{gold}, \mathcal{B})$.
+% Let us introduce a term \textit{blocking limited maximum recall} to describe the highest
+% recall that the algorithm can theoretically reach after blocking is done.
+% Formally, for the set of signatures ${\cal S}$, blocking function $F: \mathcal{S}
+% \rightarrow \mathcal{B}$, where $ \mathcal{B} = \{s_{0}, \ldots{} , s_{N-1}\}$ is a
+% partition of $\mathcal{S} $ , the recall function $\mathcal{R}: \mathcal{C}_{gold},
+% \mathcal{C}_{predicted} \rightarrow \langle0,1\rangle$ where $\mathcal{C}_{gold}$ is the
+% partition of $\mathcal{S}$ where for every author there is a set in $\mathcal{C}_{gold}$
+% that contains only all the signatures of this author, $\mathcal{C}_{predicted}$ is the
+% partition of $\mathcal{S}$ output by the algorithm, and $\mathcal{Q} = \{\cup_{i=0}^{N-1}
+% q_i $ : $\forall_{i \in \langle0,N-1\rangle} q_i$ is a partition of $s_i$\}. Then
+% \textit{blocking limited maximum recall} is defined as $\max_{q \in \mathcal{Q}}
+% \mathcal{R}(\mathcal{C}_{gold}, q)$. For sanely defined recall functions, such as $B^{3}$
+% recall or \textit{pairwise} recall \msnote{Further explanation needed, why it is
+% equivalent?}, it is equivalent to $\mathcal{R}(\mathcal{C}_{gold}, \mathcal{B})$.
 
-The \textit{blocking limited maximum recall} for the last name and first initial blocking
-and $B^3$ scoring equals 0.9827. Comparing it to the $B^3$ recall of the base experiment,
-one can see that a huge part of errors comes from the blocking step which forbids some of
-the pairs to be merged together. To prevent that, we tried the phonetic blocking algorithm
-using three different phonetic algorithms: Double Metaphone \citep{doublemetaphone}, NYSIIS
-\citep{nysiis} and Soundex \citep{Soundex}. As Double Metaphone can return two results for a
-string, we always discarded the second one when we used this algorithm.
+% The \textit{blocking limited maximum recall} for the last name and first initial blocking
+% and $B^3$ scoring equals 0.9827. Comparing it to the $B^3$ recall of the base experiment,
+% one can see that a huge part of errors comes from the blocking step which forbids some of
+% the pairs to be merged together. To prevent that, we tried the phonetic blocking algorithm
+% using three different phonetic algorithms: Double Metaphone \citep{doublemetaphone}, NYSIIS
+% \citep{nysiis} and Soundex \citep{Soundex}. As Double Metaphone can return two results for a
+% string, we always discarded the second one when we used this algorithm.
 
-\begin{table}[H]
-\caption{Blocking limited maximum recalls (BLMR) on the whole dataset without splitting over
-the first given name initial}
-\centering
-\begin{tabular}{|r|l|l|}
-  \hline
-  blocking function & BLMR with $B^{3}$ recall & BLMR with pairwise recall \\
-  \hline
-  last name and first initial & 0.9827 & 0.9776 \\
-  \hline
-  phonetic using double metaphone & 0.9967 & 0.9953 \\
-  \hline
-  phonetic using nysiis & 0.9961 & 0.9951 \\
-  \hline
-  phonetic using soundex & 0.9966 & 0.9953 \\
-  \hline
-\end{tabular}
-\end{table}
+% \begin{table}[H]
+% \caption{Blocking limited maximum recalls (BLMR) on the whole dataset without splitting over
+% the first given name initial}
+% \centering
+% \begin{tabular}{|r|l|l|}
+%   \hline
+%   blocking function & BLMR with $B^{3}$ recall & BLMR with pairwise recall \\
+%   \hline
+%   last name and first initial & 0.9827 & 0.9776 \\
+%   \hline
+%   phonetic using double metaphone & 0.9967 & 0.9953 \\
+%   \hline
+%   phonetic using nysiis & 0.9961 & 0.9951 \\
+%   \hline
+%   phonetic using soundex & 0.9966 & 0.9953 \\
+%   \hline
+% \end{tabular}
+% \end{table}
 
-\msnote{Mention two new features for this experiments, other than that everything is the
-same as in the base experiment}
+% \msnote{Mention two new features for this experiments, other than that everything is the
+% same as in the base experiment}
 
-\begin{table}[H]
-\caption{Phonetic algorithm performance}
-\centering
-\begin{tabular}{|r|r|r|l|l|l|}
-  \hline
-  Phonetic Algorithm & Split over initial & Evaluation & Precision & Recall & F-score \\
-  \hline
-  Double Metaphone & yes & pairwise & 0.9934 & 0.982 & 0.9876 \\
-  \hline
-  Double Metaphone & yes & $B^3$ & 0.9867 & 0.983 & 0.9848 \\
-  \hline
-  Double Metaphone & no & pairwise & - & - & - \\
-  \hline
-  Double Metaphone & no & $B^3$ & - & - & - \\
-  \hline
-  NYSIIS & yes & pairwise & 0.9942 & 0.9818 & 0.9879 \\
-  \hline
-  NYSIIS & yes & $B^3$ & 0.9884 & 0.9828 & 0.9856 \\
-  \hline
-  NYSIIS & no & pairwise & - & - & - \\
-  \hline
-  NYSIIS & no & $B^3$ & - & - & - \\
-  \hline
-  Soundex & yes & pairwise & - & - & - \\
-  \hline
-  Soundex & yes & $B^3$ & - & - & - \\
-  \hline
-  Soundex & no & pairwise & - & - & - \\
-  \hline
-  Soundex & no & $B^3$ & - & - & - \\
-  \hline
-\end{tabular}
-\end{table}
+% \begin{table}[H]
+% \caption{Phonetic algorithm performance}
+% \centering
+% \begin{tabular}{|r|r|r|l|l|l|}
+%   \hline
+%   Phonetic Algorithm & Split over initial & Evaluation & Precision & Recall & F-score \\
+%   \hline
+%   Double Metaphone & yes & pairwise & 0.9934 & 0.982 & 0.9876 \\
+%   \hline
+%   Double Metaphone & yes & $B^3$ & 0.9867 & 0.983 & 0.9848 \\
+%   \hline
+%   Double Metaphone & no & pairwise & - & - & - \\
+%   \hline
+%   Double Metaphone & no & $B^3$ & - & - & - \\
+%   \hline
+%   NYSIIS & yes & pairwise & 0.9942 & 0.9818 & 0.9879 \\
+%   \hline
+%   NYSIIS & yes & $B^3$ & 0.9884 & 0.9828 & 0.9856 \\
+%   \hline
+%   NYSIIS & no & pairwise & - & - & - \\
+%   \hline
+%   NYSIIS & no & $B^3$ & - & - & - \\
+%   \hline
+%   Soundex & yes & pairwise & - & - & - \\
+%   \hline
+%   Soundex & yes & $B^3$ & - & - & - \\
+%   \hline
+%   Soundex & no & pairwise & - & - & - \\
+%   \hline
+%   Soundex & no & $B^3$ & - & - & - \\
+%   \hline
+% \end{tabular}
+% \end{table}
 
-\msnote{Fill the table}
+% \msnote{Fill the table}
 
 % compare with torvik & smalheiser (2009) who argue that lnfi blocking has recall around 98%
 % MS - recall for lnfi (blocking only) 0.9776, lnfi (whole algorithm) 0.9739,
