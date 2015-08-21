@@ -453,21 +453,23 @@ distinct authors, as calculated from the custom linkage function $d$.
 
 To form flat clusters out of the hierarchy, one must decide on a maximum
 distance threshold above which clusters are considered to correspond to
-distinct authors.  Exploiting knowledge from the partial clusters known in
-$\bar{{\cal C}}$, we evaluate the following semi-supervised cut-off strategies:
+distinct authors. Let us denote by $\bar{{\cal S}} = \{ s | s \in \bar{c}, \bar{c}
+\in \bar{\cal C} \}$ the set of all signatures for which partial clusters are
+known. Let us also denote by $\widehat{\cal C} = \{ \widehat{c}_i | i = 0, ...,
+K-1 \}$ the predicted clusters for all signatures in ${\cal S}$, and by
+$\widehat{\overline{\cal C}} = \{ \widehat{c}_i \cap \bar{{\cal S}} | i = 0,
+..., K-1 \}$ the predicted clusters restricted to signatures for which partial
+clusters are known. From these, we evaluate the following semi-supervised cut-off strategies:
 \begin{itemize}
 \item \textit{No cut:} all signatures from the same block are assumed to be from the same author.
 \item \textit{Global cut:} the threshold is chosen globally over all blocks,
-    as the one maximizing some score $f(\bar{{\cal C}}, \widehat{\bar{{\cal C}}}_t)$.
+    as the one maximizing some score $f(\bar{\cal C}, \widehat{\overline{\cal C}})$.
 \item \textit{Block cut:} the threshold is chosen locally at each block $b$,
-    as the one maximizing some score $f(\bar{{\cal C}}^b, \widehat{\bar{{\cal C}}^b_t})$.
-    In case $\bar{{\cal C}}^b$ is empty, then all signatures from $b$ are clustered together.
+    as the one maximizing some score $f(\bar{\cal C}_b, \widehat{\overline{\cal C}}_b)$.
+    In case $\bar{\cal C}_b$ is empty, then all signatures from $b$ are clustered together.
 \end{itemize}
-Where $\widehat{\bar{{\cal C}}}_t$ denotes the predicted clusters, restricted to the
-signatures in $\bar{{\cal C}}$, when cutting the hierarchy at threshold $t$, and
-where $\bar{{\cal C}^b}$ is limited to signatures of $\bar{{\cal C}}$ in block $b$.
 
-\glnote{Notations should be improved and be made more explicit}
+\glnote{Add a figure showing the three possible splits}
 
 % hierarchical clustering
 % semi-supervised clustering
