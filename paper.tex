@@ -239,10 +239,10 @@ ${\cal A}$ may remain (possibly partially) unknown, such that author
 disambiguation boils down to finding a partition ${\cal C}$ where
 subsets $c_i$  each corresponds to the set of all signatures from a same
 individual (without knowing who). Finally, in the case of partially annotated databases as studied in
-this work, the setting extends with the partial knowledge $\bar{{\cal C}} = \{ \bar{c_0}, ..., \bar{c_{M-1}} \}$ of ${\cal C}$,
-such that $\bar{c_i} \subseteq c_i$, with $\bar{c_i}$ possibly empty.
+this work, the setting extends with the partial knowledge ${\cal C}^\prime = \{ c_0^\prime, ..., c_{M-1}^\prime \}$ of ${\cal C}$,
+such that $c_i^\prime \subseteq c_i$, with $c_i^\prime$ possibly empty.
 Or put otherwise, the setting extends with the knowledge that all signatures
-$s \in \bar{c_i}$ belong to the same author.
+$s \in c_i^\prime$ belong to the same author.
 
 As inspired from several previous works described in Section~\ref{related-works},
 we cast in this work author disambiguation into a semi-supervised clustering
@@ -410,12 +410,12 @@ distinct actual persons.
 \glnote{Add a few examples of transformed pairs?}
 
 \textit{Building a training set.} The distinctive aspect of our work is the
-knowledge of more than 1 million of crowdsourced annotations $\bar{\cal C} = \{
-\bar{c_0}, ..., \bar{c_{M-1}} \}$, indicating together that all signature $s \in
-\bar{c_i}$ are known to correspond to the same individual $a_i$. In particular,
+knowledge of more than 1 million of crowdsourced annotations ${\cal C}^\prime = \{
+c_0^\prime, ..., c_{M-1}^\prime \}$, indicating together that all signature $s \in
+c_i^\prime$ are known to correspond to the same individual $a_i$. In particular,
 this data can be used to generate positive pairs $(x=(s_1, s_2), y=0)$ for all
-$s_1, s_2 \in \bar{c_i}$, for all $i$. Similarly, negative pairs $(x=(s_1,
-s_2), y=1)$ can be extracted for all $s_1 \in \bar{c_i}, s_2 \in \bar{c_j}$, for
+$s_1, s_2 \in c_i^\prime$, for all $i$. Similarly, negative pairs $(x=(s_1,
+s_2), y=1)$ can be extracted for all $s_1 \in c_i^\prime, s_2 \in c_j^\prime$, for
 all $i \neq j$.
 
 The most straightforward approach for building a training set on which to learn
@@ -451,19 +451,19 @@ distinct authors, as calculated from the custom linkage function $d$.
 
 To form flat clusters out of the hierarchy, one must decide on a maximum
 distance threshold above which clusters are considered to correspond to
-distinct authors. Let us denote by $\bar{{\cal S}} = \{ s | s \in \bar{c}, \bar{c}
-\in \bar{\cal C} \}$ the set of all signatures for which partial clusters are
+distinct authors. Let us denote by ${\cal S}^\prime = \{ s | s \in c^\prime, c^\prime
+\in {\cal C}^\prime \}$ the set of all signatures for which partial clusters are
 known. Let us also denote by $\smash{\widehat{\cal C}}$  the predicted clusters for all signatures in ${\cal S}$, and by
-$\smash{\widehat{\overline{\cal C}} = \{ \widehat{c} \cap \bar{{\cal S}} | \widehat{c} \in \widehat{\cal C} \}}$
+$\smash{\widehat{\cal C}^\prime} = \{ \widehat{c} \cap {\cal S}^\prime | \widehat{c} \in \widehat{\cal C} \}$
 the predicted clusters restricted to signatures for which partial
 clusters are known. From these, we evaluate the following semi-supervised cut-off strategies:
 \begin{itemize}
 \item \textit{No cut:} all signatures from the same block are assumed to be from the same author.
 \item \textit{Global cut:} the threshold is chosen globally over all blocks,
-    as the one maximizing some score $f(\bar{\cal C}, \widehat{\overline{\cal C}})$.
+    as the one maximizing some score $f({\cal C}^\prime, \widehat{\cal C}^\prime)$.
 \item \textit{Block cut:} the threshold is chosen locally at each block $b$,
-    as the one maximizing some score $f(\bar{\cal C}_b, \widehat{\overline{\cal C}}_b)$.
-    In case $\bar{\cal C}_b$ is empty, then all signatures from $b$ are clustered together.
+    as the one maximizing some score $f({\cal C}_b^\prime, \widehat{\cal C}_b^\prime)$.
+    In case ${\cal C}_b^\prime$ is empty, then all signatures from $b$ are clustered together.
 \end{itemize}
 
 \glnote{Add a figure showing the three possible splits}
@@ -521,12 +521,13 @@ high-energy physics. Overall, the portal holds more than 1 million
 publications, forming in total a set ${\cal S}$ of more than 10 millions
 signatures. Out of these, around 13\% have been \textit{claimed} by their
 original authors or marked as such by professional curators. Together, they
-constitute a trusted set $\bar{\cal C}$ of 15388 distinct individuals sharing
+constitute a trusted set ${\cal C}^\prime$ of 15388 distinct individuals sharing
 36340 unique author names spread within 1201763 signatures on 360066
 publications. This data covers several decades in time and dozens of author
 nationalities worldwide.
 
-Following INSPIRE terms of use, the dataset $\bar{\cal C}$ is released
+Following INSPIRE terms of use, the signatures ${\cal S}^\prime$ and their
+corresponding clusters ${\cal C}^\prime$ are released
 online\footnote{\url{https://github.com/glouppe/paper-author-disambiguation}}
 under the CC0 license. To the best of our knowledge, data of this size and
 coverage is the first to be publicly released in the scope of author
@@ -534,7 +535,31 @@ disambiguation research.
 
 \subsection{Evaluation protocol}
 
+Experiments carried out to study the impact of the proposed algorithmic
+components and refinements, as described in Section~\ref{methods}, follow a
+standard 3-fold cross-validation protocol, using ${\cal S}^\prime$ as ground-
+truth dataset. To mimic the $|{\cal S}^\prime| / |{\cal S}| \approx 13\%$ ratio
+of claimed signatures with respect to the total set of signatures, as on the
+INSPIRE platform, cross-validation folds are constructed by sampling a training
+set ${\cal S}_\text{train}^\prime \subseteq {\cal S}^\prime$ of 13\% of claimed
+signatures and using the remaining signatures for testing. Accordingly, ${\cal
+C}_\text{train}^\prime = \{ c^\prime \cap {\cal S}_\text{train}^\prime |
+c^\prime \in {\cal C}^\prime \}$ is used to represent the partial known
+clusters on the training fold.
 
+We evaluate the predicted clusters over training data ${\cal
+C}_\text{train}^\prime$, testing data ${\cal C}_\text{test}^\prime$ and the
+whole data ${\cal C}^\prime$, using both B3 and pairwise precision, recall
+and F1-measures, as defined below:
+
+\begin{align}
+P_\text{B3}({\cal C}, \widehat{\cal C}) &= \\
+R_\text{B3}({\cal C}, \widehat{\cal C}) &= \\
+F_\text{B3}({\cal C}, \widehat{\cal C}) &= \frac{2 P_\text{B3}({\cal C}, \widehat{\cal C}) R_\text{B3}({\cal C}, \widehat{\cal C})}{P_\text{B3}({\cal C}, \widehat{\cal C}) + P_\text{B3}({\cal C}, \widehat{\cal C})}\\
+P_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \\
+R_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \\
+F_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{2 P_\text{pairwise}({\cal C}, \widehat{\cal C}) R_\text{pairwise}({\cal C}, \widehat{\cal C})}{P_\text{pairwise}({\cal C}, \widehat{\cal C}) + R_\text{pairwise}({\cal C}, \widehat{\cal C})}
+\end{align}
 
 % measures (b^3, paired, size of clusters)
 % training / valid / test sets
