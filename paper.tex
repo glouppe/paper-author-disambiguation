@@ -538,16 +538,17 @@ disambiguation research.
 Experiments carried out to study the impact of the proposed algorithmic
 components and refinements, as described in Section~\ref{methods}, follow a
 standard 3-fold cross-validation protocol, using ${\cal S}^\prime$ as
-ground-truth dataset. To mimic the $|{\cal S}^\prime| / |{\cal S}| \approx 13\%$ ratio
+ground-truth dataset. To replicate the $|{\cal S}^\prime| / |{\cal S}| \approx 13\%$ ratio
 of claimed signatures with respect to the total set of signatures, as on the
 INSPIRE platform, cross-validation folds are constructed by sampling a training
 set ${\cal S}_\text{train}^\prime \subseteq {\cal S}^\prime$ of 13\% of claimed
-signatures and using the remaining signatures for testing. Accordingly, ${\cal
+signatures, and by using the remaining signatures ${\cal S}_\text{test}^\prime = {\cal S}^\prime \setminus {\cal S}_\text{train}^\prime$ for testing. Accordingly, ${\cal
 C}_\text{train}^\prime = \{ c^\prime \cap {\cal S}_\text{train}^\prime |
-c^\prime \in {\cal C}^\prime \}$ is used to represent the partial known
-clusters on the training fold.
+c^\prime \in {\cal C}^\prime \}$ represents the partial known
+clusters on the training fold, while ${\cal C}_\text{test}^\prime$ are those
+used for testing.
 
-As commonly used in author disambiguation research \citep{levin2012citation},
+As commonly done in author disambiguation research \citep{levin2012citation},
 we evaluate the predicted clusters over training data ${\cal
 C}_\text{train}^\prime$, testing data ${\cal C}_\text{test}^\prime$ and the
 whole data ${\cal C}^\prime$, using both B3 \glnote{add ref} and pairwise \glnote{add ref} precision, recall
