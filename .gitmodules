@@ -1,0 +1,3 @@
+[submodule "beard"]
+	path = beard
+	url = https://github.com/glouppe/beard.git

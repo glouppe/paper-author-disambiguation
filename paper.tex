@@ -203,8 +203,6 @@ and related topics can  build upon.
 \section{Semi-supervised author disambiguation}
 \label{methods}
 
-\subsection{Overview}
-
 Formally, let us assume a set of publications ${\cal P} = \{ p_0, ...,
 p_{N-1}\}$ along with the set of unique individuals ${\cal A} = \{ a_0, ...,
 a_{M-1}\}$ having together authored all publications in ${\cal P}$.  Let us
@@ -457,8 +455,7 @@ distinct authors. Let us denote by $\bar{{\cal S}} = \{ s | s \in \bar{c}, \bar{
 \in \bar{\cal C} \}$ the set of all signatures for which partial clusters are
 known. Let us also denote by $\widehat{\cal C} = \{ \widehat{c}_i | i = 0, ...,
 K-1 \}$ the predicted clusters for all signatures in ${\cal S}$, and by
-$\widehat{\overline{\cal C}} = \{ \widehat{c}_i \cap \bar{{\cal S}} | i = 0,
-..., K-1 \}$ the predicted clusters restricted to signatures for which partial
+$\widehat{\overline{\cal C}} = \{ \widehat{c} \cap \bar{{\cal S}} | \widehat{c} \in \widehat{\cal C} \}$ the predicted clusters restricted to signatures for which partial
 clusters are known. From these, we evaluate the following semi-supervised cut-off strategies:
 \begin{itemize}
 \item \textit{No cut:} all signatures from the same block are assumed to be from the same author.
@@ -515,7 +512,7 @@ understand and reuse.
 
 \subsection{Data}
 
-\glnote{By Gilles}
+
 
 % source of the data, labels in the data, etc
 % release the data
