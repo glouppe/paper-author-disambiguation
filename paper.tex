@@ -453,9 +453,9 @@ To form flat clusters out of the hierarchy, one must decide on a maximum
 distance threshold above which clusters are considered to correspond to
 distinct authors. Let us denote by $\bar{{\cal S}} = \{ s | s \in \bar{c}, \bar{c}
 \in \bar{\cal C} \}$ the set of all signatures for which partial clusters are
-known. Let us also denote by $\widehat{\cal C} = \{ \widehat{c}_i | i = 0, ...,
-K-1 \}$ the predicted clusters for all signatures in ${\cal S}$, and by
-$\widehat{\overline{\cal C}} = \{ \widehat{c} \cap \bar{{\cal S}} | \widehat{c} \in \widehat{\cal C} \}$ the predicted clusters restricted to signatures for which partial
+known. Let us also denote by $\smash{\widehat{\cal C}}$  the predicted clusters for all signatures in ${\cal S}$, and by
+$\smash{\widehat{\overline{\cal C}} = \{ \widehat{c} \cap \bar{{\cal S}} | \widehat{c} \in \widehat{\cal C} \}}$
+the predicted clusters restricted to signatures for which partial
 clusters are known. From these, we evaluate the following semi-supervised cut-off strategies:
 \begin{itemize}
 \item \textit{No cut:} all signatures from the same block are assumed to be from the same author.
@@ -467,6 +467,8 @@ clusters are known. From these, we evaluate the following semi-supervised cut-of
 \end{itemize}
 
 \glnote{Add a figure showing the three possible splits}
+
+
 
 % hierarchical clustering
 % semi-supervised clustering
@@ -484,7 +486,7 @@ clusters are known. From these, we evaluate the following semi-supervised cut-of
 
 As part of this work, we developed a stand-alone application for author
 disambiguation, publicly available
-online\footnote{\url{https://github.com/inveniosoftware/beard}} for free reuse
+online\footnote{\url{https://github.com/glouppe/beard}} for free reuse
 or study.  Our implementation builds upon the Python scientific stack, making
 use of the Scikit-Learn library \citep{scikitlearn} for the supervised learning
 of a linkage function and of SciPy \citep{scipy} for clustering. All
@@ -512,7 +514,22 @@ understand and reuse.
 
 \subsection{Data}
 
+The author disambiguation solution proposed in this work, along with its
+enhancements, are evaluated on data extracted from the INSPIRE portal
+\citep{gentil2009information}, a digital library for scientific literature in
+high-energy physics. Overall, the portal holds more than 1 million
+publications, forming in total a set ${\cal S}$ of more than 10 millions
+signatures. Out of these, around 13\% have been \textit{claimed} by their
+original authors or marked as such by professional curators. Together, they
+constitute a trusted set $\bar{\cal C}$ of 15388 distinct individuals sharing
+36340 unique author names. This data covers  several decades in time and dozens of
+author nationalities worldwide.
 
+Following INSPIRE terms of use, the data is released
+online\footnote{\url{https://github.com/glouppe/paper-author-disambiguation}}
+under the CC0 license. To the best of our knowledge, data of this size and
+coverage is the first to be publicly released in the scope of author
+disambiguation research.
 
 % source of the data, labels in the data, etc
 % release the data
