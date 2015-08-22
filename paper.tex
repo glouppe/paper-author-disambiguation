@@ -543,9 +543,8 @@ clusters on the training fold, while ${\cal C}_\text{test}^\prime$ are those
 used for testing.
 
 As commonly done in author disambiguation research \citep{levin2012citation},
-we evaluate the predicted clusters over training data ${\cal
-C}_\text{train}^\prime$, testing data ${\cal C}_\text{test}^\prime$ and the
-whole data ${\cal C}^\prime$, using both B3 \glnote{add ref} and pairwise \glnote{add ref} precision, recall
+we evaluate the predicted clusters over testing data  ${\cal C}_\text{test}^\prime$,
+using both B3 \glnote{add ref} and pairwise \glnote{add ref} precision, recall
 and F-measure, as defined below:
 \begin{align}
 P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{1}{|{\cal S}|} \sum_{s \in {\cal S}} \frac{|c(s) \cap \widehat{c}(s)|}{|\widehat{c}(s)|} \\
@@ -577,7 +576,7 @@ B3 measures weight clusters linearly with respect to their size.
 \begin{tabular}{|l|c c c|c c c|}
   \hline
                        & \multicolumn{3}{|c|}{\textbf{B3}} & \multicolumn{3}{|c|}{\textbf{Pairwise}} \\
-  \textbf{Description} & \textit{P} & \textit{R} & \textit{F} & \textit{P} & \textit{R} & \textit{F}\\
+  \textbf{Description} & $P$ & $R$ & $F$ & $P$ & $R$ & $F$\\
   \hline
   \hline
 Baseline & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
@@ -586,6 +585,8 @@ Blocking = SFI & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
 Blocking = Double metaphone & 0.9856 & 0.9827 & 0.9841 & 0.9927 & 0.9817 & 0.9871 \\
 Blocking = NYSIIS & 0.9875 & 0.9826 & 0.9850 & 0.9936 & 0.9814 & 0.9875 \\
 Blocking = Soundex & 0.9886 & 0.9745 & 0.9815 & 0.9935 & 0.9725 & 0.9828 \\
+\hline
+No name normalization & 0.9887 & 0.9697 & 0.9791 & 0.9931 & 0.9658 & 0.9793 \\
 \hline
 Classifier = GBRT & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
 Classifier = Random Forests & 0.9909 & 0.9783 & 0.9846 & 0.9957 & 0.9752 & 0.9854 \\
@@ -602,8 +603,6 @@ Clustering = Complete linkage & 0.9862 & 0.9709 & 0.9785 & 0.9920 & 0.9688 & 0.9
 No cut & 0.9024 & 0.9828 & 0.9409 & 0.8298 & 0.9776 & 0.8977 \\
 Global cut & -- & -- & -- & -- & -- & -- \\
 Block cut & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
-\hline
-No name normalization & 0.9887 & 0.9697 & 0.9791 & 0.9931 & 0.9658 & 0.9793 \\
   \hline
 \end{tabular}
 \end{table}
@@ -620,32 +619,27 @@ respect to a baseline solution using the following combination of components:
 \end{itemize}
 
 
-% \begin{table}[H]
-% \caption{Base experiment evaluation)}
-% \centering
-% \begin{tabular}{|r|r|l|l|l|}
-%   \hline
-%   Evaluation & Set & Precision & Recall & F-score \\
-%   \hline
-%   Pairwise & test & 0.9948 & 0.9738 & 0.9842 \\
-%   \hline
-%   Pairwise & train & 0.9976 & 0.9747 & 0.986 \\
-%   \hline
-%   Pairwise & overall & 0.9952 & 0.9739 & 0.9844 \\
-%   \hline
-%   $B^3$ & test & 0.9901 & 0.976 & 0.983 \\
-%   \hline
-%   $B^3$ & train & 0.997 & 0.979 & 0.9879 \\
-%   \hline
-%   $B^3$ & overall & 0.9907 & 0.9761 & 0.9834 \\
-%   \hline
-% \end{tabular}
-% \end{table}
-
 \textit{Blocking.}
 
 \glnote{Discuss baseline + different blocking strategies}\\
 \glnote{Discuss blocking in terms of maximum recall}
+
+\begin{table}
+\caption{Maximum recall of blocking strategies.}
+\label{table:results}
+\centering
+\begin{tabular}{|l|c|c|}
+  \hline
+  \textbf{Blocking} & $R_\text{B3}^*$ & $R_\text{pairwise}^*$ \\
+  \hline
+  \hline
+    SFI & 0.9828 & 0.9776 \\
+    Double metaphone & 0.9907 & 0.9863 \\
+    NYSIIS & 0.9902 & 0.9861 \\
+    Soundex & 0.9906 & 0.9863 \\
+  \hline
+\end{tabular}
+\end{table}
 
 % \glnote{To review}
 
@@ -672,63 +666,10 @@ respect to a baseline solution using the following combination of components:
 % \citep{nysiis} and Soundex \citep{Soundex}. As Double Metaphone can return two results for a
 % string, we always discarded the second one when we used this algorithm.
 
-% \begin{table}[H]
-% \caption{Blocking limited maximum recalls (BLMR) on the whole dataset without splitting over
-% the first given name initial}
-% \centering
-% \begin{tabular}{|r|l|l|}
-%   \hline
-%   blocking function & BLMR with $B^{3}$ recall & BLMR with pairwise recall \\
-%   \hline
-%   last name and first initial & 0.9827 & 0.9776 \\
-%   \hline
-%   phonetic using double metaphone & 0.9967 & 0.9953 \\
-%   \hline
-%   phonetic using nysiis & 0.9961 & 0.9951 \\
-%   \hline
-%   phonetic using soundex & 0.9966 & 0.9953 \\
-%   \hline
-% \end{tabular}
-% \end{table}
 
 % \msnote{Mention two new features for this experiments, other than that everything is the
 % same as in the base experiment}
 
-% \begin{table}[H]
-% \caption{Phonetic algorithm performance}
-% \centering
-% \begin{tabular}{|r|r|r|l|l|l|}
-%   \hline
-%   Phonetic Algorithm & Split over initial & Evaluation & Precision & Recall & F-score \\
-%   \hline
-%   Double Metaphone & yes & pairwise & 0.9934 & 0.982 & 0.9876 \\
-%   \hline
-%   Double Metaphone & yes & $B^3$ & 0.9867 & 0.983 & 0.9848 \\
-%   \hline
-%   Double Metaphone & no & pairwise & - & - & - \\
-%   \hline
-%   Double Metaphone & no & $B^3$ & - & - & - \\
-%   \hline
-%   NYSIIS & yes & pairwise & 0.9942 & 0.9818 & 0.9879 \\
-%   \hline
-%   NYSIIS & yes & $B^3$ & 0.9884 & 0.9828 & 0.9856 \\
-%   \hline
-%   NYSIIS & no & pairwise & - & - & - \\
-%   \hline
-%   NYSIIS & no & $B^3$ & - & - & - \\
-%   \hline
-%   Soundex & yes & pairwise & - & - & - \\
-%   \hline
-%   Soundex & yes & $B^3$ & - & - & - \\
-%   \hline
-%   Soundex & no & pairwise & - & - & - \\
-%   \hline
-%   Soundex & no & $B^3$ & - & - & - \\
-%   \hline
-% \end{tabular}
-% \end{table}
-
-% \msnote{Fill the table}
 
 % compare with torvik & smalheiser (2009) who argue that lnfi blocking has recall around 98%
 % MS - recall for lnfi (blocking only) 0.9776, lnfi (whole algorithm) 0.9739,
