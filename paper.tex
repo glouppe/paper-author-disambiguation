@@ -13,12 +13,6 @@
 % For citations
 \usepackage{natbib}
 
-% For algorithms
-\usepackage{algorithm}
-\usepackage{algorithmicx}
-\usepackage[noend]{algpseudocode}
-\newcommand{\theHalgorithm}{\arabic{algorithm}}
-
 % For links
 \usepackage{hyperref}
 
@@ -521,7 +515,7 @@ high-energy physics. Overall, the portal holds more than 1 million
 publications, forming in total a set ${\cal S}$ of more than 10 millions
 signatures. Out of these, around 13\% have been \textit{claimed} by their
 original authors or marked as such by professional curators. Together, they
-constitute a trusted set ${\cal C}^\prime$ of 15388 distinct individuals sharing
+constitute a trusted set $({\cal S}^\prime, {\cal C}^\prime)$ of 15388 distinct individuals sharing
 36340 unique author names spread within 1201763 signatures on 360066
 publications. This data covers several decades in time and dozens of author
 nationalities worldwide.
@@ -537,7 +531,7 @@ disambiguation research.
 
 Experiments carried out to study the impact of the proposed algorithmic
 components and refinements, as described in Section~\ref{methods}, follow a
-standard 3-fold cross-validation protocol, using ${\cal S}^\prime$ as
+standard 3-fold cross-validation protocol, using $({\cal S}^\prime, {\cal C}^\prime)$ as
 ground-truth dataset. To replicate the $|{\cal S}^\prime| / |{\cal S}| \approx 13\%$ ratio
 of claimed signatures with respect to the total set of signatures, as on the
 INSPIRE platform, cross-validation folds are constructed by sampling a training
@@ -561,7 +555,7 @@ P_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{|p({\cal C}) \cap p(\wide
 R_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{|p({\cal C}) \cap p(\widehat{\cal C})|}{|p({\cal C})|}\\
 F_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{2 P_\text{pairwise}({\cal C}, \widehat{\cal C}) R_\text{pairwise}({\cal C}, \widehat{\cal C})}{P_\text{pairwise}({\cal C}, \widehat{\cal C}) + R_\text{pairwise}({\cal C}, \widehat{\cal C})}
 \end{align}
-where $c(s)$ (resp. $\widehat{c}(s)$) is the cluster $c \in {\cal C}$ such that
+and where $c(s)$ (resp. $\widehat{c}(s)$) is the cluster $c \in {\cal C}$ such that
 $s \in c$ (resp. the cluster $\widehat{c} \in \widehat{\cal C}$ such that $s
 \in \widehat{c}$), and where $p({\cal C}) = \cup_{c \in {\cal C}} \{ (s_1, s_2)
 | s_1, s_2 \in c, s_1 \neq s_2 \}$ is the set of all pairs of signatures from
@@ -576,17 +570,18 @@ B3 measures weight clusters linearly with respect to their size.
 
 \subsection{Results and discussion}
 
-\textit{Baseline.}
+\textit{Baseline.} Results presented in this section are all discussed with
+respect to a baseline solution using the following combination of components:
+\begin{itemize}
+\item Blocking: same surname and the same first given name initial strategy;
+\item Linkage function: all 22 features defined in Table~\ref{table:features},
+    gradient boosted regression trees as supervised learning algorithm
+    and a training set of pairs built by balancing easy and difficult cases.
+\item Clustering: agglomerative clustering using average linkage and
+    block cuts found to maximize $F_\text{B3}({\cal C}_\text{train}^\prime, \widehat{\cal C}_\text{train}^\prime, {\cal S}_\text{train}^\prime)$.
+\end{itemize}
 
-\glnote{Describe baseline}\\
 \glnote{Add an uber table of results}
-
-% \glnote{To review}
-
-% The starting point of our analysis is an algorithm that blocks the signatures using the last
-% name and first initial strategy, samples the pairs in balanced way, uses gradient boosting
-% with all features included for learning the similarity function and clusters using
-% semi-supervised hierarchical approach.
 
 % \begin{table}[H]
 % \caption{Base experiment evaluation)}
