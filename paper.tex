@@ -25,7 +25,7 @@
 
 % Header ======================================================================
 
-\title{Author disambiguation of large-scale semi-labeled collections of scientific articles}
+\title{Ethnicity sensitive author disambiguation of semi-labeled corpora of scientific articles}
 
 \author{Gilles Louppe\\
         CERN\\
@@ -486,19 +486,8 @@ use of the Scikit-Learn library \citep{scikitlearn} for the supervised learning
 of a linkage function and of SciPy \citep{scipy} for clustering. All
 components of the disambiguation pipeline have been designed to follow the
 Scikit-Learn API \citep{scikitlearnAPI}, making them easy to maintain,
-understand and reuse.
-
-\glnote{Not sure we should talk about parallelization?}
-\glnote{Mention (future) deployment in Inspire?}
-
-% Performance-wise, the clustering step appeared to be the bottleneck. We improved the
-% algorithmic efficiency by parallelizing it. Having $n$ cores available, one can run the
-% semi-supervised clustering for $n$ different blocks in the same moment. In the production
-% systems the disambiguation often need not be run on the whole dataset. Once the dataset has
-% been disambiguated once, it is possible to avoid rerunning the whole algorithm when the new
-% signatures arrive in the digital library. First of all, the similarity function can be
-% reused. Moreover, the clustering has to be applied only to the blocks the new signatures are
-% contained within.
+understand and reuse. Our implementation is made to be efficient, exploiting
+parallelization when available, making it ready for production environments.
 
 
 % Results and discussion ======================================================
@@ -656,7 +645,7 @@ around $98\%$ on real data.
 \end{tabular}
 \end{table}
 
-\textit{Normalization.} As discussed before, the seemingly anodyne step of
+\textit{Name normalization.} As discussed before, the seemingly anodyne step of
 normalizing author names (stripping accents, removing affixes), as done in the
 baseline, reveals to be quite significant. Results of Table~\ref{table:results}
 indeed clearly suggests that not normalizing significantly reduces performance
