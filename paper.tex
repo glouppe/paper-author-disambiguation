@@ -580,12 +580,30 @@ B3 measures weight clusters linearly with respect to their size.
   \textbf{Description} & \textit{P} & \textit{R} & \textit{F} & \textit{P} & \textit{R} & \textit{F}\\
   \hline
   \hline
-  Baseline & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
-  \hline
-  Blocking SFI & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
-  Blocking Double metaphone & 0.9856 & 0.9827 & 0.9841 & 0.9927 & 0.9817 & 0.9871 \\
-  Blocking NYSIIS & 0.9875 & 0.9826 & 0.9850 & 0.9936 & 0.9814 & 0.9875 \\
-  Blocking Soundex & 0.9886 & 0.9745 & 0.9815 & 0.9935 & 0.9725 & 0.9828 \\
+Baseline & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
+\hline
+Blocking = SFI & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
+Blocking = Double metaphone & 0.9856 & 0.9827 & 0.9841 & 0.9927 & 0.9817 & 0.9871 \\
+Blocking = NYSIIS & 0.9875 & 0.9826 & 0.9850 & 0.9936 & 0.9814 & 0.9875 \\
+Blocking = Soundex & 0.9886 & 0.9745 & 0.9815 & 0.9935 & 0.9725 & 0.9828 \\
+\hline
+Classifier = GBRT & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
+Classifier = Random Forests & 0.9909 & 0.9783 & 0.9846 & 0.9957 & 0.9752 & 0.9854 \\
+Classifier = Linear Regression & 0.9749 & 0.9584 & 0.9666 & 0.9717 & 0.9569 & 0.9643 \\
+\hline
+Training pairs = Non-blocked, uniform & 0.9793 & 0.9630 & 0.9711 & 0.9756 & 0.9629 & 0.9692 \\
+Training pairs = Blocked, uniform & 0.9854 & 0.9720 & 0.9786 & 0.9850 & 0.9707 & 0.9778 \\
+Training pairs = Blocked, balanced & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
+\hline
+Clustering = Average linkage & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
+Clustering = Single linkage & 0.9741 & 0.9603 & 0.9671 & 0.9543 & 0.9626 & 0.9584 \\
+Clustering = Complete linkage & 0.9862 & 0.9709 & 0.9785 & 0.9920 & 0.9688 & 0.9803 \\
+\hline
+No cut & 0.9024 & 0.9828 & 0.9409 & 0.8298 & 0.9776 & 0.8977 \\
+Global cut & -- & -- & -- & -- & -- & -- \\
+Block cut & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
+\hline
+No name normalization & 0.9887 & 0.9697 & 0.9791 & 0.9931 & 0.9658 & 0.9793 \\
   \hline
 \end{tabular}
 \end{table}
@@ -593,7 +611,7 @@ B3 measures weight clusters linearly with respect to their size.
 \textit{Baseline.} Results presented in this section are all discussed with
 respect to a baseline solution using the following combination of components:
 \begin{itemize}
-\item Blocking: same surname and the same first given name initial strategy;
+\item Blocking: same surname and the same first given name initial strategy (SFI);
 \item Linkage function: all 22 features defined in Table~\ref{table:features},
     gradient boosted regression trees as supervised learning algorithm
     and a training set of pairs built by balancing easy and difficult cases.
