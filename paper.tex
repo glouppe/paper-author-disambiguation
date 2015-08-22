@@ -601,13 +601,13 @@ Clustering = Single linkage & 0.9741 & 0.9603 & 0.9671 & 0.9543 & 0.9626 & 0.958
 Clustering = Complete linkage & 0.9862 & 0.9709 & 0.9785 & 0.9920 & 0.9688 & 0.9803 \\
 \hline
 No cut & 0.9024 & 0.9828 & 0.9409 & 0.8298 & 0.9776 & 0.8977 \\
-Global cut & -- & -- & -- & -- & -- & -- \\
+Global cut \glnote{TODO} & -- & -- & -- & -- & -- & -- \\
 Block cut & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
   \hline
 \end{tabular}
 \end{table}
 
-\textit{Baseline.} Results presented in this section are all discussed with
+\textit{Baseline.} Results presented in Table~\ref{table:results} are all discussed with
 respect to a baseline solution using the following combination of components:
 \begin{itemize}
 \item Blocking: same surname and the same first given name initial strategy (SFI);
@@ -619,61 +619,49 @@ respect to a baseline solution using the following combination of components:
 \end{itemize}
 
 
-\textit{Blocking.}
+\textit{Blocking.} The very good precision of the baseline ($0.9901$) but its
+lower recall ($0.9760$) suggests that the blocking strategy might be the
+limiting factor to further overall improvements. As Table~\ref{table:blocking}
+indeed indicates, the maximum recall (i.e., if within a block, all signatures
+were clustered optimally) for SFI is $0.9828$ , hence not letting much more
+room for improvement. At the price of fewer and therefore slightly larger
+blocks (as reported in the right column of Table~\ref{table:blocking}), the
+proposed phonetic-based blocking strategies show better maximum recall (all
+around $0.9905$), thereby pushing further the upper bound on the maximum overall
+performance of author disambiguation. As Table~\ref{table:results} indeed shows,
+switching to either Double metaphone or NYSIIS phonetic-based blocking allows
+to improve the overall F-measure score, trading precision for recall. In particular,
+the NYSIIS-based phonetic blocking shows to be the most effective when applied
+to the baseline (with an F-measure of $0.9850$) while also being the most
+efficient computationally (with 10857 blocks versus 12978 for the baseline).
 
-\glnote{Discuss baseline + different blocking strategies}\\
-\glnote{Discuss blocking in terms of maximum recall}
+Finally, let us also note that Table~\ref{table:blocking} corroborates the
+estimation of \citep{torvik2009author}, stating that SFI blocking has a recall
+around $98\%$ on real data.
 
 \begin{table}
-\caption{Maximum recall of blocking strategies.}
-\label{table:results}
+\caption{Maximum recall of blocking strategies, and their number of blocks on ${\cal S}^\prime$.}
+\label{table:blocking}
 \centering
-\begin{tabular}{|l|c|c|}
+\begin{tabular}{|l|cc|c|}
   \hline
-  \textbf{Blocking} & $R_\text{B3}^*$ & $R_\text{pairwise}^*$ \\
+  \textbf{Blocking} & $R_\text{B3}^*$ & $R_\text{pairwise}^*$ & \# blocks \\
   \hline
   \hline
-    SFI & 0.9828 & 0.9776 \\
-    Double metaphone & 0.9907 & 0.9863 \\
-    NYSIIS & 0.9902 & 0.9861 \\
-    Soundex & 0.9906 & 0.9863 \\
+    SFI & 0.9828 & 0.9776 & 12978 \\
+    Double metaphone & 0.9907 & 0.9863 & 9753 \\
+    NYSIIS & 0.9902 & 0.9861 & 10857 \\
+    Soundex & 0.9906 & 0.9863 & 9403 \\
   \hline
 \end{tabular}
 \end{table}
 
-% \glnote{To review}
-
-% Let us introduce a term \textit{blocking limited maximum recall} to describe the highest
-% recall that the algorithm can theoretically reach after blocking is done.
-% Formally, for the set of signatures ${\cal S}$, blocking function $F: \mathcal{S}
-% \rightarrow \mathcal{B}$, where $ \mathcal{B} = \{s_{0}, \ldots{} , s_{N-1}\}$ is a
-% partition of $\mathcal{S} $ , the recall function $\mathcal{R}: \mathcal{C}_{gold},
-% \mathcal{C}_{predicted} \rightarrow \langle0,1\rangle$ where $\mathcal{C}_{gold}$ is the
-% partition of $\mathcal{S}$ where for every author there is a set in $\mathcal{C}_{gold}$
-% that contains only all the signatures of this author, $\mathcal{C}_{predicted}$ is the
-% partition of $\mathcal{S}$ output by the algorithm, and $\mathcal{Q} = \{\cup_{i=0}^{N-1}
-% q_i $ : $\forall_{i \in \langle0,N-1\rangle} q_i$ is a partition of $s_i$\}. Then
-% \textit{blocking limited maximum recall} is defined as $\max_{q \in \mathcal{Q}}
-% \mathcal{R}(\mathcal{C}_{gold}, q)$. For sanely defined recall functions, such as $B^{3}$
-% recall or \textit{pairwise} recall \msnote{Further explanation needed, why it is
-% equivalent?}, it is equivalent to $\mathcal{R}(\mathcal{C}_{gold}, \mathcal{B})$.
-
-% The \textit{blocking limited maximum recall} for the last name and first initial blocking
-% and $B^3$ scoring equals 0.9827. Comparing it to the $B^3$ recall of the base experiment,
-% one can see that a huge part of errors comes from the blocking step which forbids some of
-% the pairs to be merged together. To prevent that, we tried the phonetic blocking algorithm
-% using three different phonetic algorithms: Double Metaphone \citep{doublemetaphone}, NYSIIS
-% \citep{nysiis} and Soundex \citep{Soundex}. As Double Metaphone can return two results for a
-% string, we always discarded the second one when we used this algorithm.
-
-
-% \msnote{Mention two new features for this experiments, other than that everything is the
-% same as in the base experiment}
-
-
-% compare with torvik & smalheiser (2009) who argue that lnfi blocking has recall around 98%
-% MS - recall for lnfi (blocking only) 0.9776, lnfi (whole algorithm) 0.9739,
-% MS - all three results use pairwise scoring
+\textit{Normalization.} As discussed before, the seemingly anodyne step of
+normalizing author names (stripping accents, removing affixes), as done in the
+baseline, reveals to be quite significant. Results of Table~\ref{table:results}
+indeed clearly suggests that not normalizing significantly reduces performance
+(yielding an F-measure of $0.9830$ when normalizing, but decreasing to $0.9791$
+when raw author name strings are used instead).
 
 \textit{Linkage function.}
 % feature engineering
