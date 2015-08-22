@@ -263,7 +263,7 @@ designed such that signatures from the same author are all mapped to the same
 block, otherwise directly preventing their correct clustering in later stages. As a
 result, blocking should balance between reduced complexity and maximum recall.
 
-The simplest and most common strategy for blocking \glnote{add references}
+The simplest and most common strategy for blocking, further denoted to as SFI,
 groups signatures together if they share the same surname(s) and the same first
 given name initial (e.g., "Doe, J"). Despite satisfying performance, such
 a simple strategy fails in several cases, as listed below for
@@ -570,6 +570,26 @@ B3 measures weight clusters linearly with respect to their size.
 
 \subsection{Results and discussion}
 
+\begin{table}
+\caption{Average precision, recall and f-measure scores on test folds.}
+\label{table:results}
+\centering
+\begin{tabular}{|l|c c c|c c c|}
+  \hline
+                       & \multicolumn{3}{|c|}{\textbf{B3}} & \multicolumn{3}{|c|}{\textbf{Pairwise}} \\
+  \textbf{Description} & \textit{P} & \textit{R} & \textit{F} & \textit{P} & \textit{R} & \textit{F}\\
+  \hline
+  \hline
+  Baseline & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
+  \hline
+  Blocking SFI & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
+  Blocking Double metaphone & 0.9856 & 0.9827 & 0.9841 & 0.9927 & 0.9817 & 0.9871 \\
+  Blocking NYSIIS & 0.9875 & 0.9826 & 0.9850 & 0.9936 & 0.9814 & 0.9875 \\
+  Blocking Soundex & 0.9886 & 0.9745 & 0.9815 & 0.9935 & 0.9725 & 0.9828 \\
+  \hline
+\end{tabular}
+\end{table}
+
 \textit{Baseline.} Results presented in this section are all discussed with
 respect to a baseline solution using the following combination of components:
 \begin{itemize}
@@ -581,7 +601,6 @@ respect to a baseline solution using the following combination of components:
     block cuts found to maximize $F_\text{B3}({\cal C}_\text{train}^\prime, \widehat{\cal C}_\text{train}^\prime, {\cal S}_\text{train}^\prime)$.
 \end{itemize}
 
-\glnote{Add an uber table of results}
 
 % \begin{table}[H]
 % \caption{Base experiment evaluation)}
