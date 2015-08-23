@@ -323,8 +323,8 @@ Formally, the goal is to build a function $d: {\cal S} \times {\cal S} \mapsto
 $s_2$ belong to the same author, and $1$ otherwise. Coincidentally, this
 problem can be cast as a standard supervised classification task, where inputs
 are pairs of signatures and outputs are classes $0$ (same authors) and $1$
-(distinct authors). In this work, we evaluate Random Forests \citep{breiman2001random},
-Gradient Boosted Regression Trees \citep{friedman2001greedy} and Logistic Regression \citep{fan2008liblinear} as classifiers.
+(distinct authors). In this work, we evaluate Random Forests (RF, \cite{breiman2001random}),
+Gradient Boosted Regression Trees (GBRT, \cite{friedman2001greedy}) and Logistic Regression \citep{fan2008liblinear} as classifiers.
 
 \textit{Input features.} In most cases, supervised learning algorithms assume
 the input space ${\cal X}$ to be numeric (e.g., $\mathbb{R}^p$), making them
@@ -669,7 +669,7 @@ tree-based methods is in our opinion not surprising. Indeed, given the fact
 that the optimal linkage function is likely to be non-linear, non-parametric
 methods are expected to yield better results, as the experiments here confirm.
 
-Next, properly constructing a training set of positive and negative pairs of
+Second, properly constructing a training set of positive and negative pairs of
 signatures from which to learn a linkage function reveals to yield quite an
 improvement. A random sampling of positive and negative pairs, without taking
 blocking into account, significantly impacts the overall performance
@@ -678,6 +678,18 @@ blocking into account, significantly impacts the overall performance
 pairs it will be used to eventually cluster. Finally, making the classification
 problem more difficult by oversampling complex cases proves to be relevant,
 by further improving the disambiguation results ($0.9830$).
+
+\begin{figure}
+\centering
+\label{fig:rfe}
+\includegraphics[scale=0.5]{figures/rfe.pdf}
+\caption{\glnote{todo}}
+\end{figure}
+
+Using Recursive Feature Elimination \cite{guyon2002gene} combined
+with feature importances \citep{louppe2013understanding} extracted from GBRT,
+we next evaluate the usefulness of all 15 standard and 7
+additional ethnicity features used together for learning the linkage function.
 
 
 % feature engineering
