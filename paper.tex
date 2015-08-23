@@ -681,22 +681,48 @@ by further improving the disambiguation results ($0.9830$).
 
 \begin{figure}
 \centering
+\caption{Recursive Feature Elimimation analysis. }
 \label{fig:rfe}
 \includegraphics[scale=0.5]{figures/rfe.pdf}
-\caption{\glnote{todo}}
 \end{figure}
 
-Using Recursive Feature Elimination \cite{guyon2002gene} combined
-with feature importances \citep{louppe2013understanding} extracted from GBRT,
-we next evaluate the usefulness of all 15 standard and 7
-additional ethnicity features used together for learning the linkage function.
+Using Recursive Feature Elimination \cite{guyon2002gene}, we next evaluate the
+usefulness of all 15 standard and 7 additional ethnicity features for learning
+the linkage function. The analysis consists in using the baseline algorithm
+first using all 22 features, to determine the least discriminative from feature
+importances \citep{louppe2013understanding}, and then re-learn the baseline
+using all but that one feature. That process is repeated recursively until
+eventually only one feature remains. Results are presented in
+Figure~\ref{fig:rfe} for one the three folds, starting from the far right with
+the baseline and \textit{Second given name} being the least important feature,
+and ending on the left with all features eliminated but \textit{Chinese}. As
+the figure illustrates, the most important features are ethnic-based features
+(\textit{Chinese}, \textit{Other Asian}, \textit{Black}) along with
+\textit{Co-authors}, \textit{Affiliation} and \textit{Full name}. Adding the remaining
+other features only brings marginal improvements, with \textit{Journal},
+\textit{Abstract}, \textit{Collaborations}, \textit{References} \textit{Given
+name initial} and \textit{Second given name} being almost insignificant.
+Overall, these results highlight the added value of the proposed ehtnic-based
+features. Their duality in modeling both the similarity between author names
+and their origins make them very strong predictors for author disambiguation.
+The results also corroborates results from \citep{ferreira2010effective}, who
+found that the similarity between co-authors was a highly discriminative
+feature. It indeed appears in 4th in our ranking and brings very significant
+improvements. In case computational complexity is a concern, this analysis also
+underline the fact that decent performance can be achieved using only a very
+limited set of features, as also observed in
+\citep{treeratpituk2009disambiguating} or \citep{levin2012citation}.
 
 
 % feature engineering
 % variable importance analysis
 % supervised learning model
 
-\textit{Semi-supervised clustering.}
+\textit{Semi-supervised clustering.} The last part of our experiments concerns
+the study of agglomerative clustering and the best way to find a cut-off
+threshold to form clusters.
+
+
 % compare agglomerative algorithms
 % compare threshold strategies
 % compare cold start solutions
