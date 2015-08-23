@@ -554,7 +554,8 @@ effectively grouped together. The F-measure is the harmonic mean between these
 two quantities. In the analysis below, we rely primarily on B3 measures for discussing
 the results, as pairwise measures tend to favor large clusters (because the number of pairs is quadratic with the cluster size),
 hence unfairly giving preference to authors with many publications. By contrast,
-B3 measures weight clusters linearly with respect to their size.
+B3 measures weight clusters linearly with respect to their size. General conclusions
+drawn below remain however consistent for pairwise measures.
 
 \subsection{Results and discussion}
 
@@ -585,12 +586,15 @@ Training pairs = Non-blocked, uniform & 0.9793 & 0.9630 & 0.9711 & 0.9756 & 0.96
 Training pairs = Blocked, uniform & 0.9854 & 0.9720 & 0.9786 & 0.9850 & 0.9707 & 0.9778 \\
 Training pairs = Blocked, balanced & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
 \hline
+Standard features & -- & -- & -- & -- & -- & -- \\
+Standard + Ethnicity features & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
+\hline
 Clustering = Average linkage & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
 Clustering = Single linkage & 0.9741 & 0.9603 & 0.9671 & 0.9543 & 0.9626 & 0.9584 \\
 Clustering = Complete linkage & 0.9862 & 0.9709 & 0.9785 & 0.9920 & 0.9688 & 0.9803 \\
 \hline
 No cut & 0.9024 & 0.9828 & 0.9409 & 0.8298 & 0.9776 & 0.8977 \\
-Global cut \glnote{TODO} & -- & -- & -- & -- & -- & -- \\
+Global cut & -- & -- & -- & -- & -- & -- \\
 Block cut & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
   \hline
 \end{tabular}
@@ -647,12 +651,35 @@ around $98\%$ on real data.
 
 \textit{Name normalization.} As discussed before, the seemingly anodyne step of
 normalizing author names (stripping accents, removing affixes), as done in the
-baseline, reveals to be quite significant. Results of Table~\ref{table:results}
+baseline, reveals to be quite important. Results of Table~\ref{table:results}
 indeed clearly suggests that not normalizing significantly reduces performance
 (yielding an F-measure of $0.9830$ when normalizing, but decreasing to $0.9791$
 when raw author name strings are used instead).
 
-\textit{Linkage function.}
+\textit{Linkage function.} Let us first comment on the results regarding the
+supervised algorithm used to learn the linkage function. As
+Table~\ref{table:results} indicates, both tree-based algorithms appear to be
+significantly better fit than Linear Regression ($0.9830$ and $0.9846$ for GBRT
+and Random Forests versus $0.9666$ for Linear Regression). This result is
+consistent with \citep{treeratpituk2009disambiguating} which evaluated the use
+Random Forests for author disambiguation, but contradicts results of
+\citep{levin2012citation} for which Logistic Regression appeared to be the best
+classifier. Provided hyper-parameters are properly tuned, the superiority of
+tree-based methods is in our opinion not surprising. Indeed, given the fact
+that the optimal linkage function is likely to be non-linear, non-parametric
+methods are expected to yield better results, as the experiments here confirm.
+
+Next, properly constructing a training set of positive and negative pairs of
+signatures from which to learn a linkage function reveals to yield quite an
+improvement. A random sampling of positive and negative pairs, without taking
+blocking into account, significantly impacts the overall performance
+($0.9711$). When pairs are drawn from only from blocks, performance increases
+($0.9786$), which confirms our intuition that $d$ should be built only from
+pairs it will be used to eventually cluster. Finally, making the classification
+problem more difficult by oversampling complex cases proves to be relevant,
+by further improving the disambiguation results ($0.9830$).
+
+
 % feature engineering
 % variable importance analysis
 % supervised learning model
@@ -669,6 +696,9 @@ when raw author name strings are used instead).
 \label{conclusions}
 
 % future improvements
+
+
+\glnote{Mention Hussein's thesis for further experiments}
 
 
 % References ==================================================================
