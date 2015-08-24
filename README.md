@@ -1,1 +1,1 @@
-# Author disambiguation of large-scale semi-labeled collections of scientific articles
+# Ethnicity sensitive author disambiguation of semi-labeled corpora of scientific articles
