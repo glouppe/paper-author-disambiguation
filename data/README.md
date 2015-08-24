@@ -7,7 +7,7 @@ Data
     
     ``{cluster_id_1: [signature_id_1, ..., signature_id_N], cluster_id_2: [...], ... }``.
 
-    Signatures from the a same cluster are all known to belong to the same individual author. 
+    Signatures from the same cluster are all known to belong to the same individual author. 
     
   - ``signatures.json``: dictionary of signature metadata, in the form of 
   
