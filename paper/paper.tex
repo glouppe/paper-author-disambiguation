@@ -212,21 +212,15 @@ denote by ${\cal S} = \{ s | s \in p, p \in {\cal P} \}$ the set of all
 signatures that can be extracted from all publications in ${\cal P}$ and
 by $S=|{\cal S}|$ the total number of signatures.
 
-\begin{figure}
-\begin{tabular}{ l l l }
-  $s:$ & Title & Lorem ipsum dolor sit amet, consectetur adipiscing elit \\
-  & Author & Doe, John \\
-  & Affiliation & University of Foo \\
-  & Co-authors & Smith, John; Chen, Wang\\
-  & Year & 2015\\
-\end{tabular}
-
-\caption{An example of signature $s$ for "Doe, John". A \textit{signature} is
+\begin{figure*}[ht!]
+\centering
+\includegraphics[width=\textwidth]{figures/pub-to-signature}
+\caption{An example signature $s$ for "Doe, John". A \textit{signature} is
 defined as unique piece of information identifying an author on a publication,
 along with any other metadata that can be derived from it, such as publication
 title, co-authors or date of publication.}
 \label{fig:signature}
-\end{figure}
+\end{figure*}
 
 In this
 framework, author disambiguation can be stated as the problem of
@@ -250,8 +244,13 @@ scheme whose goal is to roughly pre-cluster signatures ${\cal S}$ into smaller g
 reduce computational complexity; (ii) the construction of a linkage function
 $d$ between signatures using supervised learning; (iii) the
 semi-supervised clustering of all signatures within a same block, using $d$ as a pseudo distance metric.
-
-\glnote{Figure required here (Eamonn)}
+%
+%\begin{figure*}[ht!]
+%\centering
+%\includegraphics[width=\textwidth]{figures/workflow}
+%\caption{Something workflowy...}
+%\label{fig:workflow}
+%\end{figure*}
 
 \subsection{Blocking}
 \label{methods:blocking}
