@@ -747,11 +747,36 @@ known.
 \section{Conclusions}
 \label{conclusions}
 
-% future improvements
+In this work, we have revisited and validated the general author disambiguation
+pipeline introduced in previous and independent research works. The generic
+approach is made of three components, whose design and tuning are all critical
+to get good performance: (i) a blocking function for pre-clustering signatures
+and reducing computational complexity, (ii) a linkage function for identifying
+signatures with corefering authors and (iii) the agglomerative clustering of
+signatures. Making use of a distinctively large dataset of more than 1 million
+crowdsourced annotations, we experimentally study all three components and
+propose further improvements. With regards to blocking, we suggest to use
+phonetization of author names to increase recall while maintaining low
+computational complexity. For the linkage function, we introduce
+ethnicity-sensitive features for the automatic tailoring of disambiguation to non-Western
+author names whenever necessary. Finally, we explore semi-supervised cut-off
+threshold strategies for agglomerative clustering. For all three components,
+experiments show that our refinements all yield significantly better author
+disambiguation accuracy, thereby encouraging further research in these directions.
+
+As part of this study, we also publicly release the annotated data extracted
+from the INSPIRE platform, and on which our experiments are based on. To the
+best of our knowledge, data of this size and coverage is the first to be
+available in  author disambiguation research. By releasing the data publicly,
+we hope to set a benchmark on which further research on author disambiguation
+and related topics can  build upon.
 
 
-\glnote{Mention Hussein's thesis for further experiments}
-\glnote{Virtuous circle}
+
+
+\section*{Acknowledgements}
+
+\glnote{todo}
 
 
 % References ==================================================================
