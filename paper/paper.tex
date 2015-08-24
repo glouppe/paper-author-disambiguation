@@ -65,7 +65,7 @@ of scientific publications by distinct authors in a semi-supervised way. To the
 best of our knowledge, our analysis is the first to be carried out on data of
 this size and coverage. With respect to the state of the art, we validate the
 general pipeline used in most existing solutions, and improve by proposing
-phonetic-based blocking strategies, thereby increasing recall, and strong
+phonetic-based blocking strategies, thereby increasing recall, along with strong
 ethnicity-sensitive features for learning a linkage function, thereby tailoring
 disambiguation to non-Western author names whenever necessary.
 
@@ -96,8 +96,8 @@ disambiguation has become a pressing issue because the accuracy of information
 managed at the level of individuals directly affects the relevance search of
 results (e.g., when querying for all publications written by a given author),
 the reliability of bibliometrics and author rankings (e.g., citation counts or other impact
-metrics, as studied in \citep{strotmann2012author}) or the relevance of scientific network analysis.
-\glnote{Add more references.}
+metrics, as studied in \citep{strotmann2012author}) or the relevance of scientific network analysis
+\citep{newman2001structure}.
 
 Efforts and solutions to author disambiguation have been proposed from various
 communities \citep{liu2014author}. On the one hand, libraries have maintained
@@ -115,7 +115,7 @@ and integrity of their active contributors. Similarly, the success of
 persistent digital identifier efforts is conditioned to a large and ubiquitous
 adoption by both researchers and publishers. For these reasons, fully automated
 machine learning-based methods have been proposed during the past decade to
-provide immediate, less costly and efficient solutions to author
+provide immediate, less costly and satisfactory solutions to author
 disambiguation. In this work, our goal is to explore and demonstrate how both
 approaches can coexist and benefit from each other.  In particular, we study
 how labeled data obtained through manual curation (either centralized or
@@ -123,7 +123,7 @@ crowdsourced) can be exploited (i) to learn an accurate classifier for
 identifying corefering authors and (ii) to guide the clustering of scientific
 publications by distinct authors in a semi-supervised way. Our analysis of parameters
 and features on this large dataset reveals that the general pipeline
-commonly used in existing solutions is an effective solution for author disambiguation.
+commonly used in existing solutions is an effective approach for author disambiguation.
 In addition, and  as validated
 by experimental results, we propose alternative strategies for blocking based on the
 phonetization of author names, thereby increasing recall. We also propose
@@ -707,7 +707,7 @@ name initial} and \textit{Second given name} being almost insignificant.
 Overall, these results highlight the added value of the proposed ehtnic-based
 features. Their duality in modeling both the similarity between author names
 and their origins make them very strong predictors for author disambiguation.
-The results also corroborates results from \citep{ferreira2010effective}, who
+The results also corroborates results from \citep{kang2009co} or \citep{ferreira2010effective}, who
 found that the similarity between co-authors was a highly discriminative
 feature. It indeed appears in 4th in our ranking and brings very significant
 improvements as the figure illustrates. In case computational complexity is a concern, this analysis also
