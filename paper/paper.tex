@@ -492,7 +492,7 @@ of a linkage function and of SciPy \citep{scipy} for clustering. All
 components of the disambiguation pipeline have been designed to follow the
 Scikit-Learn API \citep{scikitlearnAPI}, making them easy to maintain,
 understand and reuse. Our implementation is made to be efficient, exploiting
-parallelization when available, making it ready for production environments.
+parallelization when available and making it ready for production environments.
 
 
 % Results and discussion ======================================================
@@ -506,7 +506,7 @@ The author disambiguation solution proposed in this work, along with its
 enhancements, are evaluated on data extracted from the INSPIRE portal
 \citep{gentil2009information}, a digital library for scientific literature in
 high-energy physics. Overall, the portal holds more than 1 million
-publications, forming in total a set ${\cal S}$ of more than 10 millions
+publications ${\cal P}$, forming in total a set ${\cal S}$ of more than 10 millions
 signatures. Out of these, around 13\% have been \textit{claimed} by their
 original authors or marked as such by professional curators. Together, they
 constitute a trusted set $({\cal S}^\prime, {\cal C}^\prime)$ of 15388 distinct individuals sharing
@@ -525,20 +525,21 @@ disambiguation research.
 
 Experiments carried out to study the impact of the proposed algorithmic
 components and refinements, as described in Section~\ref{methods}, follow a
-standard 3-fold cross-validation protocol, using $({\cal S}^\prime, {\cal C}^\prime)$ as
-ground-truth dataset. To replicate the $|{\cal S}^\prime| / |{\cal S}| \approx 13\%$ ratio
-of claimed signatures with respect to the total set of signatures, as on the
-INSPIRE platform, cross-validation folds are constructed by sampling a training
-set ${\cal S}_\text{train}^\prime \subseteq {\cal S}^\prime$ of 13\% of claimed
-signatures, and by using the remaining signatures ${\cal S}_\text{test}^\prime = {\cal S}^\prime \setminus {\cal S}_\text{train}^\prime$ for testing. Accordingly, ${\cal
-C}_\text{train}^\prime = \{ c^\prime \cap {\cal S}_\text{train}^\prime |
-c^\prime \in {\cal C}^\prime \}$ represents the partial known
-clusters on the training fold, while ${\cal C}_\text{test}^\prime$ are those
-used for testing.
+standard 3-fold cross-validation protocol, using $({\cal S}^\prime, {\cal
+C}^\prime)$ as ground-truth dataset. To replicate the $|{\cal S}^\prime| /
+|{\cal S}| \approx 13\%$ ratio of claimed signatures with respect to the total
+set of signatures, as on the INSPIRE platform, cross-validation folds are
+constructed by sampling 13\% of claimed signatures to form a training set ${\cal
+S}_\text{train}^\prime \subseteq {\cal S}^\prime$, and by using the remaining
+signatures ${\cal S}_\text{test}^\prime = {\cal S}^\prime \setminus {\cal
+S}_\text{train}^\prime$ for testing. Accordingly, ${\cal C}_\text{train}^\prime
+= \{ c^\prime \cap {\cal S}_\text{train}^\prime | c^\prime \in {\cal C}^\prime
+\}$ represents the partial known clusters on the training fold, while ${\cal
+C}_\text{test}^\prime$ are those used for testing.
 
-As commonly done in author disambiguation research \citep{levin2012citation},
+As commonly done in author disambiguation research,
 we evaluate the predicted clusters over testing data  ${\cal C}_\text{test}^\prime$,
-using both B3 \glnote{add ref} and pairwise \glnote{add ref} precision, recall
+using both B3 and pairwise precision, recall
 and F-measure, as defined below:
 \begin{align}
 P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{1}{|{\cal S}|} \sum_{s \in {\cal S}} \frac{|c(s) \cap \widehat{c}(s)|}{|\widehat{c}(s)|} \\
@@ -552,15 +553,15 @@ and where $c(s)$ (resp. $\widehat{c}(s)$) is the cluster $c \in {\cal C}$ such t
 $s \in c$ (resp. the cluster $\widehat{c} \in \widehat{\cal C}$ such that $s
 \in \widehat{c}$), and where $p({\cal C}) = \cup_{c \in {\cal C}} \{ (s_1, s_2)
 | s_1, s_2 \in c, s_1 \neq s_2 \}$ is the set of all pairs of signatures from
-the same clusters in ${\cal C}$. Intuitively, precision evaluates if signatures
+the same clusters in ${\cal C}$. Intuitively, precision evaluates whether signatures
 are grouped only with signatures from the same true clusters, while recall
 measures the extent to which all signatures from the same true clusters are
 effectively grouped together. The F-measure is the harmonic mean between these
-two quantities. In the analysis below, we rely primarily on B3 measures for discussing
-the results, as pairwise measures tend to favor large clusters (because the number of pairs is quadratic with the cluster size),
+two quantities. In the analysis below, we rely primarily on the B3 F-measure for discussing
+results, as the pairwise variant tends to favor large clusters (because the number of pairs is quadratic with the cluster size),
 hence unfairly giving preference to authors with many publications. By contrast,
-B3 measures weight clusters linearly with respect to their size. General conclusions
-drawn below remain however consistent for pairwise measures.
+the B3 F-measure weights clusters linearly with respect to their size. General conclusions
+drawn below remain however consistent for pairwise F.
 
 \subsection{Results and discussion}
 
@@ -576,28 +577,30 @@ drawn below remain however consistent for pairwise measures.
   \hline
 Baseline & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
 \hline
+\hline
 Blocking = SFI & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
 Blocking = Double metaphone & 0.9856 & 0.9827 & 0.9841 & 0.9927 & 0.9817 & 0.9871 \\
-Blocking = NYSIIS & 0.9875 & 0.9826 & 0.9850 & 0.9936 & 0.9814 & 0.9875 \\
+Blocking = NYSIIS & 0.9875 & 0.9826 & \textbf{0.9850} & 0.9936 & 0.9814 & \textbf{0.9875} \\
 Blocking = Soundex & 0.9886 & 0.9745 & 0.9815 & 0.9935 & 0.9725 & 0.9828 \\
 \hline
 No name normalization & 0.9887 & 0.9697 & 0.9791 & 0.9931 & 0.9658 & 0.9793 \\
+Name normalization & 0.9901 & 0.9760 & \textbf{0.9830} & 0.9948 & 0.9738 & \textbf{0.9842} \\
 \hline
 Classifier = GBRT & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
-Classifier = Random Forests & 0.9909 & 0.9783 & 0.9846 & 0.9957 & 0.9752 & 0.9854 \\
+Classifier = Random Forests & 0.9909 & 0.9783 & \textbf{0.9846} & 0.9957 & 0.9752 & \textbf{0.9854} \\
 Classifier = Linear Regression & 0.9749 & 0.9584 & 0.9666 & 0.9717 & 0.9569 & 0.9643 \\
 \hline
 Training pairs = Non-blocked, uniform & 0.9793 & 0.9630 & 0.9711 & 0.9756 & 0.9629 & 0.9692 \\
 Training pairs = Blocked, uniform & 0.9854 & 0.9720 & 0.9786 & 0.9850 & 0.9707 & 0.9778 \\
-Training pairs = Blocked, balanced & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
+Training pairs = Blocked, balanced & 0.9901 & 0.9760 & \textbf{0.9830} & 0.9948 & 0.9738 & \textbf{0.9842} \\
 \hline
-Clustering = Average linkage & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
+Clustering = Average linkage & 0.9901 & 0.9760 & \textbf{0.9830} & 0.9948 & 0.9738 & \textbf{0.9842} \\
 Clustering = Single linkage & 0.9741 & 0.9603 & 0.9671 & 0.9543 & 0.9626 & 0.9584 \\
 Clustering = Complete linkage & 0.9862 & 0.9709 & 0.9785 & 0.9920 & 0.9688 & 0.9803 \\
 \hline
 No cut & 0.9024 & 0.9828 & 0.9409 & 0.8298 & 0.9776 & 0.8977 \\
 Global cut & 0.9892 & 0.9737 & 0.9814 & 0.9940 & 0.9727 & 0.9832 \\
-Block cut & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
+Block cut & 0.9901 & 0.9760 & \textbf{0.9830} & 0.9948 & 0.9738 & \textbf{0.9842} \\
   \hline
 \end{tabular}
 \end{table}
@@ -608,7 +611,7 @@ respect to a baseline solution using the following combination of components:
 \item Blocking: same surname and the same first given name initial strategy (SFI);
 \item Linkage function: all 22 features defined in Table~\ref{table:features},
     gradient boosted regression trees as supervised learning algorithm
-    and a training set of pairs built by balancing easy and difficult cases.
+    and a training set of pairs built from $({\cal S}_\text{train}^\prime, {\cal C}_\text{train}^\prime)$, by balancing easy and difficult cases.
 \item Clustering: agglomerative clustering using average linkage and
     block cuts found to maximize $F_\text{B3}({\cal C}_\text{train}^\prime, \widehat{\cal C}_\text{train}^\prime, {\cal S}_\text{train}^\prime)$.
 \end{itemize}
@@ -622,7 +625,7 @@ were clustered optimally) for SFI is $0.9828$ , hence not letting much more
 room for improvement. At the price of fewer and therefore slightly larger
 blocks (as reported in the right column of Table~\ref{table:blocking}), the
 proposed phonetic-based blocking strategies show better maximum recall (all
-around $0.9905$), thereby pushing further the upper bound on the maximum overall
+around $0.9905$), thereby pushing further the upper bound on the maximum
 performance of author disambiguation. As Table~\ref{table:results} indeed shows,
 switching to either Double metaphone or NYSIIS phonetic-based blocking allows
 to improve the overall F-measure score, trading precision for recall. In particular,
@@ -748,6 +751,7 @@ known.
 
 
 \glnote{Mention Hussein's thesis for further experiments}
+\glnote{Virtuous circle}
 
 
 % References ==================================================================
