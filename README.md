@@ -28,7 +28,8 @@ disambiguation to non-Western author names whenever necessary.
 ---
 
 _Structure of the repository:_
-- `data/`: Author disambiguation extracted from INSPIRE.
+- `beard/`: Source code.
+- `data/`: Author disambiguation data extracted from INSPIRE.
 - `paper/`: Latex files of the paper.
 
 _License:_ BSD 3 clause
