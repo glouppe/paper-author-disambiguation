@@ -57,13 +57,18 @@ curate their publications and claim which ones are theirs. Indirectly, these
 tools allow for the inexpensive collection of large annotated training data,
 which can be further leveraged to build a complementary automated
 disambiguation system capable of inferring patterns for identifying
-publications written by a same person.  Building upon more than 1 million
-crowdsourced annotations, we propose an automated author disambiguation
-solution exploiting this data (i) to learn an accurate classifier for
-identifying corefering authors and (ii) to guide the clustering of scientific
-publications by distinct authors in a semi-supervised way. To the best of our
-knowledge, our analysis is the first to be carried out on data of this size and
-coverage. It reveals that... \glnote{To be completed with actual results.}
+publications written by a same person.  Building upon more than 1 million of
+publicly released crowdsourced annotations, we propose an automated author
+disambiguation solution exploiting this data (i) to learn an accurate
+classifier for identifying corefering authors and (ii) to guide the clustering
+of scientific publications by distinct authors in a semi-supervised way. To the
+best of our knowledge, our analysis is the first to be carried out on data of
+this size and coverage. With respect to the state of the art, we validate the
+general pipeline used in most existing solutions, and improve by proposing
+phonetic-based blocking strategies, thereby increasing recall, and strong
+ethnicity-sensitive features for learning a linkage function, thereby tailoring
+disambiguation to non-Western author names whenever necessary.
+
 
 \end{abstract}
 
@@ -117,14 +122,14 @@ how labeled data obtained through manual curation (either centralized or
 crowdsourced) can be exploited (i) to learn an accurate classifier for
 identifying corefering authors and (ii) to guide the clustering of scientific
 publications by distinct authors in a semi-supervised way. Our analysis of parameters
-and features on this large training set reveals that...
-
-\glnote{To be completed with actual results.}\\
-\glnote{Also mention error analysis, suggesting that
-uncertain disambiguation results should be suggested to human curators, thereby
-closing the loop and creating a virtuous circle.}\\
-\glnote{New idea: phonetization in blocking}\\
-\glnote{New idea: ethnicity features}
+and features on this large dataset reveals that the general pipeline
+commonly used in existing solutions is an effective solution for author disambiguation.
+In addition, and  as validated
+by experimental results, we propose alternative strategies for blocking based on the
+phonetization of author names, thereby increasing recall. We also propose
+effective ethnicity-sensitive features for learning a linkage function,
+thereby tailoring author
+disambiguation to non-Western author names whenever necessary.
 
 The remaining of this report is structured as follows. In Section~\ref{related-works},
 we first briefly review machine learning solutions for author disambiguation.
