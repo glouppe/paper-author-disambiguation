@@ -160,8 +160,8 @@ hand-labeled pairs of publications identified as being either from the same or
 from different authors for learning automatically a linkage function between
 publications \citep{han2004two,huang2006efficient,
 culotta2007author,treeratpituk2009disambiguating,tran2014author}. Because
-training data is often not easily available, unsupervised approaches propose
-instead to use domain-specific, often manually designed, linkage functions tailored for author
+training data is usually not easily available, unsupervised approaches propose
+instead to use domain-specific,  manually designed, linkage functions tailored for author
 disambiguation \citep{malin2005unsupervised,mcrae2006also,song2007efficient,
 soler2007separating, kang2009co,fan2011graph,schulz2014exploiting}. These later
 approaches have the advantage of not requiring  hand-labeled data, but often do
@@ -186,7 +186,7 @@ efforts to construct them, these datasets are very rarely released publicly,
 making it even more difficult to compare methods on a common benchmark.
 
 In this context, we position the work presented in this paper as a
-semi-supervised  solution for author disambiguation, but with the significant
+semi-supervised  solution for author disambiguation, with the significant
 advantage of having a very large collection of more than 1 million crowdsourced annotations
 of publications whose true authors are identified. In particular, the extent and coverage
 of this data allows us to revisit, validate and nuance previous findings regarding
@@ -213,7 +213,6 @@ signatures that can be extracted from all publications in ${\cal P}$ and
 by $S=|{\cal S}|$ the total number of signatures.
 
 \begin{figure}
-\label{fig:signature}
 \begin{tabular}{ l l l }
   $s:$ & Title & Lorem ipsum dolor sit amet, consectetur adipiscing elit \\
   & Author & Doe, John \\
@@ -226,6 +225,7 @@ by $S=|{\cal S}|$ the total number of signatures.
 defined as unique piece of information identifying an author on a publication,
 along with any other metadata that can be derived from it, such as publication
 title, co-authors or date of publication.}
+\label{fig:signature}
 \end{figure}
 
 In this
@@ -270,7 +270,7 @@ result, blocking should balance between reduced complexity and maximum recall.
 
 The simplest and most common strategy for blocking, further denoted to as SFI,
 groups signatures together if they share the same surname(s) and the same first
-given name initial (e.g., "Doe, J"). Despite satisfying performance, such
+given name initial (e.g., SFI("Doe, John") $==$ "Doe, J"). Despite satisfactory performance, such
 a simple strategy fails in several cases, as listed below for
 pairs of signatures that should be clustered together but that are put into distinct
 blocks:
@@ -304,7 +304,7 @@ group most name variants of a same person in the same block while not
 significantly increasing computational complexity, thereby solving case 1.
 
 In the case of multiple surnames (cases 2 and 3), we further propose to block
-signatures in two phases. In the first phase, all the signatures with  one
+signatures in two phases. In the first phase, all the signatures with a single
 surname are clustered together. Every different surname token creates a new
 block. In the second phase, the signatures  with multiple surnames are compared
 with the blocks for the first and last surname.  If the first surnames of an
@@ -334,7 +334,7 @@ Gradient Boosted Regression Trees (GBRT, \cite{friedman2001greedy}) and Logistic
 \textit{Input features.} In most cases, supervised learning algorithms assume
 the input space ${\cal X}$ to be numeric (e.g., $\mathbb{R}^p$), making them
 not directly applicable to structured input spaces such as ${\cal S} \times
-{\cal S}$. Following previous works \glnote{add references}, pairs of
+{\cal S}$. Following previous works, pairs of
 signatures $(s_1, s_2)$ are first transformed to vectors $v \in \mathbb{R}^p$
 by building so-called similarity profiles
 \citep{treeratpituk2009disambiguating}, and on which supervised learning is
@@ -409,7 +409,7 @@ distinct actual persons.
 \glnote{Add a few examples of transformed pairs?}
 
 \textit{Building a training set.} The distinctive aspect of our work is the
-knowledge of more than 1 million of crowdsourced annotations ${\cal C}^\prime = \{
+knowledge of more than 1 million crowdsourced annotations ${\cal C}^\prime = \{
 c_0^\prime, ..., c_{M-1}^\prime \}$, indicating together that all signature $s \in
 c_i^\prime$ are known to correspond to the same individual $a_i$. In particular,
 this data can be used to generate positive pairs $(x=(s_1, s_2), y=0)$ for all
