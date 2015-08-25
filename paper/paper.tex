@@ -107,11 +107,11 @@ metrics, as studied in \citep{strotmann2012author}); and/or the relevance of sci
 Efforts and solutions to author disambiguation have been proposed from various
 communities \citep{liu2014author}. On the one hand, libraries have maintained
 authorship control through manual curation, either in a centralized way by
-hiring collaborators or through developing services that invite authors to register
-their publications themselves (\eg, Google Scholar, and Inspire-HEP).
-Recent efforts to create persistent digital identifiers assigned to researchers (\eg, ORCID, and ResearchedID),
+hiring professional collaborators or through developing services that invite authors to register
+their publications themselves (\eg, Google Scholar or Inspire-HEP).
+Recent efforts to create persistent digital identifiers assigned to researchers (\eg, ORCID or ResearchedID),
 with the objective to embed these identifiers in the submission workflow of publishers
-or repositories (\eg, Elsevier, arXiv, Inspire-HEP), would univocally solve any disambiguation issue.
+or repositories (\eg, Elsevier, arXiv or Inspire-HEP), would univocally solve any disambiguation issue.
 With the large cost of centralized manual authorship control, or until crowdsourced solutions are more
 widely adopted, the impact of these efforts are unfortunately limited by the efficiency, motivation
 and integrity of their active contributors. Similarly, the success of persistent digital identifier efforts
@@ -159,7 +159,7 @@ of publications identified as being either from the same or different authors to
 function between publications \citep{han2004two,huang2006efficient, culotta2007author,treeratpituk2009disambiguating,tran2014author}.
 
 Training data is usually not easily available, therefore unsupervised approaches propose
-use of domain-specific, manually designed linkage functions tailored towards author
+the use of domain-specific, manually designed, linkage functions tailored towards author
 disambiguation \citep{malin2005unsupervised,mcrae2006also,song2007efficient,
 soler2007separating, kang2009co,fan2011graph,schulz2014exploiting}.
 These approaches have the advantage of not requiring hand-labeled data, but generally do
@@ -190,7 +190,7 @@ of publications whose true authors are identified.
 The extent and coverage of this data allows us to revisit, validate and nuance previous
 findings regarding supervised learning of linkage functions, and to better explore strategies
 for semi-supervised clustering.
-Furthermore, by releasing our data in to the public domain, we hope to provide a benchmark on
+Furthermore, by releasing our data in the public domain, we hope to provide a benchmark on
 which further research on author disambiguation and related topics can be built.
 
 
@@ -269,7 +269,7 @@ designed such that signatures from the same author are all mapped to the same
 block, otherwise their correct clustering would not be possible in later stages of the workflow.
 As a result, blocking should be a balance between reduced complexity and maximum recall.
 
-The simplest and most common strategy for blocking, referred to hereon in as \emph{SFI},
+The simplest and most common strategy for blocking, referred to hereon as \emph{SFI},
 groups signatures together if they share the same surname(s) and the same first
 given name initial (\eg, \emph{SFI}("Doe, John") $==$ "Doe, J").
 Despite satisfactory performance, there are several cases where this simple strategy fails to cluster related pairs of signatures together, including:
@@ -318,7 +318,7 @@ Cases 4 and 5 are not explicitly handled.
 
 \textit{Supervised classification.} The second part of the algorithm is the
 automatic construction of a pair-wise linkage function between signatures for use
-during the clustering step which grouping all signatures from the same author.
+during the clustering step which groups all signatures from the same author.
 
 Formally, the goal is to build a function $d: {\cal S} \times {\cal S} \mapsto
 [0, 1]$, such that $d(s_1, s_2)$ approaches $0$ if both signatures $s_1$ and
@@ -687,7 +687,7 @@ signatures from which to learn a linkage function yields a significant
 improvement.
 A random sampling of positive and negative pairs, without taking
 blocking into account, significantly impacts the overall performance
-($0.9711$). When pairs are drawn only from blocks, performance increases to
+($0.9711$). When pairs are drawn only from blocks, performance increases
 ($0.9786$), which confirms our intuition that $d$ should be built only from
 pairs it will be used to eventually cluster. Finally, making the classification
 problem more difficult by oversampling complex cases proves to be relevant,
