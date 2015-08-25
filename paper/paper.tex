@@ -249,9 +249,9 @@ semi-supervised clustering of all signatures within a same block, using $d$ as a
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{figures/workflow}
-\caption{General pipeline for author disambiguation: (a)
+\caption{Pipeline for author disambiguation: (a)
 signatures are \textit{blocked} to reduce computational complexity, (b) a linkage
-function is built with supervised learning, (c) signatures within the same block
+function is built with supervised learning, (c) independently within each block, signatures
 are grouped using agglomerative clustering.}
 \label{fig:workflow}
 \end{figure}
@@ -407,7 +407,7 @@ distinct actual persons.
 \end{tabular}
 \end{table}
 
-\glnote{Add a few examples of transformed pairs?}
+%\glnote{Add a few examples of transformed pairs?}
 
 \textit{Building a training set.} The distinctive aspect of our work is the
 knowledge of more than 1 million crowdsourced annotations ${\cal C}^\prime = \{
