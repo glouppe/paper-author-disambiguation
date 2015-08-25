@@ -207,8 +207,7 @@ define a signature $s \in p$ from a publication as a unique piece of
 information identifying one of the authors of $p$ (\eg, the author name, his
 affiliation, along with any other metadata that can be derived from $p$, as illustrated in Figure~\ref{fig:signature}). Let us
 denote by ${\cal S} = \{ s | s \in p, p \in {\cal P} \}$ the set of all
-signatures that can be extracted from all publications in ${\cal P}$ and
-by $S=|{\cal S}|$ the total number of signatures.
+signatures that can be extracted from all publications in ${\cal P}$.
 
 \begin{figure}
 \centering
@@ -262,7 +261,7 @@ signatures ${\cal S}$ into disjoint subsets ${\cal S}_{b_0}, ..., {\cal
 S}_{b_{K-1}}$, or \textit{blocks} \citep{fellegi69}, and then to carry out
 author disambiguation independently on each one of these blocks. In doing so,
 computational complexity of clustering (see Section~\ref{methods:clustering})
-typically reduces from $O(S^2)$ to $O(\sum_b S_b^2)$, which becomes much more
+typically reduces from $O(|{\cal S}|^2)$ to $O(\sum_b |{\cal S}_b|^2)$, which becomes much more
 tractable as the number of signatures increases. Since disambiguation is
 performed independently per block, a good blocking strategy should ideally be
 designed such that signatures from the same author are all mapped to the same
