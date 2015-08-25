@@ -30,7 +30,7 @@
 
 % Header ======================================================================
 
-\title{Ethnicity sensitive author dissambiguation using semi-supervised learning}
+\title{Ethnicity sensitive author disambiguation using semi-supervised learning}
 
 \author{Gilles Louppe\\
         CERN\\
@@ -57,21 +57,21 @@
 Author name disambiguation in bibliographic databases is the problem of
 grouping together scientific publications written by the same person, accounting
 for potential homonyms and/or synonyms.
-Among solutions to this problem, digital libraries are increasingly offering tools 
-for authors to manually curate their publications and claim those that are theirs. 
-Indirectly, these tools allow for the inexpensive collection of large annotated training 
+Among solutions to this problem, digital libraries are increasingly offering tools
+for authors to manually curate their publications and claim those that are theirs.
+Indirectly, these tools allow for the inexpensive collection of large annotated training
 data, which can be further leveraged to build a complementary automated
 disambiguation system capable of inferring patterns for identifying
 publications written by the same person.
-Building on more than 1 million publicly released crowdsourced annotations, 
-we propose an automated author disambiguation solution exploiting this data (i) to learn 
+Building on more than 1 million publicly released crowdsourced annotations,
+we propose an automated author disambiguation solution exploiting this data (i) to learn
 an accurate classifier for identifying coreferring authors and (ii) to guide the clustering
 of scientific publications by distinct authors in a semi-supervised way.
 To the best of our knowledge, our analysis is the first to be carried out on data of
 this size and coverage.
-With respect to the state of the art, we validate the general pipeline used in most existing 
-solutions, and improve by: (i) proposing phonetic-based blocking strategies, thereby 
-increasing recall; and (ii) adding strong ethnicity-sensitive features for learning a linkage 
+With respect to the state of the art, we validate the general pipeline used in most existing
+solutions, and improve by: (i) proposing phonetic-based blocking strategies, thereby
+increasing recall; and (ii) adding strong ethnicity-sensitive features for learning a linkage
 function, thereby tailoring disambiguation to non-Western author names whenever necessary.
 
 
@@ -93,12 +93,12 @@ grouping together publications written by the same person.
 Author name disambiguation is often a difficult problem because an author may use different
 spellings or name variants across their career (synonymy) and/or distinct authors may
 share the same name (polysemy).
-Most notably, author disambiguation is often more troublesome for researchers 
-from non-Western cultures, where personal names may be traditionally less diverse (leading to 
+Most notably, author disambiguation is often more troublesome for researchers
+from non-Western cultures, where personal names may be traditionally less diverse (leading to
 homonym issues) or for which transliteration to Latin characters may not be unique (leading to
-synonym issues). 
-With the fast growth of the scientific literature, author disambiguation has become a pressing 
-issue since the accuracy of information managed at the level of individuals directly affects: 
+synonym issues).
+With the fast growth of the scientific literature, author disambiguation has become a pressing
+issue since the accuracy of information managed at the level of individuals directly affects:
 the relevance search of results (\eg, when querying for all publications written by a given author);
 the reliability of bibliometrics and author rankings (\eg, citation counts or other impact
 metrics, as studied in \citep{strotmann2012author}); and/or the relevance of scientific network analysis
@@ -109,12 +109,12 @@ communities \citep{liu2014author}. On the one hand, libraries have maintained
 authorship control through manual curation, either in a centralized way by
 hiring collaborators or through developing services that invite authors to register
 their publications themselves (\eg, Google Scholar, and Inspire-HEP).
-Recent efforts to create persistent digital identifiers assigned to researchers (\eg, ORCID, and ResearchedID), 
+Recent efforts to create persistent digital identifiers assigned to researchers (\eg, ORCID, and ResearchedID),
 with the objective to embed these identifiers in the submission workflow of publishers
 or repositories (\eg, Elsevier, arXiv, Inspire-HEP), would univocally solve any disambiguation issue.
-With the large cost of centralized manual authorship control, or until crowdsourced solutions are more 
+With the large cost of centralized manual authorship control, or until crowdsourced solutions are more
 widely adopted, the impact of these efforts are unfortunately limited by the efficiency, motivation
-and integrity of their active contributors. Similarly, the success of persistent digital identifier efforts 
+and integrity of their active contributors. Similarly, the success of persistent digital identifier efforts
 is conditioned to a large and ubiquitous adoption by both researchers and publishers.
 For these reasons, fully automated machine learning-based methods have been proposed during the past decade to
 provide immediate, less costly, and satisfactory solutions to author
@@ -151,10 +151,10 @@ disambiguation algorithms are usually composed of two main components: (i) a
 linkage function determining whether two publications have been written by the
 same author; and (ii) a clustering algorithm producing clusters of publications
 assumed to be written by the same author.
-Approaches can be classified along several axes, depending on the type and 
-amount of data available, the way the linkage function is learned or defined, or the 
+Approaches can be classified along several axes, depending on the type and
+amount of data available, the way the linkage function is learned or defined, or the
 clustering procedure used to group publications.
-Methods relying on supervised learning usually make use of a small set of hand-labeled pairs 
+Methods relying on supervised learning usually make use of a small set of hand-labeled pairs
 of publications identified as being either from the same or different authors to automatically learn a linkage
 function between publications \citep{han2004two,huang2006efficient, culotta2007author,treeratpituk2009disambiguating,tran2014author}.
 
@@ -187,10 +187,10 @@ In this context, we position the work in this paper as a
 semi-supervised solution for author disambiguation, with the significant
 advantage of having a very large collection of more than 1 million crowdsourced annotations
 of publications whose true authors are identified.
-The extent and coverage of this data allows us to revisit, validate and nuance previous 
+The extent and coverage of this data allows us to revisit, validate and nuance previous
 findings regarding supervised learning of linkage functions, and to better explore strategies
 for semi-supervised clustering.
-Furthermore, by releasing our data in to the public domain, we hope to provide a benchmark on 
+Furthermore, by releasing our data in to the public domain, we hope to provide a benchmark on
 which further research on author disambiguation and related topics can be built.
 
 
@@ -236,7 +236,7 @@ $s \in c_i^\prime$ belong to the same author.
 
 Inspired by several previous works described in Section~\ref{related-works},
 we cast in this work author disambiguation into a semi-supervised clustering
-problem. 
+problem.
 Our algorithm is composed of three parts, as sketched in Figure~\ref{fig:workflow}: (i) a blocking
 scheme whose goal is to roughly pre-cluster signatures ${\cal S}$ into smaller groups in order to
 reduce computational complexity; (ii) the construction of a linkage function
@@ -317,7 +317,7 @@ Cases 4 and 5 are not explicitly handled.
 \label{methods:linkage}
 
 \textit{Supervised classification.} The second part of the algorithm is the
-automatic construction of a pair-wise linkage function between signatures for use 
+automatic construction of a pair-wise linkage function between signatures for use
 during the clustering step which grouping all signatures from the same author.
 
 Formally, the goal is to build a function $d: {\cal S} \times {\cal S} \mapsto
@@ -326,7 +326,7 @@ $s_2$ belong to the same author, and $1$ otherwise.
 This problem can be cast as a standard supervised classification task, where inputs
 are pairs of signatures and outputs are classes $0$ (same authors), and $1$
 (distinct authors). In this work, we evaluate Random Forests (RF, \cite{breiman2001random}),
-Gradient Boosted Regression Trees (GBRT, \cite{friedman2001greedy}), 
+Gradient Boosted Regression Trees (GBRT, \cite{friedman2001greedy}),
 and Logistic Regression \citep{fan2008liblinear} as classifiers.
 
 \textit{Input features.} In most cases, supervised learning algorithms assume
@@ -363,8 +363,8 @@ the corresponding ethnic group, multiplied by the estimated probability of
 $s_2$ to belong to the same group. In doing so, the expectation is for the
 linkage function to become sensitive to the actual origin of the authors
 depending on the values of these features.
-Indirectly, let us also note that these features hold discriminative power since 
-if author names are predicted to belong to different ethnic groups, then they 
+Indirectly, let us also note that these features hold discriminative power since
+if author names are predicted to belong to different ethnic groups, then they
 are also likely to correspond to distinct people.
 
 \begin{table}
@@ -423,7 +423,7 @@ refinement for building a training set is to restrict positive and negative
 pairs $(s_1, s_2)$ to only those for which $s_1$ and $s_2$ belong to the same
 block. In doing so, the trained classifier is forced to learn intra-block
 discriminative patterns rather than inter-block differences.
-Furthermore, as noted in \citep{lange2011frequency}, most signature pairs are non-ambiguous: 
+Furthermore, as noted in \citep{lange2011frequency}, most signature pairs are non-ambiguous:
 if both signatures share the same author names, then
 they correspond to the same individual, otherwise they do not.
 Rather than sampling pairs uniformly at random, we propose to oversample
@@ -514,7 +514,7 @@ The author disambiguation solution proposed in this work, along with its
 enhancements, are evaluated on data extracted from the \emph{INSPIRE} portal
 \citep{gentil2009information}, a digital library for scientific literature in
 high-energy physics.
-Overall, the portal holds more than 1 million publications ${\cal P}$, 
+Overall, the portal holds more than 1 million publications ${\cal P}$,
 forming in total a set ${\cal S}$ of more than 10 million signatures.
 Out of these, around 13\% have been \textit{claimed} by their
 original authors or marked as such by professional curators.
@@ -527,7 +527,7 @@ Following the \emph{INSPIRE} terms of use, the signatures ${\cal S}^\prime$ and 
 corresponding clusters ${\cal C}^\prime$ are released
 online\footnote{\url{https://github.com/glouppe/paper-author-disambiguation}}
 under the CC0 license.
-To the best of our knowledge, data of this size and coverage is the first to be publicly 
+To the best of our knowledge, data of this size and coverage is the first to be publicly
 released in the scope of author disambiguation research.
 
 \subsection{Evaluation protocol}
@@ -563,11 +563,11 @@ $s \in c$ (resp. the cluster $\widehat{c} \in \widehat{\cal C}$ such that $s
 \in \widehat{c}$), and where $p({\cal C}) = \cup_{c \in {\cal C}} \{ (s_1, s_2)
 | s_1, s_2 \in c, s_1 \neq s_2 \}$ is the set of all pairs of signatures from
 the same clusters in ${\cal C}$.
-Precision evaluates whether signatures are grouped only with signatures from the same true clusters, 
+Precision evaluates whether signatures are grouped only with signatures from the same true clusters,
 while recall measures the extent to which all signatures from the same true clusters are
 effectively grouped together.
 The F-measure is the harmonic mean between these two quantities.
-In the analysis below, we rely primarily on the B3 F-measure for discussing results, as the pairwise variant 
+In the analysis below, we rely primarily on the B3 F-measure for discussing results, as the pairwise variant
 tends to favor large clusters (because the number of pairs is quadratic with the cluster size),
 hence unfairly giving preference to authors with many publications.
 By contrast, the B3 F-measure weights clusters linearly with respect to their size.
@@ -665,7 +665,7 @@ around $98\%$ on real data.
 \textit{Name normalization.} As discussed previously, the seemingly insignificant step of
 normalizing author names (stripping accents, removing affixes), as performed in the
 baseline, is shown to be important. Results from Table~\ref{table:results} clearly suggest that not
-normalizing significantly reduces performance (yielding an F-measure of $0.9830$ when normalizing, 
+normalizing significantly reduces performance (yielding an F-measure of $0.9830$ when normalizing,
 but decreasing to $0.9791$ when raw author name strings are used instead).
 
 \textit{Linkage function.} Let us first comment on the results regarding the

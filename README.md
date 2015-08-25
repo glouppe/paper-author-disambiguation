@@ -1,4 +1,4 @@
-# Ethnicity sensitive author disambiguation of semi-labeled corpora of scientific articles
+# Ethnicity sensitive author disambiguation using semi-supervised learning
 
 * Gilles Louppe
 * Hussein Al-Natsheh
