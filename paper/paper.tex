@@ -30,7 +30,7 @@
 
 % Header ======================================================================
 
-\title{Ethnicity sensitive author disambiguation of semi-labeled corpora of scientific articles}
+\title{Ethnicity sensitive author dissambiguation using semi-supervised learning}
 
 \author{Gilles Louppe\\
         CERN\\
@@ -143,7 +143,7 @@ Finally, conclusions and future works are discussed in Section~\ref{conclusions}
 
 % Related works ==================================================================
 
-\section{Related works}
+\section{Related work}
 \label{related-works}
 
 As reviewed in \citep{smalheiser2009author,ferreira2012brief,levin2012citation}, author
@@ -183,7 +183,7 @@ often difficult to assess with high confidence.
 Additionally, despite devoted efforts to construct them, these datasets are rarely public,
 making it even more difficult to compare methods using a common benchmark.
 
-In this context, we position the work presented in this paper as a
+In this context, we position the work in this paper as a
 semi-supervised solution for author disambiguation, with the significant
 advantage of having a very large collection of more than 1 million crowdsourced annotations
 of publications whose true authors are identified.
@@ -227,19 +227,20 @@ j$, and where subsets $c_i$, or clusters, each corresponds to the set of all
 signatures belonging to the same individual $a_i$. Alternatively, the set
 ${\cal A}$ may remain (possibly partially) unknown, such that author
 disambiguation boils down to finding a partition ${\cal C}$ where
-subsets $c_i$  each corresponds to the set of all signatures from the same
+subsets $c_i$  each correspond to the set of all signatures from the same
 individual (without knowing who). Finally, in the case of partially annotated databases as studied in
-this work, the setting extends with the partial knowledge ${\cal C}^\prime = \{ c_0^\prime, ..., c_{M-1}^\prime \}$ of ${\cal C}$,
-such that $c_i^\prime \subseteq c_i$, with $c_i^\prime$ possibly empty.
-Or put otherwise, the setting extends with the knowledge that all signatures
+this work, the set extends with the partial knowledge ${\cal C}^\prime = \{ c_0^\prime, ..., c_{M-1}^\prime \}$ of ${\cal C}$,
+such that $c_i^\prime \subseteq c_i$, where $c_i^\prime$ may be empty.
+Or put otherwise, the set extends with the assumption that all signatures
 $s \in c_i^\prime$ belong to the same author.
 
-As inspired from several previous works described in Section~\ref{related-works},
+Inspired by several previous works described in Section~\ref{related-works},
 we cast in this work author disambiguation into a semi-supervised clustering
-problem.  Our algorithm is made of three parts, as sketched in Figure~\ref{fig:workflow}: (i) a blocking
+problem. 
+Our algorithm is composed of three parts, as sketched in Figure~\ref{fig:workflow}: (i) a blocking
 scheme whose goal is to roughly pre-cluster signatures ${\cal S}$ into smaller groups in order to
 reduce computational complexity; (ii) the construction of a linkage function
-$d$ between signatures using supervised learning; (iii) the
+$d$ between signatures using supervised learning; and (iii) the
 semi-supervised clustering of all signatures within the same block, using $d$ as a pseudo distance metric.
 
 
@@ -256,117 +257,115 @@ are grouped using agglomerative clustering.}
 \subsection{Blocking}
 \label{methods:blocking}
 
-As in previous works, the first part of our algorithm consists in dividing
+As in previous works, the first part of our algorithm consists of dividing
 signatures ${\cal S}$ into disjoint subsets ${\cal S}_{b_0}, ..., {\cal
-S}_{b_{K-1}}$, or \textit{blocks} \citep{fellegi69}, and then to carry out
-author disambiguation independently on each one of these blocks. In doing so,
-computational complexity of clustering (see Section~\ref{methods:clustering})
-typically reduces from $O(|{\cal S}|^2)$ to $O(\sum_b |{\cal S}_b|^2)$, which becomes much more
-tractable as the number of signatures increases. Since disambiguation is
-performed independently per block, a good blocking strategy should ideally be
+S}_{b_{K-1}}$, or \textit{blocks} \citep{fellegi69}, followed by carrying out
+author disambiguation on each one of these blocks independently.
+By doing so, the computational complexity of clustering (see Section~\ref{methods:clustering})
+typically reduces from $O(|{\cal S}|^2)$ to $O(\sum_b |{\cal S}_b|^2)$, which is much more
+tractable as the number of signatures increases.
+Since disambiguation is performed independently per block, a good blocking strategy should be
 designed such that signatures from the same author are all mapped to the same
-block, otherwise directly preventing their correct clustering in later stages. As a
-result, blocking should balance between reduced complexity and maximum recall.
+block, otherwise their correct clustering would not be possible in later stages of the workflow.
+As a result, blocking should be a balance between reduced complexity and maximum recall.
 
-The simplest and most common strategy for blocking, further denoted to as SFI,
+The simplest and most common strategy for blocking, referred to hereon in as \emph{SFI},
 groups signatures together if they share the same surname(s) and the same first
-given name initial (\eg, SFI("Doe, John") $==$ "Doe, J"). Despite satisfactory performance, such
-a simple strategy fails in several cases, as listed below for
-pairs of signatures that should be clustered together but that are put into distinct
-blocks:
+given name initial (\eg, \emph{SFI}("Doe, John") $==$ "Doe, J").
+Despite satisfactory performance, there are several cases where this simple strategy fails to cluster related pairs of signatures together, including:
 
 \begin{enumerate}
   \item There are different
-  ways of transcripting an author name or signatures contain a typo
+  ways of writing an author name, or signatures contain a typo
   (\eg, "Mueller, R." and "Muller, R.", "Tchaikovsky, P." and "Czajkowski, P.").
 
-  \item An author has multiple surnames and, on some signatures, all the surnames but the
-  last one are contained within given names (\eg, "Martinez Torres, A." and "Torres, A.
-  Martinez").
+  \item An author has multiple surnames and some signatures place the first part of the surname within the given names (\eg, "Martinez Torres, A." and "Torres, A. Martinez").
 
   \item An author has multiple surnames and, on some signatures, only the first surname is
   present (\eg, "Smith-Jones, A." and "Smith, A.")
 
-  \item An author as multiple given names and they are not always all mentioned (\eg,
+  \item An author as multiple given names and they are not always all recorded (\eg,
   "Smith, Jack" and "Smith, A. J.")
 
-  \item An author changed his surname (\eg, because of marrying somebody).
+  \item An authors surname changed (\eg, due to marriage).
 \end{enumerate}
 
 To account for these issues we propose instead to block signatures based on the
-phonetic representation of the normalized surname. Normalization consists in
-stripping accents (\eg, "Jabłoński, Ł" $\rightarrow$ "Jablonski, L") and name
+phonetic representation of the normalized surname.
+Normalization involves stripping accents (\eg, "Jabłoński, Ł" $\rightarrow$ "Jablonski, L") and name
 affixes that inconsistently appear in signatures (\eg, "van der Waals, J. D."
 $\rightarrow$ "Waals, J. D."), while phonetization is based either on the
 Double Metaphone \citep{doublemetaphone}, the NYSIIS \citep{nysiis} or the
-Soundex \citep{Soundex} algorithms. Together, these processing steps allow to
-group most name variants of the same person in the same block while not
-significantly increasing computational complexity, thereby solving case 1.
+Soundex \citep{Soundex} algorithms.
+Together, these processing steps allow for grouping of most name variants of the same
+person in the same block with a small increase in the overall computational complexity, thereby solving case 1.
 
-In the case of multiple surnames (cases 2 and 3), we further propose to block
-signatures in two phases. In the first phase, all the signatures with a single
-surname are clustered together. Every different surname token creates a new
-block. In the second phase, the signatures  with multiple surnames are compared
-with the blocks for the first and last surname.  If the first surnames of an
-author were already used as the last given names on some of the signatures, the
-new signature is assigned to the block of the last surname (case 2). Otherwise,
-the signature is assigned to the block of the first surname (case 3). Finally,
-to prevent the creation of too large blocks, signatures are further divided
-along their first given name initial.  Cases 4 and 5 are not
-explicitly handled.
+In the case of multiple surnames (cases 2 and 3), we propose to block
+signatures in two phases.
+In the first phase, all the signatures with a single surname are clustered together.
+Every different surname token creates a new block.
+In the second phase, the signatures with multiple surnames are compared
+with the blocks for the first and last surname.
+If the first surnames of an author were already used as the last given names on some of the signatures, the
+new signature is assigned to the block of the last surname (case 2).
+Otherwise, the signature is assigned to the block of the first surname (case 3).
+Finally, to prevent the creation of too large blocks, signatures are further divided
+along their first given name initial.
+Cases 4 and 5 are not explicitly handled.
 
 \subsection{Linkage function}
 \label{methods:linkage}
 
 \textit{Supervised classification.} The second part of the algorithm is the
-automatic construction of a pair-wise linkage function between signatures, for
-later use during clustering to group all signatures from the same author.
+automatic construction of a pair-wise linkage function between signatures for use 
+during the clustering step which grouping all signatures from the same author.
+
 Formally, the goal is to build a function $d: {\cal S} \times {\cal S} \mapsto
-[0, 1]$, such that $d(s_1, s_2)$ tends to $0$ if both signatures $s_1$ and
-$s_2$ belong to the same author, and $1$ otherwise. Coincidentally, this
-problem can be cast as a standard supervised classification task, where inputs
-are pairs of signatures and outputs are classes $0$ (same authors) and $1$
+[0, 1]$, such that $d(s_1, s_2)$ approaches $0$ if both signatures $s_1$ and
+$s_2$ belong to the same author, and $1$ otherwise.
+This problem can be cast as a standard supervised classification task, where inputs
+are pairs of signatures and outputs are classes $0$ (same authors), and $1$
 (distinct authors). In this work, we evaluate Random Forests (RF, \cite{breiman2001random}),
-Gradient Boosted Regression Trees (GBRT, \cite{friedman2001greedy}) and Logistic Regression \citep{fan2008liblinear} as classifiers.
+Gradient Boosted Regression Trees (GBRT, \cite{friedman2001greedy}), 
+and Logistic Regression \citep{fan2008liblinear} as classifiers.
 
 \textit{Input features.} In most cases, supervised learning algorithms assume
 the input space ${\cal X}$ to be numeric (\eg, $\mathbb{R}^p$), making them
 not directly applicable to structured input spaces such as ${\cal S} \times
-{\cal S}$. Following previous works, pairs of
-signatures $(s_1, s_2)$ are first transformed to vectors $v \in \mathbb{R}^p$
-by building so-called similarity profiles
-\citep{treeratpituk2009disambiguating}, and on which supervised learning is
-then carried on. In this work, we design and evaluate 15 standard input
+{\cal S}$.
+Following previous works, pairs of signatures $(s_1, s_2)$ are first transformed to vectors $v \in \mathbb{R}^p$
+by building so-called similarity profiles \citep{treeratpituk2009disambiguating} on which supervised learning is carried out.
+In this work, we design and evaluate fifteen standard input
 features based on the comparison of signature fields, as reported in the first
-half of Table~\ref{table:features}. As an illustrative example, the
-\textit{Full name} feature corresponds to the similarity between the (full)
+half of Table~\ref{table:features}.
+As an illustrative example, the \textit{Full name} feature corresponds to the similarity between the (full)
 author name fields of the two signatures, as measured using as combination
-operator the cosine similarity between their respective $(n,m)$-TF-IDF vector
-representations\footnote{$(n,m)$ denotes that the TF-IDF vectors are computed
-from character $n$, $n+1$, ..., $m$-grams. When not specified, TF-IDF vectors
-are otherwise computed from words.}. Similarly, the \textit{Year difference}
-feature measures the absolute difference between the publication date of the
+operator the cosine similarity between their respective $(n,m)$-\emph{TF-IDF} vector
+representations\footnote{$(n,m)$ denotes that the \emph{TF-IDF} vectors are computed
+from character $n$, $n+1$, ..., $m$-grams.
+When not specified, \emph{TF-IDF} vectors are otherwise computed from words.}.
+Similarly, the \textit{Year difference} feature measures the absolute difference between the publication date of the
 articles to which the two signatures respectively belong.
 
-Observing that author names from different cultures, origins or ethnic groups are likely to be
+Author names from different cultures, origins or ethnic groups are likely to be
 disambiguated using different strategies (\eg, pairs of signatures with French
-author names versus pairs of signatures with Chinese author names), and as
-corroborated in \citep{treeratpituk2012name} or \citep{chin2014effective}, we
-propose to complement our feature set with 7 additional new features, each
-evaluating the degree of belonging of both signatures to several ethnic groups,
-as reported in the second half of Table~\ref{table:features}. More
-specifically, using census data extracted from \citep{rugglesintegrated}, we
+author names versus pairs of signatures with Chinese author names) \citep{treeratpituk2012name, chin2014effective}.
+To support our disambiguation algorithm, we added seven features to our feature set, with each
+evaluating the degree of belonging of both signatures to an ethnic group,
+as reported in the second half of Table~\ref{table:features}.
+
+More specifically, using census data extracted from \citep{rugglesintegrated}, we
 build a logistic regression classifier for mapping the $(1,5)$-TF-IDF
-representation of an author name to one of the 7 ethnic groups reported in that
-dataset. Given a pair of signatures $(s_1, s_2)$, the proposed ethnicity
+representation of an author name to one of the seven ethnic groups.
+Given a pair of signatures $(s_1, s_2)$, the proposed ethnicity
 features are each computed as the estimated probability of $s_1$ to belong to
 the corresponding ethnic group, multiplied by the estimated probability of
 $s_2$ to belong to the same group. In doing so, the expectation is for the
 linkage function to become sensitive to the actual origin of the authors
-depending on the values of these features. Indirectly, let us also note that these
-features hold discriminative power since, if author names are predicted
-to belong to different ethnic groups, then they are also likely to correspond to
-distinct actual persons.
+depending on the values of these features.
+Indirectly, let us also note that these features hold discriminative power since 
+if author names are predicted to belong to different ethnic groups, then they 
+are also likely to correspond to distinct people.
 
 \begin{table}
 \caption{Input features for learning a linkage function}
@@ -409,25 +408,26 @@ distinct actual persons.
 \textit{Building a training set.} The distinctive aspect of our work is the
 knowledge of more than 1 million crowdsourced annotations ${\cal C}^\prime = \{
 c_0^\prime, ..., c_{M-1}^\prime \}$, indicating together that all signature $s \in
-c_i^\prime$ are known to correspond to the same individual $a_i$. In particular,
-this data can be used to generate positive pairs $(x=(s_1, s_2), y=0)$ for all
+c_i^\prime$ are known to correspond to the same individual $a_i$.
+In particular, this data can be used to generate positive pairs $(x=(s_1, s_2), y=0)$ for all
 $s_1, s_2 \in c_i^\prime$, for all $i$. Similarly, negative pairs $(x=(s_1,
 s_2), y=1)$ can be extracted for all $s_1 \in c_i^\prime, s_2 \in c_j^\prime$, for
 all $i \neq j$.
 
 The most straightforward approach for building a training set on which to learn
 a linkage function is to sample an equal number of positive and negative pairs,
-as suggested above. By observing that the linkage function $d$ will eventually
+as suggested above.
+By observing that the linkage function $d$ will eventually
 be used only on pairs of signatures from the same block $S_b$, a further
-refinement for building a training set is to restrict  positive and negative
+refinement for building a training set is to restrict positive and negative
 pairs $(s_1, s_2)$ to only those for which $s_1$ and $s_2$ belong to the same
 block. In doing so, the trained classifier is forced to learn intra-block
-discriminative patterns rather than inter-block differences. Furthermore, as
-noted in \citep{lange2011frequency}, pairs of signatures are in the vast
-majority non-ambiguous: if both signatures share the same author names, then
-they correspond to the same individual, otherwise they do not. Rather than
-sampling pairs uniformly at random, we therefore propose to  oversample
-difficult cases when building the training set (i.e., pairs of signatures with
+discriminative patterns rather than inter-block differences.
+Furthermore, as noted in \citep{lange2011frequency}, most signature pairs are non-ambiguous: 
+if both signatures share the same author names, then
+they correspond to the same individual, otherwise they do not.
+Rather than sampling pairs uniformly at random, we propose to oversample
+difficult cases when building the training set (\ie, pairs of signatures with
 different author names corresponding to same individual, and pairs of
 signatures with identical author names but corresponding to distinct
 individuals) in order to improve the overall accuracy of the linkage function.
@@ -437,27 +437,32 @@ individuals) in order to improve the overall accuracy of the linkage function.
 
 The last component of our author disambiguation pipeline is clustering, that is
 the process of grouping together, within a block, all signatures from the same
-individual (and only those). As for many other works on author disambiguation,
-we make use of hierarchical clustering \citep{ward1963hierarchical} for
-building clusters of signatures in a bottom-up fashion. The method consists in
-iteratively merging together the two most similar clusters until all clusters
-are eventually merged together at the top of the hierarchy. Similarity between
-clusters is evaluated using either complete, single or average linkage, using
-as pseudo-distance metric the probability that $s_1$ and $s_2$ correspond to
-distinct authors, as calculated from the custom linkage function $d$.
+individual (and only those).
+As for many other works on author disambiguation, we make use of hierarchical clustering \citep{ward1963hierarchical} for
+building clusters of signatures in a bottom-up fashion.
+The method involves iteratively merging together the two most similar clusters until all clusters
+are merged together at the top of the hierarchy.
+Similarity between clusters is evaluated using either complete, single or average linkage, using
+as a pseudo-distance metric the probability that $s_1$ and $s_2$ correspond to
+distinct authors, as calculated from the custom linkage function $d$ from Section \ref{methods:linkage}.
 
-To form flat clusters out of the hierarchy, one must decide on a maximum
+To form flat clusters from the hierarchy, one must decide on a maximum
 distance threshold above which clusters are considered to correspond to
-distinct authors. Let us denote by ${\cal S}^\prime = \{ s | s \in c^\prime, c^\prime
+distinct authors.
+Let us denote by ${\cal S}^\prime = \{ s | s \in c^\prime, c^\prime
 \in {\cal C}^\prime \}$ the set of all signatures for which partial clusters are
-known. Let us also denote by $\smash{\widehat{\cal C}}$  the predicted clusters for all signatures in ${\cal S}$, and by
+known.
+Let us also denote by $\smash{\widehat{\cal C}}$ the predicted clusters for all signatures in ${\cal S}$, and by
 $\smash{\widehat{\cal C}^\prime} = \{ \widehat{c} \cap {\cal S}^\prime | \widehat{c} \in \widehat{\cal C} \}$
-the predicted clusters restricted to signatures for which partial
-clusters are known. From these, we evaluate the following semi-supervised cut-off strategies, as illustrated in Figure~\ref{fig:cuts}:
+the predicted clusters restricted to signatures for which partial clusters are known.
+From these, we evaluate the following semi-supervised cut-off strategies, as illustrated in Figure~\ref{fig:cuts}:
 \begin{itemize}
+
 \item \textit{No cut:} all signatures from the same block are assumed to be from the same author.
+
 \item \textit{Global cut:} the threshold is chosen globally over all blocks,
     as the one maximizing some score $f({\cal C}^\prime, \widehat{\cal C}^\prime)$.
+
 \item \textit{Block cut:} the threshold is chosen locally at each block $b$,
     as the one maximizing some score $f({\cal C}_b^\prime, \widehat{\cal C}_b^\prime)$.
     In case ${\cal C}_b^\prime$ is empty, then all signatures from $b$ are clustered together.
@@ -486,15 +491,16 @@ clusters are known. From these, we evaluate the following semi-supervised cut-of
 \label{implementation}
 
 As part of this work, we developed a stand-alone application for author
-disambiguation, publicly available
-online\footnote{\url{https://github.com/glouppe/beard}} for free reuse
-or study.  Our implementation builds upon the Python scientific stack, making
+disambiguation, publicly available online\footnote{\url{https://github.com/glouppe/beard}} for free reuse
+or study.
+Our implementation builds upon the Python scientific stack, making
 use of the Scikit-Learn library \citep{scikitlearn} for the supervised learning
-of a linkage function and of SciPy \citep{scipy} for clustering. All
-components of the disambiguation pipeline have been designed to follow the
+of a linkage function and of SciPy \citep{scipy} for clustering.
+All components of the disambiguation pipeline have been designed to follow the
 Scikit-Learn API \citep{scikitlearnAPI}, making them easy to maintain,
-understand and reuse. Our implementation is made to be efficient, exploiting
-parallelization when available and making it ready for production environments.
+understand and reuse.
+Our implementation is made to be efficient, exploiting parallelization when available and
+making it ready for production environments.
 
 
 % Results and discussion ======================================================
@@ -505,23 +511,24 @@ parallelization when available and making it ready for production environments.
 \subsection{Data}
 
 The author disambiguation solution proposed in this work, along with its
-enhancements, are evaluated on data extracted from the INSPIRE portal
+enhancements, are evaluated on data extracted from the \emph{INSPIRE} portal
 \citep{gentil2009information}, a digital library for scientific literature in
-high-energy physics. Overall, the portal holds more than 1 million
-publications ${\cal P}$, forming in total a set ${\cal S}$ of more than 10 millions
-signatures. Out of these, around 13\% have been \textit{claimed} by their
-original authors or marked as such by professional curators. Together, they
-constitute a trusted set $({\cal S}^\prime, {\cal C}^\prime)$ of 15388 distinct individuals sharing
+high-energy physics.
+Overall, the portal holds more than 1 million publications ${\cal P}$, 
+forming in total a set ${\cal S}$ of more than 10 million signatures.
+Out of these, around 13\% have been \textit{claimed} by their
+original authors or marked as such by professional curators.
+Together, they constitute a trusted set $({\cal S}^\prime, {\cal C}^\prime)$ of 15388 distinct individuals sharing
 36340 unique author names spread within 1201763 signatures on 360066
 publications. This data covers several decades in time and dozens of author
 nationalities worldwide.
 
-Following INSPIRE terms of use, the signatures ${\cal S}^\prime$ and their
+Following the \emph{INSPIRE} terms of use, the signatures ${\cal S}^\prime$ and their
 corresponding clusters ${\cal C}^\prime$ are released
 online\footnote{\url{https://github.com/glouppe/paper-author-disambiguation}}
-under the CC0 license. To the best of our knowledge, data of this size and
-coverage is the first to be publicly released in the scope of author
-disambiguation research.
+under the CC0 license.
+To the best of our knowledge, data of this size and coverage is the first to be publicly 
+released in the scope of author disambiguation research.
 
 \subsection{Evaluation protocol}
 
@@ -532,14 +539,14 @@ C}^\prime)$ as ground-truth dataset. To replicate the $|{\cal S}^\prime| /
 |{\cal S}| \approx 13\%$ ratio of claimed signatures with respect to the total
 set of signatures, as on the INSPIRE platform, cross-validation folds are
 constructed by sampling 13\% of claimed signatures to form a training set ${\cal
-S}_\text{train}^\prime \subseteq {\cal S}^\prime$, and by using the remaining
-signatures ${\cal S}_\text{test}^\prime = {\cal S}^\prime \setminus {\cal
-S}_\text{train}^\prime$ for testing. Accordingly, ${\cal C}_\text{train}^\prime
-= \{ c^\prime \cap {\cal S}_\text{train}^\prime | c^\prime \in {\cal C}^\prime
+S}_\text{train}^\prime \subseteq {\cal S}^\prime$.
+The remaining signatures ${\cal S}_\text{test}^\prime = {\cal S}^\prime \setminus {\cal
+S}_\text{train}^\prime$ are used for testing.
+Therefore, ${\cal C}_\text{train}^\prime = \{ c^\prime \cap {\cal S}_\text{train}^\prime | c^\prime \in {\cal C}^\prime
 \}$ represents the partial known clusters on the training fold, while ${\cal
 C}_\text{test}^\prime$ are those used for testing.
 
-As commonly done in author disambiguation research,
+As commonly performed in author disambiguation research,
 we evaluate the predicted clusters over testing data  ${\cal C}_\text{test}^\prime$,
 using both B3 and pairwise precision, recall
 and F-measure, as defined below:
@@ -555,15 +562,16 @@ and where $c(s)$ (resp. $\widehat{c}(s)$) is the cluster $c \in {\cal C}$ such t
 $s \in c$ (resp. the cluster $\widehat{c} \in \widehat{\cal C}$ such that $s
 \in \widehat{c}$), and where $p({\cal C}) = \cup_{c \in {\cal C}} \{ (s_1, s_2)
 | s_1, s_2 \in c, s_1 \neq s_2 \}$ is the set of all pairs of signatures from
-the same clusters in ${\cal C}$. Intuitively, precision evaluates whether signatures
-are grouped only with signatures from the same true clusters, while recall
-measures the extent to which all signatures from the same true clusters are
-effectively grouped together. The F-measure is the harmonic mean between these
-two quantities. In the analysis below, we rely primarily on the B3 F-measure for discussing
-results, as the pairwise variant tends to favor large clusters (because the number of pairs is quadratic with the cluster size),
-hence unfairly giving preference to authors with many publications. By contrast,
-the B3 F-measure weights clusters linearly with respect to their size. General conclusions
-drawn below remain however consistent for pairwise F.
+the same clusters in ${\cal C}$.
+Precision evaluates whether signatures are grouped only with signatures from the same true clusters, 
+while recall measures the extent to which all signatures from the same true clusters are
+effectively grouped together.
+The F-measure is the harmonic mean between these two quantities.
+In the analysis below, we rely primarily on the B3 F-measure for discussing results, as the pairwise variant 
+tends to favor large clusters (because the number of pairs is quadratic with the cluster size),
+hence unfairly giving preference to authors with many publications.
+By contrast, the B3 F-measure weights clusters linearly with respect to their size.
+General conclusions drawn below remain however consistent for pairwise F.
 
 \subsection{Results and discussion}
 
@@ -607,7 +615,7 @@ Block cut & 0.9901 & 0.9760 & \textbf{0.9830} & 0.9948 & 0.9738 & \textbf{0.9842
 \end{tabular}
 \end{table}
 
-\textit{Baseline.} Results presented in Table~\ref{table:results} are all discussed with
+\textit{Baseline.} Results presented in Table~\ref{table:results} are discussed with
 respect to a baseline solution using the following combination of components:
 \begin{itemize}
 \item Blocking: same surname and the same first given name initial strategy (SFI);
@@ -619,19 +627,17 @@ respect to a baseline solution using the following combination of components:
 \end{itemize}
 
 
-\textit{Blocking.} The very good precision of the baseline ($0.9901$) but its
-lower recall ($0.9760$) suggests that the blocking strategy might be the
-limiting factor to further overall improvements. As Table~\ref{table:blocking}
-indeed indicates, the maximum recall (i.e., if within a block, all signatures
-were clustered optimally) for SFI is $0.9828$ , hence not letting much more
-room for improvement. At the price of fewer and therefore slightly larger
-blocks (as reported in the right column of Table~\ref{table:blocking}), the
+\textit{Blocking.} The good precision of the baseline ($0.9901$), but its
+lower recall ($0.9760$) suggest that the blocking strategy might be the
+limiting factor to further overall improvements.
+As shown in Table~\ref{table:blocking}, the maximum recall (\ie, if within a block, all signatures were clustered optimally) for SFI is $0.9828$.
+At the price of fewer and therefore slightly larger blocks (as reported in the right column of Table~\ref{table:blocking}), the
 proposed phonetic-based blocking strategies show better maximum recall (all
 around $0.9905$), thereby pushing further the upper bound on the maximum
-performance of author disambiguation. As Table~\ref{table:results} indeed shows,
-switching to either Double metaphone or NYSIIS phonetic-based blocking allows
-to improve the overall F-measure score, trading precision for recall. In particular,
-the NYSIIS-based phonetic blocking shows to be the most effective when applied
+performance of author disambiguation.
+As Table~\ref{table:results} shows, switching to either Double metaphone or NYSIIS phonetic-based blocking allows
+to improve the overall F-measure score, trading precision for recall.
+In particular, the NYSIIS-based phonetic blocking shows to be the most effective when applied
 to the baseline (with an F-measure of $0.9850$) while also being the most
 efficient computationally (with 10857 blocks versus 12978 for the baseline).
 
@@ -656,31 +662,32 @@ around $98\%$ on real data.
 \end{tabular}
 \end{table}
 
-\textit{Name normalization.} As discussed before, the seemingly anodyne step of
-normalizing author names (stripping accents, removing affixes), as done in the
-baseline, reveals to be quite important. Results of Table~\ref{table:results}
-indeed clearly suggests that not normalizing significantly reduces performance
-(yielding an F-measure of $0.9830$ when normalizing, but decreasing to $0.9791$
-when raw author name strings are used instead).
+\textit{Name normalization.} As discussed previously, the seemingly insignificant step of
+normalizing author names (stripping accents, removing affixes), as performed in the
+baseline, is shown to be important. Results from Table~\ref{table:results} clearly suggest that not
+normalizing significantly reduces performance (yielding an F-measure of $0.9830$ when normalizing, 
+but decreasing to $0.9791$ when raw author name strings are used instead).
 
-\textit{Linkage function.} Let us first comment the results regarding the
-supervised algorithm used to learn the linkage function. As
-Table~\ref{table:results} indicates, both tree-based algorithms appear to be
+\textit{Linkage function.} Let us first comment on the results regarding the
+supervised algorithm used to learn the linkage function.
+As Table~\ref{table:results} indicates, both tree-based algorithms appear to be
 significantly better fit than Linear Regression ($0.9830$ and $0.9846$ for GBRT
 and Random Forests versus $0.9666$ for Linear Regression). This result is
 consistent with \citep{treeratpituk2009disambiguating} which evaluated the use
 Random Forests for author disambiguation, but contradicts results of
 \citep{levin2012citation} for which Logistic Regression appeared to be the best
-classifier. Provided hyper-parameters are properly tuned, the superiority of
-tree-based methods is in our opinion not surprising. Indeed, given the fact
-that the optimal linkage function is likely to be non-linear, non-parametric
+classifier.
+Provided hyper-parameters are properly tuned, the superiority of
+tree-based methods is in our opinion not surprising.
+Indeed, given the fact that the optimal linkage function is likely to be non-linear, non-parametric
 methods are expected to yield better results, as the experiments here confirm.
 
 Second, properly constructing a training set of positive and negative pairs of
-signatures from which to learn a linkage function reveals to yield quite an
-improvement. A random sampling of positive and negative pairs, without taking
+signatures from which to learn a linkage function yields a significant
+improvement.
+A random sampling of positive and negative pairs, without taking
 blocking into account, significantly impacts the overall performance
-($0.9711$). When pairs are drawn only from blocks, performance increases
+($0.9711$). When pairs are drawn only from blocks, performance increases to
 ($0.9786$), which confirms our intuition that $d$ should be built only from
 pairs it will be used to eventually cluster. Finally, making the classification
 problem more difficult by oversampling complex cases proves to be relevant,
@@ -688,15 +695,15 @@ by further improving the disambiguation results ($0.9830$).
 
 \begin{figure}
 \centering
-\caption{Recursive Feature Elimimation analysis. }
+\caption{Recursive Feature Elimination analysis. }
 \label{fig:rfe}
 \includegraphics[width=\textwidth]{figures/rfe.pdf}
 \end{figure}
 
 Using Recursive Feature Elimination \cite{guyon2002gene}, we next evaluate the
-usefulness of all 15 standard and 7 additional ethnicity features for learning
+usefulness of all fifteen standard and seven additional ethnicity features for learning
 the linkage function. The analysis consists in using the baseline algorithm
-first using all 22 features, to determine the least discriminative from feature
+first using all twenty two features, to determine the least discriminative from feature
 importances \citep{louppe2013understanding}, and then re-learn the baseline
 using all but that one feature. That process is repeated recursively until
 eventually only one feature remains. Results are presented in
@@ -709,18 +716,19 @@ the figure illustrates, the most important features are ethnic-based features
 other features only brings marginal improvements, with \textit{Journal},
 \textit{Abstract}, \textit{Collaborations}, \textit{References} \textit{Given
 name initial} and \textit{Second given name} being almost insignificant.
-Overall, these results highlight the added value of the proposed ehtnic-based
-features. Their duality in modeling both the similarity between author names
+Overall, these results highlight the added value of the proposed ethnicity
+features.
+Their duality in modeling both the similarity between author names
 and their origins make them very strong predictors for author disambiguation.
-The results also corroborates results from \citep{kang2009co} or \citep{ferreira2010effective}, who
+The results also corroborate those from \citep{kang2009co} or \citep{ferreira2010effective}, who
 found that the similarity between co-authors was a highly discriminative
-feature. It indeed appears in 4th in our ranking and brings very significant
-improvements as the figure illustrates. In case computational complexity is a concern, this analysis also
-underlines the fact that decent performance can be achieved using only a very
+feature.
+If computational complexity is a concern, this analysis also
+shows how decent performance can be achieved using only a very
 small set of features, as also observed in
 \citep{treeratpituk2009disambiguating} or \citep{levin2012citation}.
 
-\textit{Semi-supervised clustering.} The last part of our experiments concerns
+\textit{Semi-supervised clustering.} The last part of our experiment concerns
 the study of agglomerative clustering and the best way to find a cut-off
 threshold to form clusters. Results from Table~\ref{table:results}
 first clearly indicates that average linkage is significantly better than
@@ -728,7 +736,7 @@ both single and complete linkage.
 
 Clustering together all signatures from the same block is the least effective
 strategy ($0.9409$), but yields anyhow surprisingly decent accuracy, given the
-fact it requires almost no computation (i.e., both learning a linkage function
+fact it requires almost no computation (\ie, both learning a linkage function
 and running agglomerative clustering can be skipped -- only the blocking
 function is needed to group signatures). In particular, this result reveals
 that author names are not ambiguous in most cases\footnote{This holds for the
@@ -750,9 +758,9 @@ known.
 \label{conclusions}
 
 In this work, we have revisited and validated the general author disambiguation
-pipeline introduced in previous and independent research works. The generic
-approach is made of three components, whose design and tuning are all critical
-to get good performance: (i) a blocking function for pre-clustering signatures
+pipeline introduced in previous independent research work.
+The generic approach is composed of three components, whose design and tuning are all critical
+to good performance: (i) a blocking function for pre-clustering signatures
 and reducing computational complexity, (ii) a linkage function for identifying
 signatures with coreferring authors and (iii) the agglomerative clustering of
 signatures. Making use of a distinctively large dataset of more than 1 million
@@ -767,11 +775,11 @@ experiments show that our refinements all yield significantly better author
 disambiguation accuracy, thereby encouraging further research in these directions.
 
 As part of this study, we also publicly release the annotated data extracted
-from the INSPIRE platform, on which our experiments are based on. To the
-best of our knowledge, data of this size and coverage is the first to be
-available in  author disambiguation research. By releasing the data publicly,
-we hope to set a benchmark on which further research on author disambiguation
-and related topics can  build upon.
+from the \emph{INSPIRE} platform, on which our experiments are based.
+To the best of our knowledge, data of this size and coverage is the first to be
+available in author disambiguation research. By releasing the data publicly,
+we hope to provide the basis for further research on author disambiguation
+and related topics.
 
 
 % \section*{Acknowledgements}
