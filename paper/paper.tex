@@ -212,7 +212,7 @@ denote by ${\cal S} = \{ s | s \in p, p \in {\cal P} \}$ the set of all
 signatures that can be extracted from all publications in ${\cal P}$ and
 by $S=|{\cal S}|$ the total number of signatures.
 
-\begin{figure*}[t!]
+\begin{figure}
 \centering
 \includegraphics[width=\textwidth]{figures/pub-to-signature}
 \caption{An example signature $s$ for "Doe, John". A \textit{signature} is
@@ -220,7 +220,7 @@ defined as unique piece of information identifying an author on a publication,
 along with any other metadata that can be derived from it, such as publication
 title, co-authors or date of publication.}
 \label{fig:signature}
-\end{figure*}
+\end{figure}
 
 In this
 framework, author disambiguation can be stated as the problem of
@@ -239,19 +239,22 @@ $s \in c_i^\prime$ belong to the same author.
 
 As inspired from several previous works described in Section~\ref{related-works},
 we cast in this work author disambiguation into a semi-supervised clustering
-problem.  Our algorithm is made of three parts: (i) a blocking
+problem.  Our algorithm is made of three parts, as sketched in Figure~\ref{fig:workflow}: (i) a blocking
 scheme whose goal is to roughly pre-cluster signatures ${\cal S}$ into smaller groups in order to
 reduce computational complexity; (ii) the construction of a linkage function
 $d$ between signatures using supervised learning; (iii) the
 semi-supervised clustering of all signatures within a same block, using $d$ as a pseudo distance metric.
 
 
-\begin{figure*}[t!]
+\begin{figure}
 \centering
 \includegraphics[width=\textwidth]{figures/workflow}
-\caption{Something workflowy...}
+\caption{General pipeline for author disambiguation: (a)
+signatures are \textit{blocked} to reduce computational complexity, (b) a linkage
+function is built with supervised learning, (c) signatures within the same block
+are grouped using agglomerative clustering.}
 \label{fig:workflow}
-\end{figure*}
+\end{figure}
 
 \subsection{Blocking}
 \label{methods:blocking}
@@ -314,8 +317,6 @@ the signature is assigned to the block of the first surname (case 3). Finally,
 to prevent the creation of too large blocks, signatures are further divided
 along their first given name initial.  Cases 4 and 5 are not
 explicitly handled.
-
-%\glnote{I am not sure we need an explicit algorithm, but adding a few examples would help.}
 
 \subsection{Linkage function}
 \label{methods:linkage}
@@ -455,7 +456,7 @@ distinct authors. Let us denote by ${\cal S}^\prime = \{ s | s \in c^\prime, c^\
 known. Let us also denote by $\smash{\widehat{\cal C}}$  the predicted clusters for all signatures in ${\cal S}$, and by
 $\smash{\widehat{\cal C}^\prime} = \{ \widehat{c} \cap {\cal S}^\prime | \widehat{c} \in \widehat{\cal C} \}$
 the predicted clusters restricted to signatures for which partial
-clusters are known. From these, we evaluate the following semi-supervised cut-off strategies:
+clusters are known. From these, we evaluate the following semi-supervised cut-off strategies, as illustrated in Figure~\ref{fig:cuts}:
 \begin{itemize}
 \item \textit{No cut:} all signatures from the same block are assumed to be from the same author.
 \item \textit{Global cut:} the threshold is chosen globally over all blocks,
@@ -465,12 +466,12 @@ clusters are known. From these, we evaluate the following semi-supervised cut-of
     In case ${\cal C}_b^\prime$ is empty, then all signatures from $b$ are clustered together.
 \end{itemize}
 
-\begin{figure*}[t!]
+\begin{figure}
 \centering
 \includegraphics[width=\textwidth]{figures/cuts}
-\caption{Something cutty}
+\caption{Semi-supervised cut-off strategies to form flat clusters of signatures.}
 \label{fig:cuts}
-\end{figure*}
+\end{figure}
 
 
 % hierarchical clustering
