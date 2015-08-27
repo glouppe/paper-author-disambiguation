@@ -215,7 +215,7 @@ signatures that can be extracted from all publications in ${\cal P}$.
 \caption{An example signature $s$ for "Doe, John". A \textit{signature} is
 defined as unique piece of information identifying an author on a publication,
 along with any other metadata that can be derived from it, such as publication
-title, co-authors or date of publication \glnote{Remove a) and b.}}
+title, co-authors or date of publication.}
 \label{fig:signature}
 \end{figure}
 
@@ -356,7 +356,7 @@ as reported in the second half of Table~\ref{table:features}.
 
 More specifically, using census data extracted from \citep{rugglesintegrated},
 we build a support vector machine classifier (using a linear kernel and
-one-versus-all scheme for multi-class classification) for mapping the
+one-versus-all classification scheme) for mapping the
  $(1,5)$-TF-IDF representation of an author name to one of the seven ethnic groups. Given a
 pair of signatures $(s_1, s_2)$, the proposed ethnicity features are each
 computed as the estimated probability of $s_1$ to belong to the corresponding
@@ -755,7 +755,14 @@ a cut-off threshold learned globally from the known data or using SFI would in g
 satisfactory results, only marginally worse than if claimed signatures had been
 known.
 
-\textit{Combined best settings.} \glnote{todo}
+\textit{Combined best settings.} When all best settings are combined (\ie,
+Blocking = NYSIIS, Name normalization, Classifier = Random Forests, Training
+pairs = blocked and balanced, Clustering = Average linkage, Block cuts),
+performance saturates at $0.9845$, which shows not to be better than the best
+reported results ($0.9850$). Since the only difference between these two
+solutions is the use of Random Forests instead of GBRT as classifiers, this
+result suggests there appears to be no significant gain in using one rather
+the other. Both tree-based methods show equally good performance.
 
 
 % Conclusions =================================================================
