@@ -215,7 +215,7 @@ signatures that can be extracted from all publications in ${\cal P}$.
 \caption{An example signature $s$ for "Doe, John". A \textit{signature} is
 defined as unique piece of information identifying an author on a publication,
 along with any other metadata that can be derived from it, such as publication
-title, co-authors or date of publication.}
+title, co-authors or date of publication \glnote{Remove a) and b.}}
 \label{fig:signature}
 \end{figure}
 
@@ -250,7 +250,7 @@ semi-supervised clustering of all signatures within the same block, using $d$ as
 \caption{Pipeline for author disambiguation: (a)
 signatures are \textit{blocked} to reduce computational complexity, (b) a linkage
 function is built with supervised learning, (c) independently within each block, signatures
-are grouped using agglomerative clustering.}
+are grouped using hierarchical agglomerative clustering.}
 \label{fig:workflow}
 \end{figure}
 
@@ -269,7 +269,7 @@ designed such that signatures from the same author are all mapped to the same
 block, otherwise their correct clustering would not be possible in later stages of the workflow.
 As a result, blocking should be a balance between reduced complexity and maximum recall.
 
-The simplest and most common strategy for blocking, referred to hereon in as \emph{SFI},
+The simplest and most common strategy for blocking, referred to hereon in as \textit{Surname and First Initial (SFI)},
 groups signatures together if they share the same surname(s) and the same first
 given name initial (\eg, \emph{SFI}("Doe, John") $==$ "Doe, J").
 Despite satisfactory performance, there are several cases where this simple strategy fails to cluster related pairs of signatures together, including:
@@ -354,18 +354,18 @@ To support our disambiguation algorithm, we added seven features to our feature 
 evaluating the degree of belonging of both signatures to an ethnic group,
 as reported in the second half of Table~\ref{table:features}.
 
-More specifically, using census data extracted from \citep{rugglesintegrated}, we
-build a logistic regression classifier for mapping the $(1,5)$-TF-IDF
-representation of an author name to one of the seven ethnic groups.
-Given a pair of signatures $(s_1, s_2)$, the proposed ethnicity
-features are each computed as the estimated probability of $s_1$ to belong to
-the corresponding ethnic group, multiplied by the estimated probability of
-$s_2$ to belong to the same group. In doing so, the expectation is for the
-linkage function to become sensitive to the actual origin of the authors
-depending on the values of these features.
-Indirectly, let us also note that these features hold discriminative power since
-if author names are predicted to belong to different ethnic groups, then they
-are also likely to correspond to distinct people.
+More specifically, using census data extracted from \citep{rugglesintegrated},
+we build a support vector machine classifier (using a linear kernel and
+one-versus-all scheme for multi-class classification) for mapping the
+ $(1,5)$-TF-IDF representation of an author name to one of the seven ethnic groups. Given a
+pair of signatures $(s_1, s_2)$, the proposed ethnicity features are each
+computed as the estimated probability of $s_1$ to belong to the corresponding
+ethnic group, multiplied by the estimated probability of $s_2$ to belong to the
+same group. In doing so, the expectation is for the linkage function to become
+sensitive to the actual origin of the authors depending on the values of these
+features. Indirectly, let us also note that these features hold discriminative
+power since if author names are predicted to belong to different ethnic groups,
+then they are also likely to correspond to distinct people.
 
 \begin{table}
 \caption{Input features for learning a linkage function}
@@ -613,6 +613,8 @@ Clustering = Complete linkage & 0.9862 & 0.9709 & 0.9785 & 0.9920 & 0.9688 & 0.9
 No cut & 0.9024 & 0.9828 & 0.9409 & 0.8298 & 0.9776 & 0.8977 \\
 Global cut & 0.9892 & 0.9737 & 0.9814 & 0.9940 & 0.9727 & 0.9832 \\
 Block cut & 0.9901 & 0.9760 & \textbf{0.9830} & 0.9948 & 0.9738 & \textbf{0.9842} \\
+\hline
+Combined best settings  & 0.9910 & 0.9780 & \textbf{0.9845} & 0.9959 & 0.9750 & \textbf{0.9853} \\
   \hline
 \end{tabular}
 \end{table}
@@ -648,7 +650,7 @@ estimation of \citep{torvik2009author}, stating that SFI blocking has a recall
 around $98\%$ on real data.
 
 \begin{table}
-\caption{Maximum recall of blocking strategies, and their number of blocks on ${\cal S}^\prime$.}
+\caption{Maximum recall $R_\text{B3}^*$ and $R_\text{pairwise}^*$ of blocking strategies, and their number of blocks on ${\cal S}^\prime$.}
 \label{table:blocking}
 \centering
 \begin{tabular}{|l|cc|c|}
@@ -748,10 +750,12 @@ fraction of them requires advanced disambiguation procedures. On the other
 hand, both global and block cut thresholding strategies give very good results,
 with a slight advantage for block cuts ($0.9814$ versus $0.9830$), as expected.
 In case ${\cal S}^\prime_b$ is empty (\eg, because it corresponds to a young
-researcher at the beginning of his career), this therefore suggests that using
-a cut-off threshold learned globally from the known data would in general give
+researcher at the beginning of his career), this therefore suggests that either using
+a cut-off threshold learned globally from the known data or using SFI would in general give
 satisfactory results, only marginally worse than if claimed signatures had been
 known.
+
+\textit{Combined best settings.} \glnote{todo}
 
 
 % Conclusions =================================================================
