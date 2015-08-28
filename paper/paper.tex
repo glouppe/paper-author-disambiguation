@@ -499,8 +499,7 @@ of a linkage function and of SciPy \citep{scipy} for clustering.
 All components of the disambiguation pipeline have been designed to follow the
 Scikit-Learn API \citep{scikitlearnAPI}, making them easy to maintain,
 understand and reuse.
-Our implementation is made to be efficient, exploiting parallelization when available and
-making it ready for production environments.
+Our implementation is made to be efficient, exploiting parallelization when available, and ready for production environments.
 It is also designed be runnable
 in an incremental fashion, by enabling disambiguation only on specified blocks if desired,
 instead of having to run the disambiguation process on the whole signature set.
@@ -761,7 +760,7 @@ pairs = blocked and balanced, Clustering = Average linkage, Block cuts),
 performance saturates at $0.9845$, which shows not to be better than the best
 reported results ($0.9850$). Since the only difference between these two
 solutions is the use of Random Forests instead of GBRT as classifiers, this
-result suggests there appears to be no significant gain in using one rather
+final result suggests that there appears to be no significant gain in using one rather
 the other. Both tree-based methods show equally good performance.
 
 
@@ -785,9 +784,18 @@ ethnicity-sensitive features for the automatic tailoring of disambiguation to no
 author names whenever necessary. Finally, we explore semi-supervised cut-off
 threshold strategies for agglomerative clustering. For all three components,
 experiments show that our refinements all yield significantly better author
-disambiguation accuracy, thereby encouraging further research in these directions.
+disambiguation accuracy.
 
-Further improvements include ... \glnote{TODO}
+Overall, these results all encourage further improvements and research. For
+blocking, one of the open challenges is to manage signatures with inconsistent
+surnames or inconsistent first given names (cases 4 and 5, as described in
+Section~\ref{methods:blocking}) while maintaining blocks to a tractable size.
+For the linkage function, the good results of the proposed features pave the
+way for further research  in ethnicity-sensitive author disambiguation. The
+automatic fitting of the pipeline to cultures and ethnic groups for which
+standard author disambiguation is known to be less efficient (\eg, Chinese
+authors with many homonyms)  indeed constitutes a direction of research with
+great potential benefits for the concerned scientific communities.
 
 As part of this study, we also publicly release the annotated data extracted
 from the \emph{INSPIRE} platform, on which our experiments are based.
