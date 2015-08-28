@@ -638,6 +638,9 @@ At the price of fewer and therefore slightly larger blocks (as reported in the r
 proposed phonetic-based blocking strategies show better maximum recall (all
 around $0.9905$), thereby pushing further the upper bound on the maximum
 performance of author disambiguation.
+Let us remind however that the reported maximum recalls for the blocking strategies using phonetization are
+also raised due to the better handling of multiple surnames, as described in Section \ref{methods:blocking}.
+
 As Table~\ref{table:results} shows, switching to either Double metaphone or NYSIIS phonetic-based blocking allows
 to improve the overall F-measure score, trading precision for recall.
 In particular, the NYSIIS-based phonetic blocking shows to be the most effective when applied
@@ -665,8 +668,7 @@ around $98\%$ on real data.
 \end{tabular}
 \end{table}
 
-Note that the maximum recalls of blocking strategies using phonetization are
-also raised due to the better handling of multiple given names cases, as described in Section \ref{methods:blocking}.
+
 
 \textit{Name normalization.} As discussed previously, the seemingly insignificant step of
 normalizing author names (stripping accents, removing affixes), as performed in the
