@@ -284,7 +284,7 @@ Despite satisfactory performance, there are several cases where this simple stra
   \item An author has multiple surnames and, on some signatures, only the first surname is
   present (\eg, "Smith-Jones, A." and "Smith, A.")
 
-  \item An author as multiple given names and they are not always all recorded (\eg,
+  \item An author has multiple given names and they are not always all recorded (\eg,
   "Smith, Jack" and "Smith, A. J.")
 
   \item An authors surname changed (\eg, due to marriage).
@@ -359,8 +359,8 @@ we build a support vector machine classifier (using a linear kernel and
 one-versus-all classification scheme) for mapping the
  $(1,5)$-TF-IDF representation of an author name to one of the seven ethnic groups. Given a
 pair of signatures $(s_1, s_2)$, the proposed ethnicity features are each
-computed as the estimated probability of $s_1$ to belong to the corresponding
-ethnic group, multiplied by the estimated probability of $s_2$ to belong to the
+computed as the estimated probability of $s_1$ belonging to the corresponding
+ethnic group, multiplied by the estimated probability of $s_2$ belonging to the
 same group. In doing so, the expectation is for the linkage function to become
 sensitive to the actual origin of the authors depending on the values of these
 features. Indirectly, let us also note that these features hold discriminative
@@ -665,6 +665,9 @@ around $98\%$ on real data.
 \end{tabular}
 \end{table}
 
+Note that the maximum recalls of blocking strategies using phonetization are
+raised also due to the better handling of multiple given names cases described in Section \ref{methods:blocking}.
+
 \textit{Name normalization.} As discussed previously, the seemingly insignificant step of
 normalizing author names (stripping accents, removing affixes), as performed in the
 baseline, is shown to be important. Results from Table~\ref{table:results} clearly suggest that not
@@ -676,7 +679,7 @@ supervised algorithm used to learn the linkage function.
 As Table~\ref{table:results} indicates, both tree-based algorithms appear to be
 significantly better fit than Linear Regression ($0.9830$ and $0.9846$ for GBRT
 and Random Forests versus $0.9666$ for Linear Regression). This result is
-consistent with \citep{treeratpituk2009disambiguating} which evaluated the use
+consistent with \citep{treeratpituk2009disambiguating} which evaluated the use of
 Random Forests for author disambiguation, but contradicts results of
 \citep{levin2012citation} for which Logistic Regression appeared to be the best
 classifier.
@@ -717,7 +720,7 @@ the figure illustrates, the most important features are ethnic-based features
 (\textit{Chinese}, \textit{Other Asian}, \textit{Black}) along with
 \textit{Co-authors}, \textit{Affiliation} and \textit{Full name}. Adding the remaining
 other features only brings marginal improvements, with \textit{Journal},
-\textit{Abstract}, \textit{Collaborations}, \textit{References} \textit{Given
+\textit{Abstract}, \textit{Collaborations}, \textit{References}, \textit{Given
 name initial} and \textit{Second given name} being almost insignificant.
 Overall, these results highlight the added value of the proposed ethnicity
 features.
