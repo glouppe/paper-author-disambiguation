@@ -296,7 +296,7 @@ Normalization involves stripping accents (\eg, "Jabłoński, Ł" $\rightarrow$ "
 affixes that inconsistently appear in signatures (\eg, "van der Waals, J. D."
 $\rightarrow$ "Waals, J. D."), while phonetization is based either on the
 Double Metaphone \citep{doublemetaphone}, the NYSIIS \citep{nysiis} or the
-Soundex \citep{Soundex} algorithms.
+Soundex \citep{Soundex} phonetic algorithms for mapping author names to their pronunciations.
 Together, these processing steps allow for grouping of most name variants of the same
 person in the same block with a small increase in the overall computational complexity, thereby solving case 1.
 
@@ -795,9 +795,8 @@ Overall, these results all encourage further improvements and research. For
 blocking, one of the open challenges is to manage signatures with inconsistent
 surnames or inconsistent first given names (cases 4 and 5, as described in
 Section~\ref{methods:blocking}) while maintaining blocks to a tractable size.
-As Double Metaphone, NYSIIS or Soundex are far from being perfect in the
-context of author disambiguation, another direction  for further work is the design of better
-phonetization functions, tailored for personal names. For the linkage function,
+As phonetic algorithms are not yet perfect, another direction  for further work is the design of better
+phonetization functions, tailored for author disambiguation. For the linkage function,
 the good results of the proposed features pave the way for further research  in
 ethnicity-sensitive author disambiguation. The automatic fitting of the
 pipeline to cultures and ethnic groups for which standard author disambiguation
