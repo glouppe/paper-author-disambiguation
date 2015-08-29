@@ -613,7 +613,7 @@ No cut & 0.9024 & 0.9828 & 0.9409 & 0.8298 & 0.9776 & 0.8977 \\
 Global cut & 0.9892 & 0.9737 & 0.9814 & 0.9940 & 0.9727 & 0.9832 \\
 Block cut & 0.9901 & 0.9760 & \textbf{0.9830} & 0.9948 & 0.9738 & \textbf{0.9842} \\
 \hline
-Combined best settings  & 0.9910 & 0.9780 & \textbf{0.9845} & 0.9959 & 0.9750 & \textbf{0.9853} \\
+Combined best settings & 0.9897 & 0.9827 & \textbf{0.9862} & 0.9954 & 0.9805 & \textbf{0.9879} \\
   \hline
 \end{tabular}
 \end{table}
@@ -762,11 +762,8 @@ known.
 \textit{Combined best settings.} When all best settings are combined (\ie,
 Blocking = NYSIIS, Name normalization, Classifier = Random Forests, Training
 pairs = blocked and balanced, Clustering = Average linkage, Block cuts),
-performance saturates at $0.9845$, which shows not to be better than the best
-reported results ($0.9850$). Since the only difference between these two
-solutions is the use of Random Forests instead of GBRT as classifiers, this
-final result suggests that there appears to be no significant gain in using one rather
-the other. Both tree-based methods show equally good performance. \glnote{Experiment was run incorrectly!! Results are being recomputed...}
+performance reaches  $0.9862$, combining the high recall of NYSIIS blocking
+with the better precision of Random Forests.
 
 
 % Conclusions =================================================================
