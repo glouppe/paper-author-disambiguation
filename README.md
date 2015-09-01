@@ -27,6 +27,24 @@ disambiguation to non-Western author names whenever necessary.
 
 ---
 
+Please cite using the following BibTex entry:
+
+```
+@article{louppe2015disambiguation,
+   author = {{Louppe}, G. and {Al-Natsheh}, H. and {Susik}, M. and {Maguire}, E.},
+    title = "{Ethnicity sensitive author disambiguation using semi-supervised learning}",
+  journal = {ArXiv e-prints},
+archivePrefix = "arXiv",
+   eprint = {1508.07744},
+ primaryClass = "cs.DL",
+ keywords = {Computer Science - Digital Libraries, Computer Science - Information Retrieval},
+     year = 2015,
+    month = aug
+}
+```
+
+---
+
 _Structure of the repository:_
 - `beard/`: Source code.
 - `data/`: Author disambiguation data extracted from INSPIRE.
