@@ -109,7 +109,7 @@ communities \citep{liu2014author}. On the one hand, libraries have maintained
 authorship control through manual curation, either in a centralized way by
 hiring professional collaborators or through developing services that invite authors to register
 their publications themselves (\eg, Google Scholar or Inspire-HEP).
-Recent efforts to create persistent digital identifiers assigned to researchers (\eg, ORCID or ResearchedID),
+Recent efforts to create persistent digital identifiers assigned to researchers (\eg, ORCID or ResearcherID),
 with the objective to embed these identifiers in the submission workflow of publishers
 or repositories (\eg, Elsevier, arXiv or Inspire-HEP), would univocally solve any disambiguation issue.
 With the large cost of centralized manual authorship control, or until crowdsourced solutions are more
@@ -500,7 +500,7 @@ All components of the disambiguation pipeline have been designed to follow the
 Scikit-Learn API \citep{scikitlearnAPI}, making them easy to maintain,
 understand and reuse.
 Our implementation is made to be efficient, exploiting parallelization when available, and ready for production environments.
-It is also designed be runnable
+It is also designed to be runnable
 in an incremental fashion, by enabling disambiguation only on specified blocks if desired,
 instead of having to run the disambiguation process on the whole signature set.
 
@@ -716,7 +716,7 @@ first using all twenty two features, to determine the least discriminative from 
 importances \citep{louppe2013understanding}, and then re-learn the baseline
 using all but that one feature. That process is repeated recursively until
 eventually only one feature remains. Results are presented in
-Figure~\ref{fig:rfe} for one the three folds, starting from the far right with
+Figure~\ref{fig:rfe} for one of the three folds, starting from the far right with
 the baseline and \textit{Second given name} being the least important feature,
 and ending on the left with all features eliminated but \textit{Chinese}. As
 the figure illustrates, the most important features are ethnic-based features
@@ -740,7 +740,7 @@ small set of features, as also observed in
 \textit{Semi-supervised clustering.} The last part of our experiment concerns
 the study of agglomerative clustering and the best way to find a cut-off
 threshold to form clusters. Results from Table~\ref{table:results}
-first clearly indicates that average linkage is significantly better than
+first clearly indicate that average linkage is significantly better than
 both single and complete linkage.
 
 Clustering together all signatures from the same block is the least effective
