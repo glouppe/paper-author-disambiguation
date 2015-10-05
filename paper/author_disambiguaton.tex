@@ -1,59 +1,421 @@
-\documentclass{article}
-\usepackage{nips15submit_e}
 
-% For figures
-\usepackage{graphicx}
-\usepackage{subfigure}
-\usepackage{color}
+%% bare_conf.tex
+%% V1.3
+%% 2007/01/11
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.7 or later) with an IEEE conference paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/
+%% and
+%% http://www.ieee.org/
 
-% Maths
-\usepackage{amsmath}
-\usepackage{amsfonts}
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%
+%% File list of work: IEEEtran.cls, IEEEtran_HOWTO.pdf, bare_adv.tex,
+%%                    bare_conf.tex, bare_jrnl.tex, bare_jrnl_compsoc.tex
+%%*************************************************************************
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. IEEE's font choices can trigger bugs that do  ***
+% *** not appear when using other class files.                            ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+
+% Note that the a4paper option is mainly intended so that authors in
+% countries using A4 can easily print to A4 and see how their papers will
+% look in print - the typesetting of the document will not typically be
+% affected with changes in paper size (but the bottom and side margins will).
+% Use the testflow package mentioned above to verify correct handling of
+% both paper sizes by the user's LaTeX system.
+%
+% Also note that the "draftcls" or "draftclsnofoot", not "draft", option
+% should be used if it is desired that the figures are to be displayed in
+% draft mode.
+%
+\documentclass[conference]{IEEEtran}
+% Add the compsoc option for Computer Society conferences.
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[conference]{../sty/IEEEtran}
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/oberdiek/
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
 \usepackage{xspace}
-
-% For citations
-\usepackage{natbib}
-
-% For links
 \usepackage{hyperref}
-
-% For "Jabłoński"
-\usepackage[utf8]{inputenc}
-
-\newcommand{\glnote}[1]{\textcolor{red}{[GL: #1]}}
-\newcommand{\msnote}[1]{\textcolor{blue}{[MS: #1]}}
 \newcommand{\etal}{\emph{et al.}\xspace}
 \newcommand{\ie}{\emph{i.e.}\xspace}
 \newcommand{\eg}{\emph{e.g.}\xspace}
 \newcommand{\Eg}{\emph{E.g.}\xspace}
 
 
-% Header ======================================================================
 
-\title{Ethnicity sensitive author disambiguation using semi-supervised learning}
+% *** CITATION PACKAGES ***
+%
+%\usepackage{cite}
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 4.0 (2003-05-27) and later if using hyperref.sty. cite.sty does
+% not currently provide for hyperlinked citations.
+% The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/cite/
+% The documentation is contained in the cite.sty file itself.
 
-\author{Gilles Louppe\\
-        CERN\\
-        Switzerland\\
-\And Hussein Al-Natsheh\\
-        CERN\\
-        Switzerland\\
-\And Mateusz Susik\\
-        CERN\\
-        Switzerland\\
-\And Eamonn Maguire\\
-        CERN\\
-        Switzerland}
-\date{}
 
-\nipsfinalcopy
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at: 
+% http://www.ctan.org/tex-archive/macros/latex/required/graphics/
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found as epslatex.ps or
+% epslatex.pdf at: http://www.ctan.org/tex-archive/info/
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+\usepackage[cmex10]{amsmath}
+\usepackage{amsfonts}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics. If using
+% it, be sure to load this package with the cmex10 option to ensure that
+% only type 1 fonts will utilized at all point sizes. Without this option,
+% it is possible that some math symbols, particularly those within
+% footnotes, will be rendered in bitmap form which will result in a
+% document that can not be IEEE Xplore compliant!
+%
+% Also, note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/amslatex/math/
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithms/
+% There is also a support site at:
+% http://algorithms.berlios.de/index.html
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/tools/
+
+
+%\usepackage{mdwmath}
+%\usepackage{mdwtab}
+% Also highly recommended is Mark Wooding's extremely powerful MDW tools,
+% especially mdwmath.sty and mdwtab.sty which are used to format equations
+% and tables, respectively. The MDWtools set is already installed on most
+% LaTeX systems. The lastest version and documentation is available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/mdwtools/
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+%\usepackage{eqparbox}
+% Also of notable interest is Scott Pakin's eqparbox package for creating
+% (automatically sized) equal width boxes - aka "natural width parboxes".
+% Available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/eqparbox/
+
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\usepackage[tight,footnotesize]{subfigure}
+% subfigure.sty was written by Steven Douglas Cochran. This package makes it
+% easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
+% work, it is a good idea to load it with the tight package option to reduce
+% the amount of white space around the subfigures. subfigure.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at:
+% http://www.ctan.org/tex-archive/obsolete/macros/latex/contrib/subfigure/
+% subfigure.sty has been superceeded by subfig.sty.
+
+
+
+%\usepackage[caption=false]{caption}
+%\usepackage[font=footnotesize]{subfig}
+% subfig.sty, also written by Steven Douglas Cochran, is the modern
+% replacement for subfigure.sty. However, subfig.sty requires and
+% automatically loads Axel Sommerfeldt's caption.sty which will override
+% IEEEtran.cls handling of captions and this will result in nonIEEE style
+% figure/table captions. To prevent this problem, be sure and preload
+% caption.sty with its "caption=false" package option. This is will preserve
+% IEEEtran.cls handing of captions. Version 1.3 (2005/06/28) and later 
+% (recommended due to many improvements over 1.2) of subfig.sty supports
+% the caption=false option directly:
+%\usepackage[caption=false,font=footnotesize]{subfig}
+%
+% The latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/subfig/
+% The latest version and documentation of caption.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/caption/
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure. The latest version and documentation can be found at:
+% http://www.ctan.org/tex-archive/macros/latex/base/
+
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/sttools/
+% Documentation is contained in the stfloats.sty comments as well as in the
+% presfull.pdf file. Do not use the stfloats baselinefloat ability as IEEE
+% does not allow \baselineskip to stretch. Authors submitting work to the
+% IEEE should note that IEEE rarely uses double column equations and
+% that authors should try to avoid such use. Do not be tempted to use the
+% cuted.sty or midfloat.sty packages (also by Sigitas Tolusis) as IEEE does
+% not format its papers in such ways.
+
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/misc/
+% Read the url.sty source comments for usage information. Basically,
+% \url{my_url_here}.
+
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
 
 \begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{Ethnicity sensitive author disambiguation using semi-supervised learning}
 
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+
+\author{
+\IEEEauthorblockN{Gilles Louppe}
+\IEEEauthorblockA{CERN, Switzerland\\
+g.louppe@cern.ch}
+\and
+\IEEEauthorblockN{Hussein T. Al-Natsheh}
+\IEEEauthorblockA{CNRS, France \\
+hussein.al-natsheh@ish-lyon.cnrs.fr}
+\and
+\IEEEauthorblockN{Mateusz Susik}
+\IEEEauthorblockA{University of Warsaw\\
+msusik@student.uw.edu.pl}
+\and
+\IEEEauthorblockN{Eamonn Maguire}
+\IEEEauthorblockA{CERN, Switzerland\\
+eamonn.james.maguire@cern.ch }}
+
+% conference papers do not typically use \thanks and this command
+% is locked out in conference mode. If really needed, such as for
+% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
+% after \documentclass
+
+% for over three affiliations, or if they all won't fit within the width
+% of the page, use this alternative format:
+% 
+%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
+%Homer Simpson\IEEEauthorrefmark{2},
+%James Kirk\IEEEauthorrefmark{3}, 
+%Montgomery Scott\IEEEauthorrefmark{3} and
+%Eldon Tyrell\IEEEauthorrefmark{4}}
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
+%Georgia Institute of Technology,
+%Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
+%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212, Fax: (888) 555--1212}
+%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
 \maketitle
 
-\begin{abstract}
 
+\begin{abstract}
+%\boldmath
 Author name disambiguation in bibliographic databases is the problem of
 grouping together scientific publications written by the same person, accounting
 for potential homonyms and/or synonyms.
@@ -73,21 +435,30 @@ With respect to the state of the art, we validate the general pipeline used in m
 solutions, and improve by: (i) proposing phonetic-based blocking strategies, thereby
 increasing recall; and (ii) adding strong ethnicity-sensitive features for learning a linkage
 function, thereby tailoring disambiguation to non-Western author names whenever necessary.
-
-
 \end{abstract}
+% IEEEtran.cls defaults to using nonbold math in the Abstract.
+% This preserves the distinction between vectors and scalars. However,
+% if the conference you are submitting to favors bold math in the abstract,
+% then you can use LaTeX's standard command \boldmath at the very start
+% of the abstract to achieve this. Many IEEE journals/conferences frown on
+% math in the abstract anyway.
+
+% no keywords
 
 
-% Introduction ==================================================================
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
 
 \section{Introduction}
-\label{introduction}
-
-% general introduction to the disambiguation issues
-% often based on small dataset or fully unsupervised
-% summary of what we did
-% outline of the paper
-
 In academic digital libraries, author name disambiguation is the problem of
 grouping together publications written by the same person.
 Author name disambiguation is often a difficult problem because an author may use different
@@ -101,11 +472,11 @@ With the fast growth of the scientific literature, author disambiguation has bec
 issue since the accuracy of information managed at the level of individuals directly affects:
 the relevance search of results (\eg, when querying for all publications written by a given author);
 the reliability of bibliometrics and author rankings (\eg, citation counts or other impact
-metrics, as studied in \citep{strotmann2012author}); and/or the relevance of scientific network analysis
-\citep{newman2001structure}.
+metrics, as studied in \cite{strotmann2012author}); and/or the relevance of scientific network analysis
+\cite{newman2001structure}.
 
 Efforts and solutions to author disambiguation have been proposed from various
-communities \citep{liu2014author}. On the one hand, libraries have maintained
+communities \cite{liu2014author}. On the one hand, libraries have maintained
 authorship control through manual curation, either in a centralized way by
 hiring professional collaborators or through developing services that invite authors to register
 their publications themselves (\eg, Google Scholar or Inspire-HEP).
@@ -128,25 +499,106 @@ Our analysis of parameters and features of this large dataset reveal that the ge
 commonly used in existing solutions is an effective approach for author disambiguation.
 Additionally, we propose alternative strategies for blocking based on the
 phonetization of author names to increase recall.
+
 We also propose ethnicity-sensitive features for learning a linkage function,
 thereby tailoring author disambiguation to non-Western author names whenever necessary.
 
 The remainder of this report is structured as follows. In Section~\ref{related-works},
 we briefly review machine learning solutions for author disambiguation.
-The components of our method are then defined in Section~\ref{methods}
-and its implementation described in Section~\ref{implementation}. Experiments
+The components of our method are then defined in Section~\ref{methods} and its implementation described in Section~\ref{implementation}.Experiments
 are carried out in Section~\ref{experiments}, where we explore and validate
 features for the supervised learning of a linkage function and compare
 strategies for the semi-supervised clustering of publications.
 Finally, conclusions and future works are discussed in Section~\ref{conclusions}.
 
 
+% An example of a floating figure using the graphicx package.
+% Note that \label must occur AFTER (or within) \caption.
+% For figures, \caption should occur after the \includegraphics.
+% Note that IEEEtran v1.7 and later has special internal code that
+% is designed to preserve the operation of \label within \caption
+% even when the captionsoff option is in effect. However, because
+% of issues like this, it may be the safest practice to put all your
+% \label just after \caption rather than within \caption{}.
+%
+% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
+% option should be used if it is desired that the figures are to be
+% displayed while in draft mode.
+%
+%\begin{figure}[!t]
+%\centering
+%\includegraphics[width=2.5in]{myfigure}
+% where an .eps filename suffix will be assumed under latex, 
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+%\caption{Simulation Results}
+%\label{fig_sim}
+%\end{figure}
+
+% Note that IEEE typically puts floats only at the top, even when this
+% results in a large percentage of a column being occupied by floats.
+
+
+% An example of a double column floating figure using two subfigures.
+% (The subfig.sty package must be loaded for this to work.)
+% The subfigure \label commands are set within each subfloat command, the
+% \label for the overall figure must come after \caption.
+% \hfil must be used as a separator to get equal spacing.
+% The subfigure.sty package works much the same way, except \subfigure is
+% used instead of \subfloat.
+%
+%\begin{figure*}[!t]
+%\centerline{\subfloat[Case I]\includegraphics[width=2.5in]{subfigcase1}%
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{subfigcase2}%
+%\label{fig_second_case}}}
+%\caption{Simulation results}
+%\label{fig_sim}
+%\end{figure*}
+%
+% Note that often IEEE papers with subfigures do not employ subfigure
+% captions (using the optional argument to \subfloat), but instead will
+% reference/describe all of them (a), (b), etc., within the main caption.
+
+
+% An example of a floating table. Note that, for IEEE style tables, the 
+% \caption command should come BEFORE the table. Table text will default to
+% \footnotesize as IEEE normally uses this smaller font for tables.
+% The \label must come after \caption as always.
+%
+%\begin{table}[!t]
+%% increase table row spacing, adjust to taste
+%\renewcommand{\arraystretch}{1.3}
+% if using array.sty, it might be a good idea to tweak the value of
+% \extrarowheight as needed to properly center the text within the cells
+%\caption{An Example of a Table}
+%\label{table_example}
+%\centering
+%% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|}
+%\hline
+%One & Two\\
+%\hline
+%Three & Four\\
+%\hline
+%\end{tabular}
+%\end{table}
+
+
+% Note that IEEE does not put floats in the very first column - or typically
+% anywhere on the first page for that matter. Also, in-text middle ("here")
+% positioning is not used. Most IEEE journals/conferences use top floats
+% exclusively. Note that, LaTeX2e, unlike IEEE journals/conferences, places
+% footnotes above bottom floats. This can be corrected via the \fnbelowfloat
+% command of the stfloats package.
 % Related works ==================================================================
 
 \section{Related work}
 \label{related-works}
 
-As reviewed in \citep{smalheiser2009author,ferreira2012brief,levin2012citation}, author
+As reviewed in \cite{smalheiser2009author,ferreira2012brief,levin2012citation}, author
 disambiguation algorithms are usually composed of two main components: (i) a
 linkage function determining whether two publications have been written by the
 same author; and (ii) a clustering algorithm producing clusters of publications
@@ -156,23 +608,23 @@ amount of data available, the way the linkage function is learned or defined, or
 clustering procedure used to group publications.
 Methods relying on supervised learning usually make use of a small set of hand-labeled pairs
 of publications identified as being either from the same or different authors to automatically learn a linkage
-function between publications \citep{han2004two,huang2006efficient, culotta2007author,treeratpituk2009disambiguating,tran2014author}.
+function between publications \cite{han2004two,huang2006efficient, culotta2007author,treeratpituk2009disambiguating,tran2014author}.
 
 Training data is usually not easily available, therefore unsupervised approaches propose
 the use of domain-specific, manually designed, linkage functions tailored towards author
-disambiguation \citep{malin2005unsupervised,mcrae2006also,song2007efficient,
+disambiguation \cite{malin2005unsupervised,mcrae2006also,song2007efficient,
 soler2007separating, kang2009co,fan2011graph,schulz2014exploiting}.
 These approaches have the advantage of not requiring hand-labeled data, but generally do
 not perform as well as supervised approaches.
 To reconcile both worlds, semi-supervised methods make use of small, manually verified, clusters of
 publications and/or high-precision domain-specific rules to build a training
 set of pairs of publications, from which a linkage function is then built using supervised learning
-\citep{ferreira2010effective,torvik2009author,levin2012citation}.
+\cite{ferreira2010effective,torvik2009author,levin2012citation}.
 
 Semi-supervised approaches also allow for the tuning of the
 clustering algorithm when the latter is applied to a mixed set of labeled
 and unlabeled publications, \eg, by maximizing some clustering performance
-metric on the known clusters \citep{levin2012citation}.
+metric on the known clusters \cite{levin2012citation}.
 
 Due to the lack of large and publicly available datasets of curated
 clusters of publications, studies on author disambiguation are usually
@@ -211,7 +663,7 @@ signatures that can be extracted from all publications in ${\cal P}$.
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{fig-pub-to-signature}
+\includegraphics[width=\linewidth]{fig-pub-to-signature}
 \caption{An example signature $s$ for "Doe, John". A \textit{signature} is
 defined as unique piece of information identifying an author on a publication,
 along with any other metadata that can be derived from it, such as publication
@@ -246,7 +698,7 @@ semi-supervised clustering of all signatures within the same block, using $d$ as
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{fig-workflow}
+\includegraphics[width=\linewidth]{fig-workflow}
 \caption{Pipeline for author disambiguation: (a)
 signatures are \textit{blocked} to reduce computational complexity, (b) a linkage
 function is built with supervised learning, (c) independently within each block, signatures
@@ -259,7 +711,7 @@ are grouped using hierarchical agglomerative clustering.}
 
 As in previous works, the first part of our algorithm consists of dividing
 signatures ${\cal S}$ into disjoint subsets ${\cal S}_{b_0}, ..., {\cal
-S}_{b_{K-1}}$, or \textit{blocks} \citep{fellegi69}, followed by carrying out
+S}_{b_{K-1}}$, or \textit{blocks} \cite{fellegi69}, followed by carrying out
 author disambiguation on each one of these blocks independently.
 By doing so, the computational complexity of clustering (see Section~\ref{methods:clustering})
 typically reduces from $O(|{\cal S}|^2)$ to $O(\sum_b |{\cal S}_b|^2)$, which is much more
@@ -292,11 +744,11 @@ Despite satisfactory performance, there are several cases where this simple stra
 
 To account for these issues we propose instead to block signatures based on the
 phonetic representation of the normalized surname.
-Normalization involves stripping accents (\eg, "Jabłoński, Ł" $\rightarrow$ "Jablonski, L") and name
+Normalization involves stripping accents (\eg, "Jab?o?ski, ?" $\rightarrow$ "Jablonski, L") and name
 affixes that inconsistently appear in signatures (\eg, "van der Waals, J. D."
 $\rightarrow$ "Waals, J. D."), while phonetization is based either on the
-Double Metaphone \citep{doublemetaphone}, the NYSIIS \citep{nysiis} or the
-Soundex \citep{Soundex} phonetic algorithms for mapping author names to their pronunciations.
+Double Metaphone \cite{doublemetaphone}, the NYSIIS \cite{nysiis} or the
+Soundex \cite{Soundex} phonetic algorithms for mapping author names to their pronunciations.
 Together, these processing steps allow for grouping of most name variants of the same
 person in the same block with a small increase in the overall computational complexity, thereby solving case 1.
 
@@ -327,14 +779,14 @@ This problem can be cast as a standard supervised classification task, where inp
 are pairs of signatures and outputs are classes $0$ (same authors), and $1$
 (distinct authors). In this work, we evaluate Random Forests (RF, \cite{breiman2001random}),
 Gradient Boosted Regression Trees (GBRT, \cite{friedman2001greedy}),
-and Logistic Regression \citep{fan2008liblinear} as classifiers.
+and Logistic Regression \cite{fan2008liblinear} as classifiers.
 
 \textit{Input features.} In most cases, supervised learning algorithms assume
 the input space ${\cal X}$ to be numeric (\eg, $\mathbb{R}^p$), making them
 not directly applicable to structured input spaces such as ${\cal S} \times
 {\cal S}$.
 Following previous works, pairs of signatures $(s_1, s_2)$ are first transformed to vectors $v \in \mathbb{R}^p$
-by building so-called similarity profiles \citep{treeratpituk2009disambiguating} on which supervised learning is carried out.
+by building so-called similarity profiles \cite{treeratpituk2009disambiguating} on which supervised learning is carried out.
 In this work, we design and evaluate fifteen standard input
 features based on the comparison of signature fields, as reported in the first
 half of Table~\ref{table:features}.
@@ -349,12 +801,12 @@ articles to which the two signatures respectively belong.
 
 Author names from different cultures, origins or ethnic groups are likely to be
 disambiguated using different strategies (\eg, pairs of signatures with French
-author names versus pairs of signatures with Chinese author names) \citep{treeratpituk2012name, chin2014effective}.
+author names versus pairs of signatures with Chinese author names) \cite{treeratpituk2012name, chin2014effective}.
 To support our disambiguation algorithm, we added seven features to our feature set, with each
 evaluating the degree of belonging of both signatures to an ethnic group,
 as reported in the second half of Table~\ref{table:features}.
 
-More specifically, using census data extracted from \citep{rugglesintegrated},
+More specifically, using census data extracted from \cite{rugglesintegrated},
 we build a support vector machine classifier (using a linear kernel and
 one-versus-all classification scheme) for mapping the
  $(1,5)$-TF-IDF representation of an author name to one of the seven ethnic groups. Given a
@@ -392,7 +844,7 @@ then they are also likely to correspond to distinct people.
   Subject & Cosine similarity of TF-IDF\\
   Year difference & Absolute difference\\
   \hline
-  White & Product of estimated probabilities\\
+	White & Product of estimated probabilities\\
   Black & Product of estimated probabilities\\
   American Indian or Alaska Native & Product of estimated probabilities\\
   Chinese & Product of estimated probabilities\\
@@ -423,7 +875,7 @@ refinement for building a training set is to restrict positive and negative
 pairs $(s_1, s_2)$ to only those for which $s_1$ and $s_2$ belong to the same
 block. In doing so, the trained classifier is forced to learn intra-block
 discriminative patterns rather than inter-block differences.
-Furthermore, as noted in \citep{lange2011frequency}, most signature pairs are non-ambiguous:
+Furthermore, as noted in \cite{lange2011frequency}, most signature pairs are non-ambiguous:
 if both signatures share the same author names, then
 they correspond to the same individual, otherwise they do not.
 Rather than sampling pairs uniformly at random, we propose to oversample
@@ -438,7 +890,7 @@ individuals) in order to improve the overall accuracy of the linkage function.
 The last component of our author disambiguation pipeline is clustering, that is
 the process of grouping together, within a block, all signatures from the same
 individual (and only those).
-As for many other works on author disambiguation, we make use of hierarchical clustering \citep{ward1963hierarchical} for
+As for many other works on author disambiguation, we make use of hierarchical clustering \cite{ward1963hierarchical} for
 building clusters of signatures in a bottom-up fashion.
 The method involves iteratively merging together the two most similar clusters until all clusters
 are merged together at the top of the hierarchy.
@@ -470,7 +922,7 @@ From these, we evaluate the following semi-supervised cut-off strategies, as ill
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{fig-cuts}
+\includegraphics[width=\linewidth]{fig-cuts}
 \caption{Semi-supervised cut-off strategies to form flat clusters of signatures.}
 \label{fig:cuts}
 \end{figure}
@@ -483,8 +935,6 @@ From these, we evaluate the following semi-supervised cut-off strategies, as ill
 % \subsection{Matching}
 % general description in a real system
 % GL: out of scope, let us mention that in Conclusions instead
-
-
 % Implementation ======================================================
 
 \section{Implementation}
@@ -494,16 +944,15 @@ As part of this work, we developed a stand-alone application for author
 disambiguation, publicly available online\footnote{\url{https://github.com/glouppe/beard}} for free reuse
 or study.
 Our implementation builds upon the Python scientific stack, making
-use of the Scikit-Learn library \citep{scikitlearn} for the supervised learning
-of a linkage function and of SciPy \citep{scipy} for clustering.
+use of the Scikit-Learn library \cite{scikitlearn} for the supervised learning
+of a linkage function and of SciPy \cite{scipy} for clustering.
 All components of the disambiguation pipeline have been designed to follow the
-Scikit-Learn API \citep{scikitlearnAPI}, making them easy to maintain,
+Scikit-Learn API \cite{scikitlearnAPI}, making them easy to maintain,
 understand and reuse.
 Our implementation is made to be efficient, exploiting parallelization when available, and ready for production environments.
 It is also designed to be runnable
 in an incremental fashion, by enabling disambiguation only on specified blocks if desired,
 instead of having to run the disambiguation process on the whole signature set.
-
 
 % Results and discussion ======================================================
 
@@ -514,7 +963,7 @@ instead of having to run the disambiguation process on the whole signature set.
 
 The author disambiguation solution proposed in this work, along with its
 enhancements, are evaluated on data extracted from the \emph{INSPIRE} portal
-\citep{gentil2009information}, a digital library for scientific literature in
+\cite{gentil2009information}, a digital library for scientific literature in
 high-energy physics.
 Overall, the portal holds more than 1 million publications ${\cal P}$,
 forming in total a set ${\cal S}$ of more than 10 million signatures.
@@ -579,42 +1028,83 @@ General conclusions drawn below remain however consistent for pairwise F.
 \subsection{Results and discussion}
 
 \begin{table}
-\caption{Average precision, recall and f-measure scores on test folds.}
+\caption{Average precision, recall and B3 f-measure scores on test folds.}
 \label{table:results}
 \centering
-\begin{tabular}{|l|c c c|c c c|}
+\begin{tabular}{|l|c c c|}
   \hline
-                       & \multicolumn{3}{|c|}{\textbf{B3}} & \multicolumn{3}{|c|}{\textbf{Pairwise}} \\
-  \textbf{Description} & $P$ & $R$ & $F$ & $P$ & $R$ & $F$\\
+                       & \multicolumn{3}{|c|}{\textbf{B3}} \\
+  \textbf{Description} & $P$ & $R$ & $F$ \\
   \hline
   \hline
-Baseline & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
+Baseline & 0.9901 & 0.9760 & 0.9830  \\
 \hline
-Blocking = SFI & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
-Blocking = Double metaphone & 0.9856 & 0.9827 & 0.9841 & 0.9927 & 0.9817 & 0.9871 \\
-Blocking = NYSIIS & 0.9875 & 0.9826 & \textbf{0.9850} & 0.9936 & 0.9814 & \textbf{0.9875} \\
-Blocking = Soundex & 0.9886 & 0.9745 & 0.9815 & 0.9935 & 0.9725 & 0.9828 \\
+Blocking = SFI & 0.9901 & 0.9760 & 0.9830  \\
+Blocking = Double metaphone & 0.9856 & 0.9827 & 0.9841  \\
+Blocking = NYSIIS & 0.9875 & 0.9826 & \textbf{0.9850} \\
+Blocking = Soundex & 0.9886 & 0.9745 & 0.9815 \\
 \hline
-No name normalization & 0.9887 & 0.9697 & 0.9791 & 0.9931 & 0.9658 & 0.9793 \\
-Name normalization & 0.9901 & 0.9760 & \textbf{0.9830} & 0.9948 & 0.9738 & \textbf{0.9842} \\
+No name normalization & 0.9887 & 0.9697 & 0.9791  \\
+Name normalization & 0.9901 & 0.9760 & \textbf{0.9830}  \\
 \hline
-Classifier = GBRT & 0.9901 & 0.9760 & 0.9830 & 0.9948 & 0.9738 & 0.9842 \\
-Classifier = Random Forests & 0.9909 & 0.9783 & \textbf{0.9846} & 0.9957 & 0.9752 & \textbf{0.9854} \\
-Classifier = Linear Regression & 0.9749 & 0.9584 & 0.9666 & 0.9717 & 0.9569 & 0.9643 \\
+Classifier = GBRT & 0.9901 & 0.9760 & 0.9830  \\
+Classifier = Random Forests & 0.9909 & 0.9783 & \textbf{0.9846}  \\
+Classifier = Linear Regression & 0.9749 & 0.9584 & 0.9666  \\
 \hline
-Training pairs = Non-blocked, uniform & 0.9793 & 0.9630 & 0.9711 & 0.9756 & 0.9629 & 0.9692 \\
-Training pairs = Blocked, uniform & 0.9854 & 0.9720 & 0.9786 & 0.9850 & 0.9707 & 0.9778 \\
-Training pairs = Blocked, balanced & 0.9901 & 0.9760 & \textbf{0.9830} & 0.9948 & 0.9738 & \textbf{0.9842} \\
+Training pairs = Non-blocked, uniform & 0.9793 & 0.9630 & 0.9711  \\
+Training pairs = Blocked, uniform & 0.9854 & 0.9720 & 0.9786  \\
+Training pairs = Blocked, balanced & 0.9901 & 0.9760 & \textbf{0.9830}  \\
 \hline
-Clustering = Average linkage & 0.9901 & 0.9760 & \textbf{0.9830} & 0.9948 & 0.9738 & \textbf{0.9842} \\
-Clustering = Single linkage & 0.9741 & 0.9603 & 0.9671 & 0.9543 & 0.9626 & 0.9584 \\
-Clustering = Complete linkage & 0.9862 & 0.9709 & 0.9785 & 0.9920 & 0.9688 & 0.9803 \\
+Clustering = Average linkage & 0.9901 & 0.9760 & \textbf{0.9830}  \\
+Clustering = Single linkage & 0.9741 & 0.9603 & 0.9671  \\
+Clustering = Complete linkage & 0.9862 & 0.9709 & 0.9785  \\
 \hline
-No cut & 0.9024 & 0.9828 & 0.9409 & 0.8298 & 0.9776 & 0.8977 \\
-Global cut & 0.9892 & 0.9737 & 0.9814 & 0.9940 & 0.9727 & 0.9832 \\
-Block cut & 0.9901 & 0.9760 & \textbf{0.9830} & 0.9948 & 0.9738 & \textbf{0.9842} \\
+No cut & 0.9024 & 0.9828 & 0.9409  \\
+Global cut & 0.9892 & 0.9737 & 0.9814  \\
+Block cut & 0.9901 & 0.9760 & \textbf{0.9830}  \\
 \hline
-Combined best settings & 0.9897 & 0.9827 & \textbf{0.9862} & 0.9954 & 0.9805 & \textbf{0.9879} \\
+Combined best settings & 0.9897 & 0.9827 & \textbf{0.9862}  \\
+  \hline
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{Average precision, recall and pairwise f-measure scores on test folds.}
+\label{table:resultspw}
+\centering
+\begin{tabular}{|l|c c c|}
+  \hline
+                       & \multicolumn{3}{|c|}{\textbf{Pairwise}} \\
+  \textbf{Description} & $P$ & $R$ & $F$\\
+  \hline
+  \hline
+Baseline & 0.9948 & 0.9738 & 0.9842 \\
+\hline
+Blocking = SFI & 0.9948 & 0.9738 & 0.9842 \\
+Blocking = Double metaphone & 0.9927 & 0.9817 & 0.9871 \\
+Blocking = NYSIIS  & 0.9936 & 0.9814 & \textbf{0.9875} \\
+Blocking = Soundex & 0.9935 & 0.9725 & 0.9828 \\
+\hline
+No name normalization & 0.9931 & 0.9658 & 0.9793 \\
+Name normalization& 0.9948 & 0.9738 & \textbf{0.9842} \\
+\hline
+Classifier = GBRT & 0.9948 & 0.9738 & 0.9842 \\
+Classifier = Random Forests & 0.9957 & 0.9752 & \textbf{0.9854} \\
+Classifier = Linear Regression & 0.9717 & 0.9569 & 0.9643 \\
+\hline
+Training pairs = Non-blocked, uniform & 0.9756 & 0.9629 & 0.9692 \\
+Training pairs = Blocked, uniform & 0.9850 & 0.9707 & 0.9778 \\
+Training pairs = Blocked, balanced  & 0.9948 & 0.9738 & \textbf{0.9842} \\
+\hline
+Clustering = Average linkage& 0.9948 & 0.9738 & \textbf{0.9842} \\
+Clustering = Single linkage & 0.9543 & 0.9626 & 0.9584 \\
+Clustering = Complete linkage & 0.9920 & 0.9688 & 0.9803 \\
+\hline
+No cut& 0.8298 & 0.9776 & 0.8977 \\
+Global cut & 0.9940 & 0.9727 & 0.9832 \\
+Block cut& 0.9948 & 0.9738 & \textbf{0.9842} \\
+\hline
+Combined best settings & 0.9954 & 0.9805 & \textbf{0.9879} \\
   \hline
 \end{tabular}
 \end{table}
@@ -649,7 +1139,7 @@ to the baseline (with an F-measure of $0.9850$) while also being the most
 efficient computationally (with 10857 blocks versus 12978 for the baseline).
 
 Finally, let us also note that Table~\ref{table:blocking} corroborates the
-estimation of \citep{torvik2009author}, stating that SFI blocking has a recall
+estimation of \cite{torvik2009author}, stating that SFI blocking has a recall
 around $98\%$ on real data.
 
 \begin{table}
@@ -682,9 +1172,9 @@ supervised algorithm used to learn the linkage function.
 As Table~\ref{table:results} indicates, both tree-based algorithms appear to be
 significantly better fit than Linear Regression ($0.9830$ and $0.9846$ for GBRT
 and Random Forests versus $0.9666$ for Linear Regression). This result is
-consistent with \citep{treeratpituk2009disambiguating} which evaluated the use of
+consistent with \cite{treeratpituk2009disambiguating} which evaluated the use of
 Random Forests for author disambiguation, but contradicts results of
-\citep{levin2012citation} for which Logistic Regression appeared to be the best
+\cite{levin2012citation} for which Logistic Regression appeared to be the best
 classifier.
 Provided hyper-parameters are properly tuned, the superiority of
 tree-based methods is in our opinion not surprising.
@@ -706,14 +1196,14 @@ by further improving the disambiguation results ($0.9830$).
 \centering
 \caption{Recursive Feature Elimination analysis. }
 \label{fig:rfe}
-\includegraphics[width=\textwidth]{fig-rfe.pdf}
+\includegraphics[width=\linewidth]{fig-rfe.pdf}
 \end{figure}
 
 Using Recursive Feature Elimination \cite{guyon2002gene}, we next evaluate the
 usefulness of all fifteen standard and seven additional ethnicity features for learning
 the linkage function. The analysis consists in using the baseline algorithm
 first using all twenty two features, to determine the least discriminative from feature
-importances \citep{louppe2013understanding}, and then re-learn the baseline
+importances \cite{louppe2013understanding}, and then re-learn the baseline
 using all but that one feature. That process is repeated recursively until
 eventually only one feature remains. Results are presented in
 Figure~\ref{fig:rfe} for one of the three folds, starting from the far right with
@@ -729,13 +1219,13 @@ Overall, these results highlight the added value of the proposed ethnicity
 features.
 Their duality in modeling both the similarity between author names
 and their origins make them very strong predictors for author disambiguation.
-The results also corroborate those from \citep{kang2009co} or \citep{ferreira2010effective}, who
+The results also corroborate those from \cite{kang2009co} or \cite{ferreira2010effective}, who
 found that the similarity between co-authors was a highly discriminative
 feature.
 If computational complexity is a concern, this analysis also
 shows how decent performance can be achieved using only a very
 small set of features, as also observed in
-\citep{treeratpituk2009disambiguating} or \citep{levin2012citation}.
+\cite{treeratpituk2009disambiguating} or \cite{levin2012citation}.
 
 \textit{Semi-supervised clustering.} The last part of our experiment concerns
 the study of agglomerative clustering and the best way to find a cut-off
@@ -758,7 +1248,7 @@ In case ${\cal S}^\prime_b$ is empty (\eg, because it corresponds to a young
 researcher at the beginning of his career), this therefore suggests that either using
 a cut-off threshold learned globally from the known data or using SFI would in general give
 satisfactory results, only marginally worse than if claimed signatures had been
-known.
+known.Trying out 3 clustering methods, the results show that \textit {average linkage} was the best one.
 
 \textit{Combined best settings.} When all best settings are combined (\ie,
 Blocking = NYSIIS, Name normalization, Classifier = Random Forests, Training
@@ -811,15 +1301,52 @@ available in author disambiguation research. By releasing the data publicly,
 we hope to provide the basis for further research on author disambiguation
 and related topics.
 
-
-% \section*{Acknowledgements}
-
-% \glnote{todo}
+% conference papers do not normally have an appendix
 
 
-% References ==================================================================
+% use section* for acknowledgement
+%\section*{Acknowledgment}
 
-\bibliographystyle{apalike}
+
+%The authors would like to thank...
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+\bibliographystyle{IEEEtran}
 \bibliography{bib}
 
+% argument is your BibTeX string definitions and bibliography database(s)
+%\bibliography{IEEEabrv,../bib/paper}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+
+%%%%%%%%%%%%%%%%%%%%%
+%\begin{thebibliography}{1}
+
+%\bibitem{IEEEhowto:kopka}
+%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em %plus
+%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+
+%\end{thebibliography}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% that's all folks
 \end{document}
+
+
