@@ -40,6 +40,10 @@
 
 \documentclass{sig-alternate}
 
+\usepackage{xspace}
+\newcommand*{\eg}{e.g.\@\xspace}
+\newcommand*{\ie}{i.e.\@\xspace}
+
 \begin{document}
 
 % Copyright
@@ -107,8 +111,8 @@ homonym issues) or for which transliteration to Latin characters may not be uniq
 synonym issues).
 With the fast growth of the scientific literature, author disambiguation has become a pressing
 issue since the accuracy of information managed at the level of individuals directly affects:
-the relevance search of results (e.g., when querying for all publications written by a given author);
-the reliability of bibliometrics and author rankings (e.g., citation counts or other impact
+the relevance search of results (\eg, when querying for all publications written by a given author);
+the reliability of bibliometrics and author rankings (\eg, citation counts or other impact
 metrics, as studied in \cite{strotmann2012author}); and/or the relevance of scientific network analysis
 \cite{newman2001structure}.
 
@@ -116,10 +120,10 @@ Efforts and solutions to author disambiguation have been proposed from various
 communities \cite{liu2014author}. On the one hand, libraries have maintained
 authorship control through manual curation, either in a centralized way by
 hiring professional collaborators or through developing services that invite authors to register
-their publications themselves (e.g., Google Scholar or Inspire-HEP).
-Recent efforts to create persistent digital identifiers assigned to researchers (e.g., ORCID or ResearcherID),
+their publications themselves (\eg, Google Scholar or Inspire-HEP).
+Recent efforts to create persistent digital identifiers assigned to researchers (\eg, ORCID or ResearcherID),
 with the objective to embed these identifiers in the submission workflow of publishers
-or repositories (e.g., Elsevier, arXiv or Inspire-HEP), would univocally solve any disambiguation issue.
+or repositories (\eg, Elsevier, arXiv or Inspire-HEP), would univocally solve any disambiguation issue.
 With the large cost of centralized manual authorship control, or until crowdsourced solutions are more
 widely adopted, the impact of these efforts are unfortunately limited by the efficiency, motivation
 and integrity of their active contributors. Similarly, the success of persistent digital identifier efforts
@@ -176,7 +180,7 @@ set of pairs of publications, from which a linkage function is then built using 
 
 Semi-supervised approaches also allow for the tuning of the
 clustering algorithm when the latter is applied to a mixed set of labeled
-and unlabeled publications, e.g., by maximizing some clustering performance
+and unlabeled publications, \eg, by maximizing some clustering performance
 metric on the known clusters \cite{levin2012citation}.
 
 Due to the lack of large and publicly available datasets of curated
@@ -209,7 +213,7 @@ Formally, let us assume a set of publications ${\cal P} = \{ p_0, ...,
 p_{N-1}\}$ along with the set of unique individuals ${\cal A} = \{ a_0, ...,
 a_{M-1}\}$ having together authored all publications in ${\cal P}$.  Let us
 define a signature $s \in p$ from a publication as a unique piece of
-information identifying one of the authors of $p$ (e.g., the author name, his
+information identifying one of the authors of $p$ (\eg, the author name, his
 affiliation, along with any other metadata that can be derived from $p$, as illustrated in Figure~\ref{fig:signature}). Let us
 denote by ${\cal S} = \{ s | s \in p, p \in {\cal P} \}$ the set of all
 signatures that can be extracted from all publications in ${\cal P}$.
@@ -276,29 +280,29 @@ As a result, blocking should be a balance between reduced complexity and maximum
 
 The simplest and most common strategy for blocking, referred to hereon in as \textit{Surname and First Initial (SFI)},
 groups signatures together if they share the same surname(s) and the same first
-given name initial (e.g., \emph{SFI}("Doe, John") $==$ "Doe, J").
+given name initial (\eg, \emph{SFI}("Doe, John") $==$ "Doe, J").
 Despite satisfactory performance, there are several cases where this simple strategy fails to cluster related pairs of signatures together, including:
 
 \begin{enumerate}
   \item There are different
   ways of writing an author name, or signatures contain a typo
-  (e.g., "Mueller, R." and "Muller, R.", "Tchaikovsky, P." and "Czajkowski, P.").
+  (\eg, "Mueller, R." and "Muller, R.", "Tchaikovsky, P." and "Czajkowski, P.").
 
-  \item An author has multiple surnames and some signatures place the first part of the surname within the given names (e.g., "Martinez Torres, A." and "Torres, A. Martinez").
+  \item An author has multiple surnames and some signatures place the first part of the surname within the given names (\eg, "Martinez Torres, A." and "Torres, A. Martinez").
 
   \item An author has multiple surnames and, on some signatures, only the first surname is
-  present (e.g., "Smith-Jones, A." and "Smith, A.")
+  present (\eg, "Smith-Jones, A." and "Smith, A.")
 
-  \item An author has multiple given names and they are not always all recorded (e.g.,
+  \item An author has multiple given names and they are not always all recorded (\eg,
   "Smith, Jack" and "Smith, A. J.")
 
-  \item An authors surname changed (e.g., due to marriage).
+  \item An authors surname changed (\eg, due to marriage).
 \end{enumerate}
 
 To account for these issues we propose instead to block signatures based on the
 phonetic representation of the normalized surname.
-Normalization involves stripping accents (e.g., "Jabłoński, Ł" $\rightarrow$ "Jablonski, L") and name
-affixes that inconsistently appear in signatures (e.g., "van der Waals, J. D."
+Normalization involves stripping accents (\eg, "Jabłoński, Ł" $\rightarrow$ "Jablonski, L") and name
+affixes that inconsistently appear in signatures (\eg, "van der Waals, J. D."
 $\rightarrow$ "Waals, J. D."), while phonetization is based either on the
 Double Metaphone \cite{doublemetaphone}, the NYSIIS \cite{nysiis} or the
 Soundex \cite{Soundex} phonetic algorithms for mapping author names to their pronunciations.
@@ -335,7 +339,7 @@ Gradient Boosted Regression Trees (GBRT, \cite{friedman2001greedy}),
 and Logistic Regression \cite{fan2008liblinear} as classifiers.
 
 \textit{Input features.} In most cases, supervised learning algorithms assume
-the input space ${\cal X}$ to be numeric (e.g., $\mathbb{R}^p$), making them
+the input space ${\cal X}$ to be numeric (\eg, $\mathbb{R}^p$), making them
 not directly applicable to structured input spaces such as ${\cal S} \times
 {\cal S}$.
 Following previous works, pairs of signatures $(s_1, s_2)$ are first transformed to vectors $v \in \mathbb{R}^p$
@@ -353,7 +357,7 @@ Similarly, the \textit{Year difference} feature measures the absolute difference
 articles to which the two signatures respectively belong.
 
 Author names from different cultures, origins or ethnic groups are likely to be
-disambiguated using different strategies (e.g., pairs of signatures with French
+disambiguated using different strategies (\eg, pairs of signatures with French
 author names versus pairs of signatures with Chinese author names) \cite{treeratpituk2012name, chin2014effective}.
 To support our disambiguation algorithm, we added seven features to our feature set, with each
 evaluating the degree of belonging of both signatures to an ethnic group,
@@ -432,7 +436,7 @@ Furthermore, as noted in \cite{lange2011frequency}, most signature pairs are non
 if both signatures share the same author names, then
 they correspond to the same individual, otherwise they do not.
 Rather than sampling pairs uniformly at random, we propose to oversample
-difficult cases when building the training set (e.g., pairs of signatures with
+difficult cases when building the training set (\ie, pairs of signatures with
 different author names corresponding to same individual, and pairs of
 signatures with identical author names but corresponding to distinct
 individuals) in order to improve the overall accuracy of the linkage function.
@@ -677,7 +681,7 @@ respect to a baseline solution using the following combination of components:
 \textit{Blocking.} The good precision of the baseline ($0.9901$), but its
 lower recall ($0.9760$) suggest that the blocking strategy might be the
 limiting factor to further overall improvements.
-As shown in Table~\ref{table:blocking}, the maximum recall (e.g., if within a block, all signatures were clustered optimally) for SFI is $0.9828$.
+As shown in Table~\ref{table:blocking}, the maximum recall (\ie, if within a block, all signatures were clustered optimally) for SFI is $0.9828$.
 At the price of fewer and therefore slightly larger blocks (as reported in the right column of Table~\ref{table:blocking}), the
 proposed phonetic-based blocking strategies show better maximum recall (all
 around $0.9905$), thereby pushing further the upper bound on the maximum
@@ -788,7 +792,7 @@ both single and complete linkage.
 
 Clustering together all signatures from the same block is the least effective
 strategy ($0.9409$), but yields anyhow surprisingly decent accuracy, given the
-fact it requires almost no computation (e.g., both learning a linkage function
+fact it requires almost no computation (\ie, both learning a linkage function
 and running agglomerative clustering can be skipped -- only the blocking
 function is needed to group signatures). In particular, this result reveals
 that author names are not ambiguous in most cases\footnote{This holds for the
@@ -797,16 +801,15 @@ researchers, be an underestimate of the ambiguous cases.} and that only a small
 fraction of them requires advanced disambiguation procedures. On the other
 hand, both global and block cut thresholding strategies give very good results,
 with a slight advantage for block cuts ($0.9814$ versus $0.9830$), as expected.
-In case ${\cal S}^\prime_b$ is empty (e.g., because it corresponds to a young
+In case ${\cal S}^\prime_b$ is empty (\eg, because it corresponds to a young
 researcher at the beginning of his career), this therefore suggests that either using
 a cut-off threshold learned globally from the known data or using SFI would in general give
 satisfactory results, only marginally worse than if claimed signatures had been
 known. Trying out 3 clustering methods, the results show that \textit {average linkage} was the best one.
 
-\textit{Combined best settings.} When all best settings are combined (e.g.,
-Blocking = NYSIIS, Name normalization, Classifier = Random Forests, Training
+\textit{Combined best settings.} When all best settings are combined (\ie, Blocking = NYSIIS, Name normalization, Classifier = Random Forests, Training
 pairs = blocked and balanced, Clustering = Average linkage, Block cuts),
-performance reaches $0.9862$, e.g., the best of all reported results. In particular,
+performance reaches $0.9862$, \ie, the best of all reported results. In particular,
 this combination exhibits both the high recall of phonetic blocking based on the NYSIIS algorithm
 and the high precision of Random Forests.
 
@@ -844,7 +847,7 @@ phonetization functions, tailored for author disambiguation. For the linkage fun
 the good results of the proposed features pave the way for further research  in
 ethnicity-sensitive author disambiguation. The automatic fitting of the
 pipeline to cultures and ethnic groups for which standard author disambiguation
-is known to be less efficient (e.g., Chinese authors with many homonyms)  indeed
+is known to be less efficient (\eg, Chinese authors with many homonyms)  indeed
 constitutes a direction of research with great potential benefits for the
 concerned scientific communities.
 
