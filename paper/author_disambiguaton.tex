@@ -96,7 +96,7 @@ solutions, and improve by: (i) proposing phonetic-based blocking strategies,
 thereby increasing recall; (ii) adding strong ethnicity-sensitive features for
 learning a linkage function, thereby tailoring disambiguation to non-Western
 author names whenever necessary; and (iii) showing the importance of balancing
-negative and positive examples when learning the linkage function. 
+negative and positive examples when learning the linkage function.
 
 \end{abstract}
 
@@ -152,6 +152,7 @@ are carried out in Section~\ref{experiments}, where we explore and validate
 features for the supervised learning of a linkage function and compare
 strategies for the semi-supervised clustering of publications.
 Finally, conclusions and future works are discussed in Section~\ref{conclusions}.
+
 % Related works ==================================================================
 
 \section{Related work}
@@ -382,6 +383,7 @@ then they are also likely to correspond to distinct people.
 \caption{Input features for learning a linkage function}
 \label{table:features}
 \centering
+{\small
 \begin{tabular}{|l|l|}
   \hline
   \textbf{Feature} & \textbf{Combination operator}\\
@@ -411,7 +413,7 @@ then they are also likely to correspond to distinct people.
   Other Asian or Pacific Islander & Product of estimated probabilities\\
   Others & Product of estimated probabilities\\
   \hline
-\end{tabular}
+\end{tabular}}
 \end{table*}
 
 %\glnote{Add a few examples of transformed pairs?}
