@@ -53,7 +53,7 @@
 \title{Ethnicity sensitive author disambiguation using semi-supervised learning}
 
 
-\numberofauthors{4} 
+\numberofauthors{4}
 \author{
 \alignauthor
 Gilles Louppe\\
@@ -77,26 +77,27 @@ Eamonn Maguire\\
 \maketitle
 \begin{abstract}
 
-Author name disambiguation in bibliographic databases is the problem of
-grouping together scientific publications written by the same person, accounting
-for potential homonyms and/or synonyms.
-Among solutions to this problem, digital libraries are increasingly offering tools
-for authors to manually curate their publications and claim those that are theirs.
-Indirectly, these tools allow for the inexpensive collection of large annotated training
-data, which can be further leveraged to build a complementary automated
-disambiguation system capable of inferring patterns for identifying
-publications written by the same person.
-Building on more than 1 million publicly released crowdsourced annotations,
-we propose an automated author disambiguation solution exploiting this data (i) to learn
-an accurate classifier for identifying coreferring authors and (ii) to guide the clustering
-of scientific publications by distinct authors in a semi-supervised way.
-To the best of our knowledge, our analysis is the first to be carried out on data of
-this size and coverage.
-With respect to the state of the art, we validate the general pipeline used in most existing
-solutions, and improve by: (i) proposing phonetic-based blocking strategies, thereby
-increasing recall; and (ii) adding strong ethnicity-sensitive features for learning a linkage
-function, thereby tailoring disambiguation to non-Western author names whenever necessary. (iii) Showing the importance of balancing negative and positive examples when learning the linkage function.
-In addition to releasing the software implementation of our improved pipeline, we also published the verified dataset to ease the comparison with other researchers who are interested in further contribution. 
+Author name disambiguation in bibliographic databases is the problem of grouping
+together scientific publications written by the same person, accounting for
+potential homonyms and/or synonyms. Among solutions to this problem, digital
+libraries are increasingly offering tools for authors to manually curate their
+publications and claim those that are theirs. Indirectly, these tools allow for
+the inexpensive collection of large annotated training data, which can be
+further leveraged to build a complementary automated disambiguation system
+capable of inferring patterns for identifying publications written by the same
+person. Building on more than 1 million crowdsourced
+annotations that we publicly release, we propose an automated author disambiguation solution exploiting
+this data (i) to learn an accurate classifier for identifying coreferring
+authors and (ii) to guide the clustering of scientific publications by distinct
+authors in a semi-supervised way. To the best of our knowledge, our analysis is
+the first to be carried out on data of this size and coverage. With respect to
+the state of the art, we validate the general pipeline used in most existing
+solutions, and improve by: (i) proposing phonetic-based blocking strategies,
+thereby increasing recall; (ii) adding strong ethnicity-sensitive features for
+learning a linkage function, thereby tailoring disambiguation to non-Western
+author names whenever necessary; and (iii) showing the importance of balancing
+negative and positive examples when learning the linkage function. 
+
 \end{abstract}
 
 
@@ -865,5 +866,3 @@ and related topics.
 
 
 \end{document}
-
-
