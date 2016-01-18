@@ -213,7 +213,7 @@ which further research on author disambiguation and related topics can be built.
 \section{Semi-supervised\\ author disambiguation}
 \label{methods}
 
-Formally, let us assume a set of publications ${\cal P} = \{ p_0, ...,
+Formally, let us assume a set of publications \\ ${\cal P} = \{ p_0, ...,
 p_{N-1}\}$ along with the set of unique individuals ${\cal A} = \{ a_0, ...,
 a_{M-1}\}$ having together authored all publications in ${\cal P}$.  Let us
 define a signature $s \in p$ from a publication as a unique piece of
@@ -512,9 +512,7 @@ All components of the disambiguation pipeline have been designed to follow the
 Scikit-Learn API \cite{scikitlearnAPI}, making them easy to maintain,
 understand and reuse.
 Our implementation is made to be efficient, exploiting parallelization when available, and ready for production environments.
-It is also designed to be runnable
-in an incremental fashion, by enabling disambiguation only on specified blocks if desired,
-instead of having to run the disambiguation process on the whole signature set.
+It is also designed to be runnable in an incremental fashion in which our approach is considered to be scalable. We adopt a divide-and-conquer strategy for clustering (called “blocking” in this line of work) in order to reduce the computational complexity from $O(N^2)$ to $O(\sum N_i^2)$, which in practice tends to ${O(N)}$ when $N_i << N$. This also means that instead of having to run the disambiguation process on the whole signature set, the process could be run only on specified blocks if desired.
 
 % Results and discussion ======================================================
 
@@ -590,100 +588,70 @@ General conclusions drawn below remain however consistent for pairwise F.
 \subsection{Results and discussion}
 
 \begin{table*}
-\caption{Average precision, recall and B3 f-measure scores on test folds.}
+\caption{Average precision, recall and f-measure scores on test folds.}
 \label{table:results}
 \centering
-\begin{tabular}{|l|c c c|}
+\begin{tabular}{|l|c c c | c c c|}
   \hline
-                       & \multicolumn{3}{|c|}{\textbf{B3}} \\
-  \textbf{Description} & $P$ & $R$ & $F$ \\
-  \hline
-  \hline
-Baseline & 0.9901 & 0.9760 & 0.9830  \\
-\hline
-Blocking = SFI & 0.9901 & 0.9760 & 0.9830  \\
-Blocking = Double metaphone & 0.9856 & 0.9827 & 0.9841  \\
-Blocking = NYSIIS & 0.9875 & 0.9826 & \textbf{0.9850} \\
-Blocking = Soundex & 0.9886 & 0.9745 & 0.9815 \\
-\hline
-No name normalization & 0.9887 & 0.9697 & 0.9791  \\
-Name normalization & 0.9901 & 0.9760 & \textbf{0.9830}  \\
-\hline
-Classifier = GBRT & 0.9901 & 0.9760 & 0.9830  \\
-Classifier = Random Forests & 0.9909 & 0.9783 & \textbf{0.9846}  \\
-Classifier = Linear Regression & 0.9749 & 0.9584 & 0.9666  \\
-\hline
-Training pairs = Non-blocked, uniform & 0.9793 & 0.9630 & 0.9711  \\
-Training pairs = Blocked, uniform & 0.9854 & 0.9720 & 0.9786  \\
-Training pairs = Blocked, balanced & 0.9901 & 0.9760 & \textbf{0.9830}  \\
-\hline
-Clustering = Average linkage & 0.9901 & 0.9760 & \textbf{0.9830}  \\
-Clustering = Single linkage & 0.9741 & 0.9603 & 0.9671  \\
-Clustering = Complete linkage & 0.9862 & 0.9709 & 0.9785  \\
-\hline
-No cut & 0.9024 & 0.9828 & 0.9409  \\
-Global cut & 0.9892 & 0.9737 & 0.9814  \\
-Block cut & 0.9901 & 0.9760 & \textbf{0.9830}  \\
-\hline
-Combined best settings & 0.9897 & 0.9827 & \textbf{0.9862}  \\
-  \hline
-\end{tabular}
-\end{table*}
-
-\begin{table*}
-\caption{Average precision, recall and pairwise f-measure scores on test folds.}
-\label{table:resultspw}
-\centering
-\begin{tabular}{|l|c c c|}
-  \hline
-                       & \multicolumn{3}{|c|}{\textbf{Pairwise}} \\
-  \textbf{Description} & $P$ & $R$ & $F$\\
+                       & \multicolumn{3}{|c|}{\textbf{B3}} & \multicolumn{3}{|c|}{\textbf{Pairwise}}\\
+  \textbf{Description} & $P$ & $R$ & $F$ & $P$ & $R$ & $F$ \\
   \hline
   \hline
-Baseline & 0.9948 & 0.9738 & 0.9842 \\
+Baseline & 0.9024 & 0.9828 & 0.9409  & 0.8298 & 0.9776 & 0.8977 \\
 \hline
-Blocking = SFI & 0.9948 & 0.9738 & 0.9842 \\
-Blocking = Double metaphone & 0.9927 & 0.9817 & 0.9871 \\
-Blocking = NYSIIS  & 0.9936 & 0.9814 & \textbf{0.9875} \\
-Blocking = Soundex & 0.9935 & 0.9725 & 0.9828 \\
+\underline{Blocking = SFI} & 0.9901 & 0.9760 & 0.9830  & 0.9948 & 0.9738 & 0.9842\\
+Blocking = Double metaphone & 0.9856 & 0.9827 & 0.9841  & 0.9927 & 0.9817 & 0.9871 \\
+Blocking = NYSIIS & 0.9875 & 0.9826 & \textbf{0.9850}  & 0.9936 & 0.9814 & \textbf{0.9875} \\
+Blocking = Soundex & 0.9886 & 0.9745 & 0.9815 & 0.9935 & 0.9725 & 0.9828 \\
 \hline
-No name normalization & 0.9931 & 0.9658 & 0.9793 \\
-Name normalization& 0.9948 & 0.9738 & \textbf{0.9842} \\
+No name normalization & 0.9887 & 0.9697 & 0.9791 & 0.9931 & 0.9658 & 0.9793 \\
+\underline{Name normalization} & 0.9901 & 0.9760 & \textbf{0.9830} & 0.9948 & 0.9738 & \textbf{0.9842}  \\
 \hline
-Classifier = GBRT & 0.9948 & 0.9738 & 0.9842 \\
-Classifier = Random Forests & 0.9957 & 0.9752 & \textbf{0.9854} \\
-Classifier = Linear Regression & 0.9717 & 0.9569 & 0.9643 \\
 \hline
-Training pairs = Non-blocked, uniform & 0.9756 & 0.9629 & 0.9692 \\
-Training pairs = Blocked, uniform & 0.9850 & 0.9707 & 0.9778 \\
-Training pairs = Blocked, balanced  & 0.9948 & 0.9738 & \textbf{0.9842} \\
+\underline{Classifier = GBRT} & 0.9901 & 0.9760 & 0.9830   & 0.9948 & 0.9738 & 0.9842 \\
+Classifier = Random Forests & 0.9909 & 0.9783 & \textbf{0.9846}  & 0.9957 & 0.9752 & \textbf{0.9854} \\
+Classifier = Linear Regression & 0.9749 & 0.9584 & 0.9666 & 0.9717 & 0.9569 & 0.9643 \\
 \hline
-Clustering = Average linkage& 0.9948 & 0.9738 & \textbf{0.9842} \\
-Clustering = Single linkage & 0.9543 & 0.9626 & 0.9584 \\
-Clustering = Complete linkage & 0.9920 & 0.9688 & 0.9803 \\
+Training pairs = Non-blocked, uniform & 0.9793 & 0.9630 & 0.9711  & 0.9756 & 0.9629 & 0.9692 \\
+Training pairs = Blocked, uniform & 0.9854 & 0.9720 & 0.9786  & 0.9850 & 0.9707 & 0.9778 \\
+\underline{Training pairs = Blocked, balanced} & 0.9901 & 0.9760 & \textbf{0.9830}  & 0.9948 & 0.9738 & \textbf{0.9842} \\
 \hline
-No cut& 0.8298 & 0.9776 & 0.8977 \\
-Global cut & 0.9940 & 0.9727 & 0.9832 \\
-Block cut& 0.9948 & 0.9738 & \textbf{0.9842} \\
 \hline
-Combined best settings & 0.9954 & 0.9805 & \textbf{0.9879} \\
+\underline{Clustering = Average linkage} & 0.9901 & 0.9760 & \textbf{0.9830}  & 0.9948 & 0.9738 & \textbf{0.9842} \\
+Clustering = Single linkage & 0.9741 & 0.9603 & 0.9671  & 0.9543 & 0.9626 & 0.9584 \\
+Clustering = Complete linkage & 0.9862 & 0.9709 & 0.9785  & 0.9920 & 0.9688 & 0.9803 \\
+\hline
+No cut (baseline) & 0.9024 & 0.9828 & 0.9409  & 0.8298 & 0.9776 & 0.8977 \\
+Global cut & 0.9892 & 0.9737 & 0.9814  & 0.9940 & 0.9727 & 0.9832 \\
+\underline{Block cut} & 0.9901 & 0.9760 & \textbf{0.9830}  & 0.9948 & 0.9738 & \textbf{0.9842} \\
+\hline
+\hline
+Combined best settings & 0.9897 & 0.9827 & \textbf{0.9862}  & 0.9954 & 0.9805 & \textbf{0.9879} \\
   \hline
 \end{tabular}
 \end{table*}
 
-\textit{Baseline.} Results presented in Table~\ref{table:results} are discussed with
-respect to a baseline solution using the following combination of components:
+Our approach could be considered as an experimental design solution. Our goal is to find the best combination of design parameters. Such a solution could be reached by performing many experiments where in each experiment we fix all design parameters except one. Of course, what we found as a best choice in each experiment will be used for the proceeding one and so on. To initialize the process, we will use what have been reported by some related works as a best method.
+
+\textit{state-of-the-art.} Unfortunately, most methods proposed in related works have released neither their software, nor their data, making in practice a fair comparison very difficult. However, we believe state-of-the-art algorithms proposed in the literature could still be shown by categorizing the design parameters into the three categories; blocking strategy, linkage function, and clustering and compare the choices per each category. This categorization represents the three main phases in the pipeline. We believe that results for different settings somehow reflects some of these state-of-the-art choices as we will show in this section. Results presented in Table ~\ref{table:results} are discussed with
+respect to a state-of-the-art using the following parameter design setting per category. In Table ~\ref{table:results}, what we considered as state-of-the-art choice is underlined which are as follows:
+
 \begin{itemize}
-\item Blocking: same surname and the same first given name initial strategy (SFI);
-\item Linkage function: all 22 features defined in Table~\ref{table:features},
-    gradient boosted regression trees as supervised learning algorithm
-    and a training set of pairs built from $({\cal S}_\text{train}^\prime, {\cal C}_\text{train}^\prime)$, by balancing easy and difficult cases.
-\item Clustering: agglomerative clustering using average linkage and
-    block cuts found to maximize $F_\text{B3}({\cal C}_\text{train}^\prime, \widehat{\cal C}_\text{train}^\prime, {\cal S}_\text{train}^\prime)$.
+	\item Blocking: same surname and the same first given name initial strategy (SFI) and with name normalization;
+	\item Linkage function: all 22 features defined in Table~\ref{table:features},
+	gradient boosted regression trees as supervised learning algorithm
+	and a training set of pairs built from $({\cal S}_\text{train}^\prime, {\cal C}_\text{train}^\prime)$, by balancing easy and difficult cases.
+	\item Clustering: agglomerative clustering using average linkage and
+	block cuts found to maximize \\ $F_\text{B3}({\cal C}_\text{train}^\prime, \widehat{\cal C}_\text{train}^\prime, {\cal S}_\text{train}^\prime)$.
 \end{itemize}
 
+\textit{Baseline.} Using machine learning techniques should perform better than dealing with the problem with other simpler method. Accordingly, we have set our experiment baseline having neither linkage function nor clustering. Actually, This is the case of many digital library where they use a simple and very fast execution solution with acceptable performance. Accordingly, our baseline algorithm is simply to group the set of publications from author names that have common surname and first initial as denoted in section \ref{methods:blocking} by \textit{SFI} and label them with a distinct author. However, this baseline also considers \textit{Name Normalization} for the 5 cases that is also previously discussed in section \ref{methods:blocking}. The results of the baseline is reported in the top of  Table ~\ref{table:results}.
 
-\textit{Blocking.} The good precision of the baseline ($0.9901$), but its
+In sections \ref{choices:blocking}, \ref{choices:linkage}, and \ref{choices:clustering}, we will discuss each group of design parameters in respect to the state-of-the-art choice of that group. Keep in mind that the results of each group uses the best of the other design parameters.
+ 
+\subsubsection{Blocking choices} 
+\label{choices:blocking}
+The good precision of the state-of-the-art ($0.9901$), but its
 lower recall ($0.9760$) suggest that the blocking strategy might be the
 limiting factor to further overall improvements.
 As shown in Table~\ref{table:blocking}, the maximum recall (\ie, if within a block, all signatures were clustered optimally) for SFI is $0.9828$.
@@ -697,7 +665,7 @@ also raised due to the better handling of multiple surnames, as described in Sec
 As Table~\ref{table:results} shows, switching to either Double metaphone or NYSIIS phonetic-based blocking allows
 to improve the overall F-measure score, trading precision for recall.
 In particular, the NYSIIS-based phonetic blocking shows to be the most effective when applied
-to the baseline (with an F-measure of $0.9850$) while also being the most
+to the state-of-the-art (with an F-measure of $0.9850$) while also being the most
 efficient computationally (with 10857 blocks versus 12978 for the baseline).
 
 Finally, let us also note that Table~\ref{table:blocking} corroborates the
@@ -725,11 +693,13 @@ around $98\%$ on real data.
 
 \textit{Name normalization.} As discussed previously, the seemingly insignificant step of
 normalizing author names (stripping accents, removing affixes), as performed in the
-baseline, is shown to be important. Results from Table~\ref{table:results} clearly suggest that not
+state-of-the-art, is shown to be important. Results from Table~\ref{table:results} clearly suggest that not
 normalizing significantly reduces performance (yielding an F-measure of $0.9830$ when normalizing,
 but decreasing to $0.9791$ when raw author name strings are used instead).
 
-\textit{Linkage function.} Let us first comment on the results regarding the
+\subsubsection{Linkage function choices} 
+\label{choices:linkage}
+Let us first comment on the results regarding the
 supervised algorithm used to learn the linkage function.
 As Table~\ref{table:results} indicates, both tree-based algorithms appear to be
 significantly better fit than Linear Regression ($0.9830$ and $0.9846$ for GBRT
@@ -754,22 +724,15 @@ pairs it will be used to eventually cluster. Finally, making the classification
 problem more difficult by oversampling complex cases proves to be relevant,
 by further improving the disambiguation results ($0.9830$).
 
-\begin{figure}
-\centering
-\caption{Recursive Feature Elimination analysis. }
-\label{fig:rfe}
-\includegraphics[width=\linewidth]{fig-rfe.pdf}
-\end{figure}
-
 Using Recursive Feature Elimination \cite{guyon2002gene}, we next evaluate the
 usefulness of all fifteen standard and seven additional ethnicity features for learning
-the linkage function. The analysis consists in using the baseline algorithm
+the linkage function. The analysis consists in using the state-of-the-art algorithm
 first using all twenty two features, to determine the least discriminative from feature
-importances \cite{louppe2013understanding}, and then re-learn the baseline
+importances \cite{louppe2013understanding}, and then re-learn the state-of-the-art algorithm
 using all but that one feature. That process is repeated recursively until
 eventually only one feature remains. Results are presented in
-Figure~\ref{fig:rfe} for one of the three folds, starting from the far right with
-the baseline and \textit{Second given name} being the least important feature,
+Figure~\ref{fig:rfe} for one of the three folds with
+the state-of-the-art, starting from the far right, \textit{Second given name} being the least important feature,
 and ending on the left with all features eliminated but \textit{Chinese}. As
 the figure illustrates, the most important features are ethnic-based features
 (\textit{Chinese}, \textit{Other Asian}, \textit{Black}) along with
@@ -789,13 +752,23 @@ shows how decent performance can be achieved using only a very
 small set of features, as also observed in
 \cite{treeratpituk2009disambiguating} or \cite{levin2012citation}.
 
-\textit{Semi-supervised clustering.} The last part of our experiment concerns
+
+\begin{figure}
+	\centering
+	\caption{Recursive Feature Elimination analysis. }
+	\label{fig:rfe}
+	\includegraphics[width=\linewidth]{fig-rfe.pdf}
+\end{figure}
+
+\subsubsection{Semi-supervised clustering choices}  
+\label{choices:clustering}
+The last part of our experiment concerns
 the study of agglomerative clustering and the best way to find a cut-off
 threshold to form clusters. Results from Table~\ref{table:results}
 first clearly indicate that average linkage is significantly better than
 both single and complete linkage.
 
-Clustering together all signatures from the same block is the least effective
+Clustering together all signatures from the same block (\ie, baseline) is the least effective
 strategy ($0.9409$), but yields anyhow surprisingly decent accuracy, given the
 fact it requires almost no computation (\ie, both learning a linkage function
 and running agglomerative clustering can be skipped -- only the blocking
@@ -812,13 +785,13 @@ a cut-off threshold learned globally from the known data or using SFI would in g
 satisfactory results, only marginally worse than if claimed signatures had been
 known. Trying out 3 clustering methods, the results show that \textit {average linkage} was the best one.
 
-\textit{Combined best settings.} When all best settings are combined (\ie, Blocking = NYSIIS, Name normalization, Classifier = Random Forests, Training
+\subsubsection{Combined best settings} When all best settings are combined (\ie, Blocking = NYSIIS, Name normalization, Classifier = Random Forests, Training
 pairs = blocked and balanced, Clustering = Average linkage, Block cuts),
 performance reaches $0.9862$, \ie, the best of all reported results. In particular,
 this combination exhibits both the high recall of phonetic blocking based on the NYSIIS algorithm
 and the high precision of Random Forests.
 
-\textit{Execution time.} Our implementation takes around $20$ hours to process the complete set of the data (for 10M signatures, on a $16$ cores machine with $32$GB of RAM). Related work \cite{khabsa2014large} reports execution times around $24$ hours to cluster $4$M signatures. Note also that shorter execution times can be achieved, at the expense of worse results.
+\subsubsection{Execution time} Our implementation takes around $20$ hours to process the complete set of the data (for 10M signatures, on a $16$ cores machine with $32$GB of RAM). Related work \cite{khabsa2014large} reports execution times around $24$ hours to cluster $4$M signatures. Note also that shorter execution times can be achieved, at the expense of worse results.
 
 
 % Conclusions =================================================================
