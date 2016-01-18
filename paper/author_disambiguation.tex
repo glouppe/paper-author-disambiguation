@@ -117,7 +117,8 @@ issue since the accuracy of information managed at the level of individuals dire
 the relevance search of results (\eg, when querying for all publications written by a given author);
 the reliability of bibliometrics and author rankings (\eg, citation counts or other impact
 metrics, as studied in \cite{strotmann2012author}); and/or the relevance of scientific network analysis
-\cite{newman2001structure}.
+\cite{newman2001structure}. Thus, even small improvements in the field significantly improve the
++usability of the digital libraries to some users.
 
 Efforts and solutions to author disambiguation have been proposed from various
 communities \cite{liu2014author}. On the one hand, libraries have maintained
@@ -791,7 +792,7 @@ performance reaches $0.9862$, \ie, the best of all reported results. In particul
 this combination exhibits both the high recall of phonetic blocking based on the NYSIIS algorithm
 and the high precision of Random Forests.
 
-\subsubsection{Execution time} Our implementation takes around $20$ hours to process the complete set of the data (for 10M signatures, on a $16$ cores machine with $32$GB of RAM). Related work \cite{khabsa2014large} reports execution times around $24$ hours to cluster $4$M signatures. Note also that shorter execution times can be achieved, at the expense of worse results.
+\subsubsection{Execution time} Our implementation takes around $20$ hours to process the complete set of the data (for 10M signatures, on a $16$ cores machine with $32$GB of RAM). Related work \cite{khabsa2014large} reports execution times around $24$ hours to cluster $4$M signatures. Note also that shorter execution times can be achieved, at the expense of worse results, by reducing the set of the features used.
 
 
 % Conclusions =================================================================
