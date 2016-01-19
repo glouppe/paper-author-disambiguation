@@ -565,7 +565,9 @@ and F-measure, as defined below:
 \begin{align}
 P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{1}{|{\cal S}|} \sum_{s \in {\cal S}} \frac{|c(s) \cap \widehat{c}(s)|}{|\widehat{c}(s)|} \\
 R_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{1}{|{\cal S}|} \sum_{s \in {\cal S}} \frac{|c(s) \cap \widehat{c}(s)|}{|c(s)|}\\
-F_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{2 P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) R_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S})}{P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) + P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S})}\\
+F_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{2 P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) R_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S})}{P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) + P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S})}
+\end{align}
+\begin{align}
 P_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{|p({\cal C}) \cap p(\widehat{\cal C})|}{|p(\widehat{\cal C})|}\\
 R_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{|p({\cal C}) \cap p(\widehat{\cal C})|}{|p({\cal C})|}\\
 F_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{2 P_\text{pairwise}({\cal C}, \widehat{\cal C}) R_\text{pairwise}({\cal C}, \widehat{\cal C})}{P_\text{pairwise}({\cal C}, \widehat{\cal C}) + R_\text{pairwise}({\cal C}, \widehat{\cal C})}
@@ -588,7 +590,7 @@ General conclusions drawn below remain however consistent for pairwise F.
 \subsection{Results and discussion}
 
 \begin{table*}
-\caption{Average precision, recall and f-measure scores on test folds.}
+\caption{Average precision, recall and f-measure scores on test folds. Underlined components correspond together the state-of-the-art solution.}
 \label{table:results}
 \centering
 \begin{tabular}{|l|c c c | c c c|}
@@ -631,10 +633,28 @@ Combined best settings & 0.9897 & 0.9827 & \textbf{0.9862}  & 0.9954 & 0.9805 & 
 \end{tabular}
 \end{table*}
 
-Our approach could be considered as an experimental design solution. Our goal is to find the best combination of design parameters. Such a solution could be reached by performing many experiments where in each experiment we fix all design parameters except one. Of course, what we found as a best choice in each experiment will be used for the proceeding one and so on. To initialize the process, we will use what have been reported by some related works as a best method.
+% Our approach could be considered as an experimental design solution. Our goal is
+% to find the best combination of design parameters. Such a solution could be
+% reached by performing many experiments where in each experiment we fix all
+% design parameters except one. Of course, what we found as a best choice in each
+% experiment will be used for the proceeding one and so on. To initialize the
+% process, we will use what have been reported by some related works as a best
+% method.
 
-\textit{state-of-the-art.} Unfortunately, most methods proposed in related works have released neither their software, nor their data, making in practice a fair comparison very difficult. However, we believe state-of-the-art algorithms proposed in the literature could still be shown by categorizing the design parameters into the three categories; blocking strategy, linkage function, and clustering and compare the choices per each category. This categorization represents the three main phases in the pipeline. We believe that results for different settings somehow reflects some of these state-of-the-art choices as we will show in this section. Results presented in Table ~\ref{table:results} are discussed with
-respect to a state-of-the-art using the following parameter design setting per category. In Table ~\ref{table:results}, what we considered as state-of-the-art choice is underlined which are as follows:
+\textit{Baseline.} The simplest baseline against which we compare our results
+consists in grouping all signatures sharing the same (normalized) surname(s) and
+the same (normalized) first given name initial. As it does not require the usage
+of any machine learning component, this baseline provides a simple and fast
+solution yielding decent results, as reported at the top of
+Table~\ref{table:results}
+
+\textit{State-of-the-art.} Most methods proposed in related works have released
+neither their software, nor their data, making a fair comparison very difficult.
+Yet, we believe solutions reported in the literature can be closely
+matched to our generic pipeline, provided the blocking strategy, the linkage
+function and the clustering algorithm are properly aligned. In particular,
+we consider hereon as the \textit{state-of-the-art} solution the following
+combination of components:
 
 \begin{itemize}
 	\item Blocking: same surname and the same first given name initial strategy (SFI) and with name normalization;
@@ -645,12 +665,13 @@ respect to a state-of-the-art using the following parameter design setting per c
 	block cuts found to maximize \\ $F_\text{B3}({\cal C}_\text{train}^\prime, \widehat{\cal C}_\text{train}^\prime, {\cal S}_\text{train}^\prime)$.
 \end{itemize}
 
-\textit{Baseline.} Using machine learning techniques should perform better than dealing with the problem with other simpler method. Accordingly, we have set our experiment baseline having neither linkage function nor clustering. Actually, This is the case of many digital library where they use a simple and very fast execution solution with acceptable performance. Accordingly, our baseline algorithm is simply to group the set of publications from author names that have common surname and first initial as denoted in section \ref{methods:blocking} by \textit{SFI} and label them with a distinct author. However, this baseline also considers \textit{Name Normalization} for the 5 cases that is also previously discussed in section \ref{methods:blocking}. The results of the baseline is reported in the top of  Table ~\ref{table:results}.
+Sections \ref{choices:blocking}, \ref{choices:linkage}, and
+\ref{choices:clustering} now study each component individually and discuss
+results with respect to the underlined state-of-the-art solution.
 
-In sections \ref{choices:blocking}, \ref{choices:linkage}, and \ref{choices:clustering}, we will discuss each group of design parameters in respect to the state-of-the-art choice of that group. Keep in mind that the results of each group uses the best of the other design parameters.
- 
-\subsubsection{Blocking choices} 
+\subsubsection{Blocking choices}
 \label{choices:blocking}
+
 The good precision of the state-of-the-art ($0.9901$), but its
 lower recall ($0.9760$) suggest that the blocking strategy might be the
 limiting factor to further overall improvements.
@@ -668,7 +689,7 @@ In particular, the NYSIIS-based phonetic blocking shows to be the most effective
 to the state-of-the-art (with an F-measure of $0.9850$) while also being the most
 efficient computationally (with 10857 blocks versus 12978 for the baseline).
 
-Finally, let us also note that Table~\ref{table:blocking} corroborates the
+Let us also note that Table~\ref{table:blocking} corroborates the
 estimation of \cite{torvik2009author}, stating that SFI blocking has a recall
 around $98\%$ on real data.
 
@@ -689,15 +710,13 @@ around $98\%$ on real data.
 \end{tabular}
 \end{table*}
 
-
-
-\textit{Name normalization.} As discussed previously, the seemingly insignificant step of
+Finally, as discussed previously, the seemingly insignificant step of
 normalizing author names (stripping accents, removing affixes), as performed in the
 state-of-the-art, is shown to be important. Results from Table~\ref{table:results} clearly suggest that not
 normalizing significantly reduces performance (yielding an F-measure of $0.9830$ when normalizing,
 but decreasing to $0.9791$ when raw author name strings are used instead).
 
-\subsubsection{Linkage function choices} 
+\subsubsection{Linkage function choices}
 \label{choices:linkage}
 Let us first comment on the results regarding the
 supervised algorithm used to learn the linkage function.
@@ -760,7 +779,7 @@ small set of features, as also observed in
 	\includegraphics[width=\linewidth]{fig-rfe.pdf}
 \end{figure}
 
-\subsubsection{Semi-supervised clustering choices}  
+\subsubsection{Semi-supervised clustering choices}
 \label{choices:clustering}
 The last part of our experiment concerns
 the study of agglomerative clustering and the best way to find a cut-off

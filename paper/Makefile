@@ -1,5 +1,5 @@
 all:
-	xelatex author_disambiguation
+	pdflatex author_disambiguation
 	bibtex author_disambiguation
-	xelatex author_disambiguation.tex
+	pdflatex author_disambiguation.tex
 
