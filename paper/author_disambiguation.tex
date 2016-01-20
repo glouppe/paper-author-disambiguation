@@ -808,7 +808,9 @@ known. Trying out 3 clustering methods, the results show that \textit {average l
 pairs = blocked and balanced, Clustering = Average linkage, Block cuts),
 performance reaches $0.9862$, \ie, the best of all reported results. In particular,
 this combination exhibits both the high recall of phonetic blocking based on the NYSIIS algorithm
-and the high precision of Random Forests.
+and the high precision of Random Forests. 
+
+The best combined settings reduces the error rate by $76.65\%$ in comparison with the baseline. This means that more than three quarters of ambiguous author names are predicted to be resolved using our approach in compare with using \textit{SFI} method a lone after applying \textit{Name Normalization}. In comparison with the state-of-the-art, the error rate reduction is $18.82\%$ which means about fifth of ambiguous author names (\ie, signatures) that is unsolved by the state-of-the-art would be addressed. When we deal with 10 millions of signatures(\ie, the case of the digital library we took the dataset from), this performance enhancements is equivalent to $453000$ more signatures to be resolved in comparison of the baseline which is expensive to resolve with manual curation. In comparison of the state-of-the-art, this is equivalent to $32000$ more signatures to be resolved.
 
 \subsubsection{Execution time} Our implementation takes around $20$ hours to process the complete set of the data (for 10M signatures, on a $16$ cores machine with $32$GB of RAM). Related work \cite{khabsa2014large} reports execution times around $24$ hours to cluster $4$M signatures. Note also that shorter execution times can be achieved, at the expense of worse results, by reducing the set of the features used.
 
