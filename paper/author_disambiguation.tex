@@ -38,42 +38,41 @@
 %
 % For tracking purposes - this is V2.0 - May 2012
 
-\documentclass{sig-alternate}
+\documentclass[runningheads,a4paper]{llncs}
 
 \usepackage{xspace}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{epsfig}
+\usepackage{amsmath}
 \usepackage[hidelinks]{hyperref}
 \newcommand*{\eg}{e.g.\@\xspace}
 \newcommand*{\ie}{i.e.\@\xspace}
+\usepackage{color}
+\newcommand{\msnote}[1]{\textcolor{blue}{[MS: #1]}}
 
+\def\baselinestretch{0.95}
 \begin{document}
 
-% Copyright
-\setcopyright{acmcopyright}
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
 \title{Ethnicity sensitive author disambiguation using semi-supervised learning}
 
+\authorrunning{Gilles Louppe et al.}
+\author{Gilles Louppe\inst{1}\and Hussein T. Al-Natsheh\inst{2}\and Mateusz Susik\inst{3}\and\\ 
+Eamonn James Maguire\inst{1}}
 
-\numberofauthors{4}
-\author{
-\alignauthor
-Gilles Louppe\\
-       \affaddr{CERN, Switzerland}\\
-       \email{g.louppe@cern.ch}
-\alignauthor
-Hussein T. Al-Natsheh\\
-       \affaddr{ISH-LYON (USR 3385), CNRS, France}\\
-       \email{hussein.al-natsheh@ish-lyon.cnrs.fr}
+\institute{CERN, Switzerland,\\
+\email{\{g.louppe, eamonn.james.maguire\}@cern.ch},
 \and
-\alignauthor
-Mateusz Susik\\
-       \affaddr{University of Warsaw}\\
-       \email{msusik@student.uw.edu.pl}
-\alignauthor
-Eamonn Maguire\\
-       \affaddr{CERN, Switzerland}\\
-       \email{eamonn.james.maguire@cern.ch}
+ISH-LYON (USR 3385), CNRS, France,\\
+\email{hussein.al-natsheh@ish-lyon.cnrs.fr}
+\and
+University of Warsaw, Poland,\\
+\email{msusik@student.uw.edu.pl}
 }
+
 
 \maketitle
 \begin{abstract}
@@ -105,7 +104,7 @@ negative and positive examples when learning the linkage function.
 \section{Introduction}
 In academic digital libraries, author name disambiguation is the problem of
 grouping together publications written by the same person.
-Author name disambiguation is often a difficult problem because an author may use different
+It is often difficult because an author may use different
 spellings or name variants across their career (synonymy) and/or distinct authors may
 share the same name (polysemy).
 Most notably, author disambiguation is often more troublesome for researchers
@@ -127,11 +126,9 @@ their publications themselves (\eg, Google Scholar or Inspire-HEP).
 Recent efforts to create persistent digital identifiers assigned to researchers (\eg, ORCID or ResearcherID),
 with the objective to embed these identifiers in the submission workflow of publishers
 or repositories (\eg, Elsevier, arXiv or Inspire-HEP), would univocally solve any disambiguation issue.
-With the large cost of centralized manual authorship control, or until crowdsourced solutions are more
-widely adopted, the impact of these efforts are unfortunately limited by the efficiency, motivation
-and integrity of their active contributors. Similarly, the success of persistent digital identifier efforts
-is conditioned to a large and ubiquitous adoption by both researchers and publishers.
-For these reasons, fully automated machine learning-based methods have been proposed during the past decade to
+As the centralized manual authorship control is expensive and the success of persistent digital
+identifiers requires large and ubiquitous adoption by both researchers and publishers, fully
+automated machine learning-based methods have been proposed during the past decade to
 provide immediate, less costly, and satisfactory solutions to author
 disambiguation. In this work, our goal is to explore and demonstrate how both
 approaches can coexist and benefit from each other.
@@ -142,10 +139,9 @@ publications by distinct authors in a semi-supervised way.
 Our analysis of parameters and features of this large dataset reveal that the general pipeline
 commonly used in existing solutions is an effective approach for author disambiguation.
 Additionally, we propose alternative strategies for blocking based on the
-phonetization of author names to increase recall.
-
-We also propose ethnicity-sensitive features for learning a linkage function,
-thereby tailoring author disambiguation to non-Western author names whenever necessary.
+phonetization of author names to increase recall and ethnicity-sensitive features for learning a
+linkage function which tailor our author disambiguation to non-Western author names whenever
+necessary.
 
 The remainder of this report is structured as follows. In Section~\ref{related-works},
 we briefly review machine learning solutions for author disambiguation. The components of our method are then defined in Section~\ref{methods} and its implementation described in Section~\ref{implementation}. Experiments
@@ -210,10 +206,10 @@ which further research on author disambiguation and related topics can be built.
 
 % Methods =====================================================================
 
-\section{Semi-supervised\\ author disambiguation}
+\section{Semi-supervised author disambiguation}
 \label{methods}
 
-Formally, let us assume a set of publications \\ ${\cal P} = \{ p_0, ...,
+Formally, let us assume a set of publications ${\cal P} = \{ p_0, ...,
 p_{N-1}\}$ along with the set of unique individuals ${\cal A} = \{ a_0, ...,
 a_{M-1}\}$ having together authored all publications in ${\cal P}$.  Let us
 define a signature $s \in p$ from a publication as a unique piece of
@@ -247,9 +243,6 @@ such that $c_i^\prime \subseteq c_i$, where $c_i^\prime$ may be empty.
 Or put otherwise, the set extends with the assumption that all signatures
 $s \in c_i^\prime$ belong to the same author.
 
-Inspired by several previous works described in Section~\ref{related-works},
-we cast in this work author disambiguation into a semi-supervised clustering
-problem.
 Our algorithm is composed of three parts, as sketched in Figure~\ref{fig:workflow}: (i) a blocking
 scheme whose goal is to roughly pre-cluster signatures ${\cal S}$ into smaller groups in order to
 reduce computational complexity; (ii) the construction of a linkage function
@@ -290,7 +283,7 @@ Despite satisfactory performance, there are several cases where this simple stra
 \begin{enumerate}
   \item There are different
   ways of writing an author name, or signatures contain a typo
-  (\eg, "Mueller, R." and "Muller, R.", "Tchaikovsky, P." and "Czajkowski, P.").
+  (\eg, "Mueller, R." and "Muller, R.").
 
   \item An author has multiple surnames and some signatures place the first part of the surname within the given names (\eg, "Martinez Torres, A." and "Torres, A. Martinez").
 
@@ -357,15 +350,12 @@ operator the cosine similarity between their respective $(n,m)$-\emph{TF-IDF} ve
 representations\footnote{$(n,m)$ denotes that the \emph{TF-IDF} vectors are computed
 from character $n$, $n+1$, ..., $m$-grams.
 When not specified, \emph{TF-IDF} vectors are otherwise computed from words.}.
-Similarly, the \textit{Year difference} feature measures the absolute difference between the publication date of the
-articles to which the two signatures respectively belong.
 
 Author names from different cultures, origins or ethnic groups are likely to be
 disambiguated using different strategies (\eg, pairs of signatures with French
 author names versus pairs of signatures with Chinese author names) \cite{treeratpituk2012name, chin2014effective}.
 To support our disambiguation algorithm, we added seven features to our feature set, with each
-evaluating the degree of belonging of both signatures to an ethnic group,
-as reported in the second half of Table~\ref{table:features}.
+evaluating the degree of belonging of both signatures to an ethnic group. \msnote{Explain here ethnicity features (ethnicities come from some kind of US Census. Name those groups (as I removed them from the table))}
 
 More specifically, using census data extracted from \cite{rugglesintegrated},
 we build a support vector machine classifier (using a linear kernel and
@@ -406,13 +396,7 @@ then they are also likely to correspond to distinct people.
   Subject & Cosine similarity of TF-IDF\\
   Year difference & Absolute difference\\
   \hline
-	White & Product of estimated probabilities\\
-  Black & Product of estimated probabilities\\
-  American Indian or Alaska Native & Product of estimated probabilities\\
-  Chinese & Product of estimated probabilities\\
-  Japanese & Product of estimated probabilities\\
-  Other Asian or Pacific Islander & Product of estimated probabilities\\
-  Others & Product of estimated probabilities\\
+  Any ethnicity feature & Product of estimated probabilities\\
   \hline
 \end{tabular}}
 \end{table*}
@@ -507,7 +491,7 @@ disambiguation, publicly available online\footnote{\url{https://github.com/gloup
 or study.
 Our implementation builds upon the Python scientific stack, making
 use of the Scikit-Learn library \cite{scikitlearn} for the supervised learning
-of a linkage function and of SciPy \cite{scipy} for clustering.
+of a linkage function and of SciPy for clustering.
 All components of the disambiguation pipeline have been designed to follow the
 Scikit-Learn API \cite{scikitlearnAPI}, making them easy to maintain,
 understand and reuse.
@@ -545,7 +529,7 @@ released in the scope of author disambiguation research.
 \subsection{Evaluation protocol}
 
 Experiments carried out to study the impact of the proposed algorithmic
-components and refinements, as described in Section~\ref{methods}, follow a
+components and refinements, follow a
 standard 3-fold cross-validation protocol, using $({\cal S}^\prime, {\cal
 C}^\prime)$ as ground-truth dataset. To replicate the $|{\cal S}^\prime| /
 |{\cal S}| \approx 13\%$ ratio of claimed signatures with respect to the total
@@ -562,24 +546,21 @@ As commonly performed in author disambiguation research,
 we evaluate the predicted clusters over testing data  ${\cal C}_\text{test}^\prime$,
 using both B3 and pairwise precision, recall
 and F-measure, as defined below:
+\begin{small}
 \begin{align}
 P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{1}{|{\cal S}|} \sum_{s \in {\cal S}} \frac{|c(s) \cap \widehat{c}(s)|}{|\widehat{c}(s)|} \\
 R_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{1}{|{\cal S}|} \sum_{s \in {\cal S}} \frac{|c(s) \cap \widehat{c}(s)|}{|c(s)|}\\
-F_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{2 P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) R_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S})}{P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) + P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S})}
-\end{align}
-\begin{align}
+F_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{2 P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) R_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S})}{P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) + P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S})} \\
 P_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{|p({\cal C}) \cap p(\widehat{\cal C})|}{|p(\widehat{\cal C})|}\\
 R_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{|p({\cal C}) \cap p(\widehat{\cal C})|}{|p({\cal C})|}\\
 F_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{2 P_\text{pairwise}({\cal C}, \widehat{\cal C}) R_\text{pairwise}({\cal C}, \widehat{\cal C})}{P_\text{pairwise}({\cal C}, \widehat{\cal C}) + R_\text{pairwise}({\cal C}, \widehat{\cal C})}
 \end{align}
+\end{small}
 and where $c(s)$ (resp. $\widehat{c}(s)$) is the cluster $c \in {\cal C}$ such that
 $s \in c$ (resp. the cluster $\widehat{c} \in \widehat{\cal C}$ such that $s
 \in \widehat{c}$), and where $p({\cal C}) = \cup_{c \in {\cal C}} \{ (s_1, s_2)
 | s_1, s_2 \in c, s_1 \neq s_2 \}$ is the set of all pairs of signatures from
 the same clusters in ${\cal C}$.
-Precision evaluates whether signatures are grouped only with signatures from the same true clusters,
-while recall measures the extent to which all signatures from the same true clusters are
-effectively grouped together.
 The F-measure is the harmonic mean between these two quantities.
 In the analysis below, we rely primarily on the B3 F-measure for discussing results, as the pairwise variant
 tends to favor large clusters (because the number of pairs is quadratic with the cluster size),
@@ -587,7 +568,16 @@ hence unfairly giving preference to authors with many publications.
 By contrast, the B3 F-measure weights clusters linearly with respect to their size.
 General conclusions drawn below remain however consistent for pairwise F.
 
+
 \subsection{Results and discussion}
+
+% Our approach could be considered as an experimental design solution. Our goal is
+% to find the best combination of design parameters. Such a solution could be
+% reached by performing many experiments where in each experiment we fix all
+% design parameters except one. Of course, what we found as a best choice in each
+% experiment will be used for the proceeding one and so on. To initialize the
+% process, we will use what have been reported by some related works as a best
+% method.
 
 \begin{table*}
 \caption{Average precision, recall and f-measure scores on test folds. Underlined components correspond to the state-of-the-art choices.}
@@ -633,20 +623,13 @@ Combined best settings & 0.9897 & 0.9827 & \textbf{0.9862}  & 0.9954 & 0.9805 & 
 \end{tabular}
 \end{table*}
 
-% Our approach could be considered as an experimental design solution. Our goal is
-% to find the best combination of design parameters. Such a solution could be
-% reached by performing many experiments where in each experiment we fix all
-% design parameters except one. Of course, what we found as a best choice in each
-% experiment will be used for the proceeding one and so on. To initialize the
-% process, we will use what have been reported by some related works as a best
-% method.
-
 \textit{Baseline.} The simplest baseline against which we compare our results
 consists in grouping all signatures sharing the same (normalized) surname(s) and
 the same (normalized) first given name initial. As it does not require the usage
 of any machine learning component, this baseline provides a simple and fast
 solution yielding decent results, as reported at the top of
 Table~\ref{table:results}
+
 
 \textit{State-of-the-art.} Most methods proposed in related works have released
 neither their software, nor their data, making a fair comparison very difficult.
@@ -657,16 +640,15 @@ we consider hereon as the \textit{state-of-the-art} solution the following
 combination of components:
 
 \begin{itemize}
-	\item Blocking: same surname and the same first given name initial strategy (SFI) and with name normalization;
-	\item Linkage function: all 22 features defined in Table~\ref{table:features},
-	gradient boosted regression trees as supervised learning algorithm
-	and a training set of pairs built from $({\cal S}_\text{train}^\prime, {\cal C}_\text{train}^\prime)$, by balancing easy and difficult cases.
-	\item Clustering: agglomerative clustering using average linkage and
-	block cuts found to maximize \\ $F_\text{B3}({\cal C}_\text{train}^\prime, \widehat{\cal C}_\text{train}^\prime, {\cal S}_\text{train}^\prime)$.
+  \item Blocking: same surname and the same first given name initial strategy (SFI) and with name normalization;
+  \item Linkage function: all 22 features defined in Table~\ref{table:features},
+  gradient boosted regression trees as supervised learning algorithm
+  and a training set of pairs built from $({\cal S}_\text{train}^\prime, {\cal C}_\text{train}^\prime)$, by balancing easy and difficult cases.
+  \item Clustering: agglomerative clustering using average linkage and
+  block cuts found to maximize \\ $F_\text{B3}({\cal C}_\text{train}^\prime, \widehat{\cal C}_\text{train}^\prime, {\cal S}_\text{train}^\prime)$.
 \end{itemize}
 
-Sections \ref{choices:blocking}, \ref{choices:linkage}, and
-\ref{choices:clustering} now study each component individually and discuss
+Below we study each component individually and discuss
 results with respect to the underlined state-of-the-art solution.
 
 \subsubsection{Blocking choices}
@@ -675,8 +657,9 @@ results with respect to the underlined state-of-the-art solution.
 The good precision of the state-of-the-art ($0.9901$), but its
 lower recall ($0.9760$) suggest that the blocking strategy might be the
 limiting factor to further overall improvements.
-As shown in Table~\ref{table:blocking}, the maximum recall (\ie, if within a block, all signatures were clustered optimally) for SFI is $0.9828$.
-At the price of fewer and therefore slightly larger blocks (as reported in the right column of Table~\ref{table:blocking}), the
+Our experiments showed the maximum $B3$ recall (\ie, if within a block, all signatures were clustered optimally) for SFI is $0.9828$, which corroborates the
+estimation of this technique on real data by \cite{torvik2009author}.
+At the price of fewer and therefore slightly larger blocks, the
 proposed phonetic-based blocking strategies show better maximum recall (all
 around $0.9905$), thereby pushing further the upper bound on the maximum
 performance of author disambiguation.
@@ -689,26 +672,22 @@ In particular, the NYSIIS-based phonetic blocking shows to be the most effective
 to the state-of-the-art (with an F-measure of $0.9850$) while also being the most
 efficient computationally (with 10857 blocks versus 12978 for the baseline).
 
-Let us also note that Table~\ref{table:blocking} corroborates the
-estimation of \cite{torvik2009author}, stating that SFI blocking has a recall
-around $98\%$ on real data.
-
-\begin{table*}
-\caption{Maximum recall $R_\text{B3}^*$ and $R_\text{pairwise}^*$ of blocking strategies, and their number of blocks on ${\cal S}^\prime$.}
-\label{table:blocking}
-\centering
-\begin{tabular}{|l|cc|c|}
-  \hline
-  \textbf{Blocking} & $R_\text{B3}^*$ & $R_\text{pairwise}^*$ & \# blocks \\
-  \hline
-  \hline
-    SFI & 0.9828 & 0.9776 & 12978 \\
-    Double metaphone & 0.9907 & 0.9863 & 9753 \\
-    NYSIIS & 0.9902 & 0.9861 & 10857 \\
-    Soundex & 0.9906 & 0.9863 & 9403 \\
-  \hline
-\end{tabular}
-\end{table*}
+%\begin{table*}
+%\caption{Maximum recall $R_\text{B3}^*$ and $R_\text{pairwise}^*$ of blocking strategies, and %their number of blocks on ${\cal S}^\prime$.}
+%\label{table:blocking}
+%\centering
+%\begin{tabular}{|l|cc|c|}
+%  \hline
+%  \textbf{Blocking} & $R_\text{B3}^*$ & $R_\text{pairwise}^*$ & \# blocks \\
+%  \hline
+%  \hline
+%    SFI & 0.9828 & 0.9776 & 12978 \\
+%    Double metaphone & 0.9907 & 0.9863 & 9753 \\
+%    NYSIIS & 0.9902 & 0.9861 & 10857 \\
+%    Soundex & 0.9906 & 0.9863 & 9403 \\
+%  \hline
+%\end{tabular}
+%\end{table*}
 
 Finally, as discussed previously, the seemingly insignificant step of
 normalizing author names (stripping accents, removing affixes), as performed in the
@@ -772,12 +751,13 @@ small set of features, as also observed in
 \cite{treeratpituk2009disambiguating} or \cite{levin2012citation}.
 
 
-\begin{figure}
-	\centering
-	\caption{Recursive Feature Elimination analysis. }
-	\label{fig:rfe}
-	\includegraphics[width=\linewidth]{fig-rfe.pdf}
-\end{figure}
+\begin{figure*}
+  \centering
+  \caption{Recursive Feature Elimination analysis. }
+  \label{fig:rfe}
+  \includegraphics[width=\linewidth]{fig-rfe.pdf}
+\end{figure*}
+
 
 \subsubsection{Semi-supervised clustering choices}
 \label{choices:clustering}
@@ -807,7 +787,7 @@ known. Trying out 3 clustering methods, the results show that \textit {average l
 \subsubsection{Combined best settings} When all best settings are combined (\ie, Blocking = NYSIIS, Name normalization, Classifier = Random Forests, Training
 pairs = blocked and balanced, Clustering = Average linkage, Block cuts),
 performance reaches $0.9862$, \ie, the best of all reported results. In particular,
-this combination exhibits both the high recall of phonetic blocking based on the NYSIIS algorithm and the high precision of Random Forests. Our best combined settings solution achieves relative improvement of more than $76\%$ with respect to the baseline and about $19\%$ with respect to the state-of-the-art choices.
+this combination exhibits both the high recall of phonetic blocking based on the NYSIIS algorithm and the high precision of Random Forests.
 
 \subsubsection{Execution time} Our implementation takes around $20$ hours to process the complete set of the data (for 10M signatures, on a $16$ cores machine with $32$GB of RAM). Related work \cite{khabsa2014large} reports execution times around $24$ hours to cluster $4$M signatures. Note also that shorter execution times can be achieved, at the expense of worse results, by reducing the set of the features used.
 
