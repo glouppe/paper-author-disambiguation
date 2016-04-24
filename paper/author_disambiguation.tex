@@ -46,10 +46,12 @@
 \usepackage{amssymb}
 \usepackage{epsfig}
 \usepackage{amsmath}
+\usepackage{cite}
 \usepackage[hidelinks]{hyperref}
 \newcommand*{\eg}{e.g.\@\xspace}
 \newcommand*{\ie}{i.e.\@\xspace}
 \usepackage{color}
+\setlength{\intextsep}{10pt plus 2pt minus 2pt}
 \newcommand{\msnote}[1]{\textcolor{blue}{[MS: #1]}}
 
 \def\baselinestretch{0.95}
@@ -59,7 +61,7 @@
 % can use linebreaks \\ within to get better formatting as desired
 \title{Ethnicity sensitive author disambiguation using semi-supervised learning}
 
-\authorrunning{Gilles Louppe et al.}
+\authorrunning{G. Louppe, H. Al-Natsheh, M. Susik, E. Maguire}
 \author{Gilles Louppe\inst{1}\and Hussein T. Al-Natsheh\inst{2}\and Mateusz Susik\inst{3}\and\\ 
 Eamonn James Maguire\inst{1}}
 
@@ -118,7 +120,7 @@ the reliability of bibliometrics and author rankings (\eg, citation counts or ot
 metrics, as studied in \cite{strotmann2012author}); and/or the relevance of scientific network analysis
 \cite{newman2001structure}. Thus, even small improvements in the field significantly improve the usability of the digital libraries to some users.
 
-Efforts and solutions to author disambiguation have been proposed from various
+Solutions to author disambiguation have been proposed from various
 communities \cite{liu2014author}. On the one hand, libraries have maintained
 authorship control through manual curation, either in a centralized way by
 hiring professional collaborators or through developing services that invite authors to register
@@ -128,20 +130,17 @@ with the objective to embed these identifiers in the submission workflow of publ
 or repositories (\eg, Elsevier, arXiv or Inspire-HEP), would univocally solve any disambiguation issue.
 As the centralized manual authorship control is expensive and the success of persistent digital
 identifiers requires large and ubiquitous adoption by both researchers and publishers, fully
-automated machine learning-based methods have been proposed during the past decade to
+automated machine learning-based methods have been proposed to
 provide immediate, less costly, and satisfactory solutions to author
-disambiguation. In this work, our goal is to explore and demonstrate how both
-approaches can coexist and benefit from each other.
-In particular, we study how labeled data obtained through manual curation (either centralized or
+disambiguation. In this work, we study how labeled data obtained through manual curation (either centralized or
 crowdsourced) can be exploited (i) to learn an accurate classifier for
 identifying coreferring authors, and (ii) to guide the clustering of scientific
 publications by distinct authors in a semi-supervised way.
 Our analysis of parameters and features of this large dataset reveal that the general pipeline
 commonly used in existing solutions is an effective approach for author disambiguation.
-Additionally, we propose alternative strategies for blocking based on the
+Moreover, we propose better strategies for blocking based on the
 phonetization of author names to increase recall and ethnicity-sensitive features for learning a
-linkage function which tailor our author disambiguation to non-Western author names whenever
-necessary.
+linkage function which tailor our author disambiguation to non-Western author names.
 
 The remainder of this report is structured as follows. In Section~\ref{related-works},
 we briefly review machine learning solutions for author disambiguation. The components of our method are then defined in Section~\ref{methods} and its implementation described in Section~\ref{implementation}. Experiments
@@ -169,11 +168,10 @@ function between publications \cite{han2004two,huang2006efficient, culotta2007au
 
 Training data is usually not easily available, therefore unsupervised approaches propose
 the use of domain-specific, manually designed, linkage functions tailored towards author
-disambiguation \cite{malin2005unsupervised,mcrae2006also,song2007efficient,
-soler2007separating, kang2009co,fan2011graph,schulz2014exploiting}.
+disambiguation \cite{malin2005unsupervised,song2007efficient, kang2009co,schulz2014exploiting}.
 These approaches have the advantage of not requiring hand-labeled data, but generally do
 not perform as well as supervised approaches.
-To reconcile both worlds, semi-supervised methods make use of small, manually verified, clusters of
+To reconcile both worlds, semi-supervised methods make use of small, manually verified clusters of
 publications and/or high-precision domain-specific rules to build a training
 set of pairs of publications, from which a linkage function is then built using supervised learning
 \cite{ferreira2010effective,torvik2009author,levin2012citation}.
@@ -228,8 +226,7 @@ title, co-authors or date of publication.}
 \label{fig:signature}
 \end{figure*}
 
-In this
-framework, author disambiguation can be stated as the problem of
+Author disambiguation can be stated as the problem of
 finding a partition ${\cal C} = \{ c_0, ..., c_{M-1} \}$ of ${\cal S}$ such
 that ${\cal S} = \cup_{i=0}^{M-1} c_i$, $c_i \cap c_j = \phi$ for all $i \neq
 j$, and where subsets $c_i$, or clusters, each corresponds to the set of all
@@ -240,12 +237,9 @@ subsets $c_i$  each correspond to the set of all signatures from the same
 individual (without knowing who). Finally, in the case of partially annotated databases as studied in
 this work, the set extends with the partial knowledge ${\cal C}^\prime = \{ c_0^\prime, ..., c_{M-1}^\prime \}$ of ${\cal C}$,
 such that $c_i^\prime \subseteq c_i$, where $c_i^\prime$ may be empty.
-Or put otherwise, the set extends with the assumption that all signatures
-$s \in c_i^\prime$ belong to the same author.
 
-Our algorithm is composed of three parts, as sketched in Figure~\ref{fig:workflow}: (i) a blocking
-scheme whose goal is to roughly pre-cluster signatures ${\cal S}$ into smaller groups in order to
-reduce computational complexity; (ii) the construction of a linkage function
+Our algorithm is composed of three parts (Figure~\ref{fig:workflow}): (i) a blocking
+scheme whose goal is to pre-cluster signatures ${\cal S}$ into smaller groups; (ii) the construction of a linkage function
 $d$ between signatures using supervised learning; and (iii) the
 semi-supervised clustering of all signatures within the same block, using $d$ as a pseudo distance metric.
 
@@ -268,8 +262,7 @@ signatures ${\cal S}$ into disjoint subsets ${\cal S}_{b_0}, ..., {\cal
 S}_{b_{K-1}}$, or \textit{blocks} \cite{fellegi69}, followed by carrying out
 author disambiguation on each one of these blocks independently.
 By doing so, the computational complexity of clustering (see Section~\ref{methods:clustering})
-typically reduces from $O(|{\cal S}|^2)$ to $O(\sum_b |{\cal S}_b|^2)$, which is much more
-tractable as the number of signatures increases.
+typically reduces from $O(|{\cal S}|^2)$ to $O(\sum_b |{\cal S}_b|^2)$.
 Since disambiguation is performed independently per block, a good blocking strategy should be
 designed such that signatures from the same author are all mapped to the same
 block, otherwise their correct clustering would not be possible in later stages of the workflow.
@@ -277,7 +270,7 @@ As a result, blocking should be a balance between reduced complexity and maximum
 
 The simplest and most common strategy for blocking, referred to hereon in as \textit{Surname and First Initial (SFI)},
 groups signatures together if they share the same surname(s) and the same first
-given name initial (\eg, \emph{SFI}("Doe, John") $==$ "Doe, J").
+given name initial.
 Despite satisfactory performance, there are several cases where this simple strategy fails to cluster related pairs of signatures together, including:
 
 \begin{enumerate}
@@ -322,24 +315,26 @@ Cases 4 and 5 are not explicitly handled.
 \subsection{Linkage function}
 \label{methods:linkage}
 
-\textit{Supervised classification.} The second part of the algorithm is the
+\subsubsection{Supervised classification.} The second part of the algorithm is the
 automatic construction of a pair-wise linkage function between signatures for use
 during the clustering step which groups all signatures from the same author.
 
 Formally, the goal is to build a function $d: {\cal S} \times {\cal S} \mapsto
 [0, 1]$, such that $d(s_1, s_2)$ approaches $0$ if both signatures $s_1$ and
 $s_2$ belong to the same author, and $1$ otherwise.
-This problem can be cast as a standard supervised classification task, where inputs
+This problem can be cast as a supervised classification task, where inputs
 are pairs of signatures and outputs are classes $0$ (same authors), and $1$
 (distinct authors). In this work, we evaluate Random Forests (RF, \cite{breiman2001random}),
 Gradient Boosted Regression Trees (GBRT, \cite{friedman2001greedy}),
 and Logistic Regression \cite{fan2008liblinear} as classifiers.
 
-\textit{Input features.} In most cases, supervised learning algorithms assume
-the input space ${\cal X}$ to be numeric (\eg, $\mathbb{R}^p$), making them
-not directly applicable to structured input spaces such as ${\cal S} \times
-{\cal S}$.
-Following previous works, pairs of signatures $(s_1, s_2)$ are first transformed to vectors $v \in \mathbb{R}^p$
+
+%In most cases, supervised learning algorithms assume
+%the input space ${\cal X}$ to be numeric (\eg, $\mathbb{R}^p$), making them
+%not directly applicable to structured input spaces such as ${\cal S} \times
+%{\cal S}$.
+
+\subsubsection{Input features.} Following previous works, pairs of signatures $(s_1, s_2)$ are first transformed to vectors $v \in \mathbb{R}^p$
 by building so-called similarity profiles \cite{treeratpituk2009disambiguating} on which supervised learning is carried out.
 In this work, we design and evaluate fifteen standard input
 features based on the comparison of signature fields, as reported in the first
@@ -503,11 +498,8 @@ It is also designed to be runnable in an incremental fashion in which our approa
 \section{Experiments}
 \label{experiments}
 
-\subsection{Data}
-
-The author disambiguation solution proposed in this work, along with its
-enhancements, are evaluated on data extracted from the \emph{INSPIRE} portal
-\cite{gentil2009information}, a digital library for scientific literature in
+All the solutions proposed in this work sare evaluated on data extracted from
+the \emph{INSPIRE} portal \cite{gentil2009information}, a digital library for scientific literature in
 high-energy physics.
 Overall, the portal holds more than 1 million publications ${\cal P}$,
 forming in total a set ${\cal S}$ of more than 10 million signatures.
@@ -548,11 +540,11 @@ using both B3 and pairwise precision, recall
 and F-measure, as defined below:
 \begin{small}
 \begin{align}
-P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{1}{|{\cal S}|} \sum_{s \in {\cal S}} \frac{|c(s) \cap \widehat{c}(s)|}{|\widehat{c}(s)|} \\
-R_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{1}{|{\cal S}|} \sum_{s \in {\cal S}} \frac{|c(s) \cap \widehat{c}(s)|}{|c(s)|}\\
+P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{1}{|{\cal S}|} \sum_{s \in {\cal S}} \frac{|c(s) \cap \widehat{c}(s)|}{|\widehat{c}(s)|} \qquad
+R_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) = \frac{1}{|{\cal S}|} \sum_{s \in {\cal S}} \frac{|c(s) \cap \widehat{c}(s)|}{|c(s)|}\\
 F_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) &= \frac{2 P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) R_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S})}{P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S}) + P_\text{B3}({\cal C}, \widehat{\cal C}, {\cal S})} \\
-P_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{|p({\cal C}) \cap p(\widehat{\cal C})|}{|p(\widehat{\cal C})|}\\
-R_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{|p({\cal C}) \cap p(\widehat{\cal C})|}{|p({\cal C})|}\\
+P_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{|p({\cal C}) \cap p(\widehat{\cal C})|}{|p(\widehat{\cal C})|} \qquad \qquad
+R_\text{pairwise}({\cal C}, \widehat{\cal C}) = \frac{|p({\cal C}) \cap p(\widehat{\cal C})|}{|p({\cal C})|}\\
 F_\text{pairwise}({\cal C}, \widehat{\cal C}) &= \frac{2 P_\text{pairwise}({\cal C}, \widehat{\cal C}) R_\text{pairwise}({\cal C}, \widehat{\cal C})}{P_\text{pairwise}({\cal C}, \widehat{\cal C}) + R_\text{pairwise}({\cal C}, \widehat{\cal C})}
 \end{align}
 \end{small}
@@ -625,8 +617,7 @@ Combined best settings & 0.9897 & 0.9827 & \textbf{0.9862}  & 0.9954 & 0.9805 & 
 
 \textit{Baseline.} The simplest baseline against which we compare our results
 consists in grouping all signatures sharing the same (normalized) surname(s) and
-the same (normalized) first given name initial. As it does not require the usage
-of any machine learning component, this baseline provides a simple and fast
+the same (normalized) first given name initial. It provides a simple and fast
 solution yielding decent results, as reported at the top of
 Table~\ref{table:results}
 
@@ -645,7 +636,7 @@ combination of components:
   gradient boosted regression trees as supervised learning algorithm
   and a training set of pairs built from $({\cal S}_\text{train}^\prime, {\cal C}_\text{train}^\prime)$, by balancing easy and difficult cases.
   \item Clustering: agglomerative clustering using average linkage and
-  block cuts found to maximize \\ $F_\text{B3}({\cal C}_\text{train}^\prime, \widehat{\cal C}_\text{train}^\prime, {\cal S}_\text{train}^\prime)$.
+  block cuts found to maximize $F_\text{B3}({\cal C}_\text{train}^\prime, \widehat{\cal C}_\text{train}^\prime, {\cal S}_\text{train}^\prime)$.
 \end{itemize}
 
 Below we study each component individually and discuss
@@ -689,7 +680,7 @@ efficient computationally (with 10857 blocks versus 12978 for the baseline).
 %\end{tabular}
 %\end{table*}
 
-Finally, as discussed previously, the seemingly insignificant step of
+Finally, as discussed previously, the step of
 normalizing author names (stripping accents, removing affixes), as performed in the
 state-of-the-art, is shown to be important. Results from Table~\ref{table:results} clearly suggest that not
 normalizing significantly reduces performance (yielding an F-measure of $0.9830$ when normalizing,
