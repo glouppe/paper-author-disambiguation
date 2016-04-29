@@ -221,7 +221,7 @@ signatures that can be extracted from all publications in ${\cal P}$.
 \begin{figure*}
 \centering
 \includegraphics[width=\textwidth]{fig-pub-to-signature.pdf}
-\caption{An example signature $s$ for "Doe, John". A \textit{signature} is
+\caption{An example signature $s$ for ``Doe, John". A \textit{signature} is
 defined as unique piece of information identifying an author on a publication,
 along with any other metadata that can be derived from it, such as publication
 title, co-authors or date of publication.}
@@ -284,15 +284,15 @@ Despite satisfactory performance, there are several cases where this simple stra
 \begin{enumerate}
   \item There are different
   ways of writing an author name, or signatures contain a typo
-  (\eg, "Mueller, R." and "Muller, R.").
+  (\eg, ``Mueller, R." and ``Muller, R.").
 
-  \item An author has multiple surnames and some signatures place the first part of the surname within the given names (\eg, "Martinez Torres, A." and "Torres, A. Martinez").
+  \item An author has multiple surnames and some signatures place the first part of the surname within the given names (\eg, ``Martinez Torres, A." and ``Torres, A. Martinez").
 
   \item An author has multiple surnames and, on some signatures, only the first surname is
-  present (\eg, "Smith-Jones, A." and "Smith, A.")
+  present (\eg, ``Smith-Jones, A." and ``Smith, A.")
 
   \item An author has multiple given names and they are not always all recorded (\eg,
-  "Smith, Jack" and "Smith, A. J.")
+  ``Smith, Jack" and ``Smith, A. J.")
 
   \item An authors surname changed (\eg, due to marriage).
 \end{enumerate}
@@ -300,9 +300,9 @@ Despite satisfactory performance, there are several cases where this simple stra
 
 To account for these issues we propose instead to block signatures based on the
 phonetic representation of the normalized surname.
-Normalization involves stripping accents (\eg, "Jab\l{}o\'nski, \L{}" $\rightarrow$ "Jablonski, L") and name
-affixes that inconsistently appear in signatures (\eg, "van der Waals, J. D."
-$\rightarrow$ "Waals, J. D."), while phonetization is based either on the
+Normalization involves stripping accents (\eg, ``Jab\l{}o\'nski, \L{}" $\rightarrow$ ``Jablonski, L") and name
+affixes that inconsistently appear in signatures (\eg, ``van der Waals, J. D."
+$\rightarrow$ ``Waals, J. D."), while phonetization is based either on the
 Double Metaphone \cite{doublemetaphone}, the NYSIIS \cite{nysiis} or the
 Soundex \cite{Soundex} phonetic algorithms for mapping author names to their pronunciations.
 Together, these processing steps allow for grouping of most name variants of the same
