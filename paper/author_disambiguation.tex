@@ -52,12 +52,12 @@
 \newcommand*{\ie}{i.e.\@\xspace}
 \usepackage{color}
 \usepackage{microtype}
-\setlength{\intextsep}{5pt plus 0pt minus 0pt}
-\newcommand{\msnote}[1]{\textcolor{blue}{[MS: #1]}}
 
-\def\baselinestretch{0.98}
+\setlength{\intextsep}{5pt plus 0pt minus 0pt}
+\def\baselinestretch{0.99}
 
 \newcommand{\longpage}{\enlargethispage{\baselineskip}}
+\newcommand{\verylongpage}{\enlargethispage{2\baselineskip}}
 
 \begin{document}
 
@@ -145,11 +145,11 @@ Moreover, we propose better strategies for blocking based on the
 phonetization of author names to increase recall and ethnicity-sensitive features for learning a
 linkage function which tailor our author disambiguation to non-Western author names.
 
+
 The remainder of this report is structured as follows. In Section~\ref{related-works},
 we briefly review machine learning solutions for author disambiguation. The components of our method are then defined in Section~\ref{methods} and its implementation described in Section~\ref{implementation}. Experiments
-are carried out in Section~\ref{experiments}, where we explore and validate
-features for the supervised learning of a linkage function and compare
-strategies for the semi-supervised clustering of publications.
+are carried out in Section~\ref{experiments}, where we compare
+approaches to the problem and explore feature choice.
 Finally, conclusions and future works are discussed in Section~\ref{conclusions}.
 
 % Related works ==================================================================
@@ -184,14 +184,14 @@ clustering algorithm when the latter is applied to a mixed set of labeled
 and unlabeled publications, \eg, by maximizing some clustering performance
 metric on the known clusters \cite{levin2012citation}.
 
-Due to the lack of large and publicly available datasets of curated
-clusters of publications, studies on author disambiguation are usually
-constrained to validating their results on manually built datasets of limited
-size and scope (from a few hundred to a few thousand papers, with sparse
-coverage of ambiguous cases), making the true performance of these methods
-often difficult to assess with high confidence.
-Additionally, despite devoted efforts to construct them, these datasets are rarely public,
-making it even more difficult to compare methods using a common benchmark.
+%Due to the lack of large and publicly available datasets of curated
+%clusters of publications, studies on author disambiguation are usually
+%constrained to validating their results on manually built datasets of limited
+%size and scope (from a few hundred to a few thousand papers, with sparse
+%coverage of ambiguous cases), making the true performance of these methods
+%often difficult to assess with high confidence.
+%Additionally, despite devoted efforts to construct them, these datasets are rarely public,
+%making it even more difficult to compare methods using a common benchmark.
 
 In this context, we position this work as a
 semi-supervised solution for author disambiguation, with the significant
@@ -202,7 +202,6 @@ findings regarding supervised learning of linkage functions, and to better explo
 for semi-supervised clustering.
 Furthermore, by releasing our data in the public domain, we provide a benchmark on
 which further research on author disambiguation and related topics can be evaluated.
-
 
 
 % Methods =====================================================================
@@ -298,7 +297,6 @@ Despite satisfactory performance, there are several cases where this simple stra
   \item An authors surname changed (\eg, due to marriage).
 \end{enumerate}
 
-\longpage
 
 To account for these issues we propose instead to block signatures based on the
 phonetic representation of the normalized surname.
@@ -467,6 +465,7 @@ Let us also denote by $\smash{\widehat{\cal C}}$ the predicted clusters for all 
 $\smash{\widehat{\cal C}^\prime} = \{ \widehat{c} \cap {\cal S}^\prime | \widehat{c} \in \widehat{\cal C} \}$
 the predicted clusters restricted to signatures for which partial clusters are known.
 From these, we evaluate the following semi-supervised cut-off strategies, as illustrated in Figure~\ref{fig:cuts}:
+
 \begin{itemize}
 
 \item \textit{No cut:} all signatures from the same block are assumed to be from the same author.
@@ -597,12 +596,12 @@ General conclusions drawn below remain however consistent for pairwise F.
 consists in grouping all signatures sharing the same (normalized) surname(s) and
 the same (normalized) first given name initial. It provides a simple and fast
 solution yielding decent results, as reported at the top of
-Table~\ref{table:results}
+Table~\ref{table:results}.
 
 
 \begin{small}
 \begin{table*}
-\caption{Average precision, recall and f-measure scores on test folds. Underlined components correspond to the state-of-the-art choices.}
+\caption{Average precision, recall and f-measure scores on test folds. - components correspond to the state-of-the-art choices.}
 \label{table:results}
 \centering
 \begin{tabular}{|l|c c c | c c c|}
@@ -617,9 +616,6 @@ Baseline & 0.9024 & 0.9828 & 0.9409  & 0.8298 & 0.9776 & 0.8977 \\
 Blocking = Double metaphone & 0.9856 & 0.9827 & 0.9841  & 0.9927 & 0.9817 & 0.9871 \\
 Blocking = NYSIIS & 0.9875 & 0.9826 & \textbf{0.9850}  & 0.9936 & 0.9814 & \textbf{0.9875} \\
 Blocking = Soundex & 0.9886 & 0.9745 & 0.9815 & 0.9935 & 0.9725 & 0.9828 \\
-\hline
-No name normalization & 0.9887 & 0.9697 & 0.9791 & 0.9931 & 0.9658 & 0.9793 \\
-\underline{Name normalization} & 0.9901 & 0.9760 & \textbf{0.9830} & 0.9948 & 0.9738 & \textbf{0.9842}  \\
 \hline
 \underline{Classifier = GBRT} & 0.9901 & 0.9760 & 0.9830   & 0.9948 & 0.9738 & 0.9842 \\
 Classifier = Random Forests & 0.9909 & 0.9783 & \textbf{0.9846}  & 0.9957 & 0.9752 & \textbf{0.9854} \\
@@ -637,7 +633,7 @@ No cut (baseline) & 0.9024 & 0.9828 & 0.9409  & 0.8298 & 0.9776 & 0.8977 \\
 Global cut & 0.9892 & 0.9737 & 0.9814  & 0.9940 & 0.9727 & 0.9832 \\
 \underline{Block cut} & 0.9901 & 0.9760 & \textbf{0.9830}  & 0.9948 & 0.9738 & \textbf{0.9842} \\
 \hline
-Combined best settings & 0.9897 & 0.9827 & \textbf{0.9862}  & 0.9954 & 0.9805 & \textbf{0.9879} \\
+Combined best settings & 0.9888 & 0.9848 & \textbf{0.9868}  & 0.9951 & 0.9831 & \textbf{0.9890} \\
 Best settings without ethnicity features & 0.9862 & 0.9819 & 0.9841 & 0.9937 & 0.9815 & 0.9876 \\
   \hline
 \end{tabular}
@@ -652,8 +648,11 @@ function and the clustering algorithm are properly aligned. In particular,
 we consider hereon as the \textit{state-of-the-art} solution the following
 combination of components:
 
+
+\longpage
+
 \begin{itemize}
-	\item Blocking: same surname and the same first given name initial strategy (SFI) and with name normalization;
+	\item Blocking: same surname and the same first given name initial strategy (SFI);
 	\item Linkage function: all 22 features defined in Table~\ref{table:features},
 	gradient boosted regression trees as supervised learning algorithm
 	and a training set of pairs built from $({\cal S}_\text{train}^\prime, {\cal C}_\text{train}^\prime)$, by balancing easy and difficult cases.
@@ -704,11 +703,11 @@ efficient computationally (with 10857 blocks versus 12978 for the baseline).
 %\end{tabular}
 %\end{table*}
 
-Finally, as discussed previously, the step of
-normalizing author names (stripping accents, removing affixes), as performed in the
-state-of-the-art, is shown to be important. Results from Table~\ref{table:results} clearly suggest that not
-normalizing significantly reduces performance (yielding an F-measure of $0.9830$ when normalizing,
-but decreasing to $0.9791$ when raw author name strings are used instead).
+%Finally, as discussed previously, the step of
+%normalizing author names (stripping accents, removing affixes), as performed in the
+%state-of-the-art, is shown to be important. Results from Table~\ref{table:results} clearly %suggest that not
+%normalizing significantly reduces performance (yielding an F-measure of $0.9830$ when %normalizing,
+%but decreasing to $0.9791$ when raw author name strings are used instead).
 
 \subsubsection{Linkage function choices}
 \label{choices:linkage}
@@ -737,8 +736,8 @@ pairs it will be used to eventually cluster. Finally, making the classification
 problem more difficult by oversampling complex cases proves to be relevant,
 by further improving the disambiguation results ($0.9830$).
 
-Moreover, we observed that the ethnicity features are an improvement. When these features were not
-included in the features set, using the best combined settings, the algorithm yields worse result
+Moreover, we observed that the ethnicity features serve a purpose. When these features were not
+included in the features set, using the best combined settings, the algorithm yields worse performance
 ($0.9841$).
 
 Using Recursive Feature Elimination \cite{guyon2002gene}, we next evaluate the
@@ -786,6 +785,8 @@ threshold to form clusters. Results from Table~\ref{table:results}
 first clearly indicate that average linkage is significantly better than
 both single and complete linkage.
 
+\longpage
+
 Clustering together all signatures from the same block (\ie, baseline) is the least effective
 strategy ($0.9409$), but yields anyhow surprisingly decent accuracy, given the
 fact it requires no linkage function and no agglomerative clustering -- only the blocking
@@ -800,11 +801,9 @@ In case ${\cal S}^\prime_b$ is empty (\ie partial clusters are not known for any
 block), this therefore suggests that either using
 a cut-off threshold learned globally from the known data would in general give results only
 marginally worse than if the claimed signatures had been
-known. Trying out 3 clustering methods, the results show that \textit {average linkage} was the best one.
+known.
 
-\longpage
-
-\subsubsection{Combined best settings} When all best settings are combined (\ie, Blocking = NYSIIS, Name normalization, Classifier = Random Forests, Training
+\subsubsection{Combined best settings} When all best settings are combined (\ie, Blocking = NYSIIS, Classifier = Random Forests, Training
 pairs = blocked and balanced, Clustering = Average linkage, Block cuts),
 performance reaches $0.9862$, \ie, the best of all reported results. In particular,
 this combination exhibits both the high recall of phonetic blocking based on the NYSIIS algorithm and the high precision of Random Forests.
@@ -837,8 +836,8 @@ experiments show that our refinements all yield significantly better author
 disambiguation accuracy.
 
 Overall, these results all encourage further improvements and research. For
-blocking, one of the open challenges is to manage signatures with inconsistent
-surnames or inconsistent first given names (cases 4 and 5, as described in
+blocking, one of the challenges is to manage signatures with inconsistent
+surnames or first given names (cases 4 and 5, as described in
 Section~\ref{methods:blocking}) while maintaining blocks to a tractable size.
 As phonetic algorithms are not yet perfect, another direction  for further work is the design of better
 phonetization functions, tailored for author disambiguation. For the linkage function,
@@ -860,9 +859,9 @@ available in author disambiguation research. By releasing the data publicly,
 we hope to provide the basis for further research on author disambiguation
 and related topics.
 
+\verylongpage
 
 \bibliographystyle{abbrv}
 \bibliography{bib}
-
 
 \end{document}
