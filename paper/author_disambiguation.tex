@@ -753,9 +753,7 @@ and ending on the left with all features eliminated but \textit{Chinese}. As
 the figure illustrates, the most important features are ethnic-based features
 (\textit{Chinese}, \textit{Other Asian}, \textit{Black}) along with
 \textit{Co-authors}, \textit{Affiliation} and \textit{Full name}. Adding the remaining
-other features only brings marginal improvements, with \textit{Journal},
-\textit{Abstract}, \textit{Collaborations}, \textit{References}, \textit{Given
-name initial} and \textit{Second given name} being almost insignificant.
+other features only brings marginal improvements.
 Overall, these results highlight the added value of the proposed ethnicity
 features.
 Their duality in modeling both the similarity between author names
@@ -834,10 +832,22 @@ author names whenever necessary. Finally, we explore semi-supervised cut-off
 threshold strategies for agglomerative clustering. For all three components,
 experiments show that our refinements all yield significantly better author
 disambiguation accuracy.
-In general, the results encourage further improvements and research. For blocking, one of the challenges is to manage signatures with inconsistent surnames or first given names (cases 4 and 5, as described in Section~\ref{methods:blocking}) while maintaining blocks to a tractable size. As phonetic algorithms are not yet perfect, another direction  for further work is the design of better phonetization functions, tailored for author disambiguation. For the linkage function, the good results of the proposed features pave the way for further research in ethnicity-sensitive author disambiguation. The automatic fitting of the pipeline to ethnic groups is better that a standard one that is less efficient for author names with many homonyms (\eg,Chinese authors). Collecting a bigger name-to-ethnicity dataset with better coverage of names is another future work to consider.
+In general, the results encourage further improvements and research. For blocking, one of the
+challenges is to manage signatures with inconsistent surnames or first given names (cases 4
+and 5, as described in Section~\ref{methods:blocking}) while maintaining blocks to a tractable
+size. As phonetic algorithms are not yet perfect, another direction  for further work is the
+design of better phonetization functions, tailored for author disambiguation. For the linkage
+function, the good results of the proposed features pave the way for further research in
+ethnicity-sensitivity. The automatic fitting of the
+pipeline to cultures and ethnic groups for which standard author disambiguation
+is known to be less efficient (\eg, Chinese authors with many homonyms) indeed
+constitutes a direction of research with great potential benefits for the
+concerned scientific communities. Exploring other name-to-ethnicity datasets with deeper 
+coverage of names is another future work worth considering.
+
 Moreover, the techniques presented in this work can be easily adapted to the broader
-problem of named entity disambiguation and might improve accuracy of semantic search
-algorithms.
+problem of named entity disambiguation and thus might significantly improve accuracy of
+semantic search algorithms.
 
 As part of this study, we also publicly release the annotated data extracted
 from the \emph{INSPIRE} platform, on which our experiments are based.
@@ -846,7 +856,6 @@ available in author disambiguation research. By releasing the data publicly,
 we hope to provide the basis for further research on author disambiguation
 and related topics.
 
-\verylongpage
 
 \bibliographystyle{abbrv}
 \bibliography{bib}
