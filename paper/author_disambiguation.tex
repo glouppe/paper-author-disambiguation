@@ -54,9 +54,9 @@
 \usepackage{microtype}
 
 \setlength{\intextsep}{5pt plus 0pt minus 0pt}
-% \def\baselinestretch{0.99}
+%\def\baselinestretch{0.99}
 
-\newcommand{\longpage}{\enlargethispage{\baselineskip}}
+\newcommand{\longpage}{\enlargethispage{1.5\baselineskip}}
 
 \begin{document}
 
@@ -149,7 +149,6 @@ Finally, conclusions and future works are discussed in Section~\ref{conclusions}
 \section{Related work}
 \label{related-works}
 
-\longpage
 
 As reviewed in \cite{smalheiser2009author,ferreira2012brief,levin2012citation}, author
 disambiguation algorithms are usually composed of two main components: (i) a
@@ -276,7 +275,7 @@ Despite satisfactory performance, there are several cases where this simple stra
   ways of writing an author name, or signatures contain a typo
   (\eg, ``Mueller, R." and ``Muller, R.").
 
-  \item An author has multiple surnames and some signatures place the first part of the surname within the given names (\eg, ``Martinez Torres, A." and ``Torres, A. Martinez").
+  \item An author has multiple surnames (or a patronymic) and some signatures place the first part of the surname within the given names (\eg, ``Martinez Torres, A." and ``Torres, A. Martinez").
 
   \item An author has multiple surnames and, on some signatures, only the first surname is
   present (\eg, ``Smith-Jones, A." and ``Smith, A.")
@@ -316,7 +315,6 @@ with similar names.
 \subsection{Linkage function}
 \label{methods:linkage}
 
-\longpage
 
 \subsubsection{Supervised classification.} The second part of the algorithm is the
 automatic construction of a pair-wise linkage function between signatures for use
@@ -474,7 +472,8 @@ From these, we evaluate the following semi-supervised cut-off strategies, as ill
 \begin{figure*}
 \centering
 \includegraphics[width=\textwidth]{fig-cuts.pdf}
-\caption{Semi-supervised cut-off strategies to form flat clusters of signatures.}
+\caption{Semi-supervised cut-off strategies to form flat clusters of signatures. Every
+dendogram represents a single block.}
 \label{fig:cuts}
 \end{figure*}
 
@@ -531,6 +530,7 @@ To the best of our knowledge, data of this size and coverage is the first to be 
 released in the scope of author disambiguation research.
 
 \subsection{Evaluation protocol}
+
 
 Experiments carried out to study the impact of the proposed algorithmic
 components and refinements, follow a
@@ -656,7 +656,6 @@ results with respect to the underlined state-of-the-art solution.
 \subsubsection{Blocking choices}
 \label{choices:blocking}
 
-\longpage
 
 The good precision of the state-of-the-art ($0.9901$), but its
 lower recall ($0.9760$) suggest that the blocking strategy might be the
@@ -776,7 +775,6 @@ threshold to form clusters. Results from Table~\ref{table:results}
 first clearly indicate that average linkage is significantly better than
 both single and complete linkage.
 
-
 Clustering together all signatures from the same block (\ie, baseline) is the least effective
 strategy ($0.9409$), but yields anyhow surprisingly decent accuracy, given the
 fact it requires no linkage function and no agglomerative clustering -- only the blocking
@@ -805,6 +803,8 @@ this combination exhibits both the high recall of phonetic blocking based on the
 
 \section{Conclusions}
 \label{conclusions}
+
+\longpage
 
 In this work, we have revisited and validated the general author disambiguation
 pipeline introduced in previous independent research work.
