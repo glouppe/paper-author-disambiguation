@@ -54,16 +54,15 @@
 \usepackage{microtype}
 
 \setlength{\intextsep}{5pt plus 0pt minus 0pt}
-\def\baselinestretch{0.99}
+% \def\baselinestretch{0.99}
 
 \newcommand{\longpage}{\enlargethispage{\baselineskip}}
-\newcommand{\verylongpage}{\enlargethispage{2\baselineskip}}
 
 \begin{document}
 
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Ethnicity sensitive author disambiguation using semi-supervised learning}
+\title{Ethnicity Sensitive Author Disambiguation Using Semi-supervised Learning}
 
 \authorrunning{G. Louppe, H. Al-Natsheh, M. Susik, E. Maguire}
 \author{Gilles Louppe\inst{1}\and Hussein T. Al-Natsheh\inst{2}\and Mateusz Susik\inst{3}\and\\ 
@@ -83,22 +82,15 @@ University of Warsaw, Poland,\\
 \maketitle
 \begin{abstract}
 
-Author name disambiguation in bibliographic databases is the problem of grouping
-together scientific publications written by the same person, accounting for
-potential homonyms and/or synonyms. Among solutions to this problem, digital
-libraries are increasingly offering tools for authors to manually curate their
-publications and claim those that are theirs. Indirectly, these tools allow for
-the inexpensive collection of large annotated training data, which can be
-further leveraged to build a complementary automated disambiguation system
-capable of inferring patterns for identifying publications written by the same
-person. Building on more than 1 million crowdsourced
-annotations that we publicly release, we propose an automated author disambiguation solution exploiting
+Building on more than 1 million crowdsourced
+annotations that we publicly release, we propose a new automated disambiguation
+solution exploiting
 this data (i) to learn an accurate classifier for identifying coreferring
 authors and (ii) to guide the clustering of scientific publications by distinct
 authors in a semi-supervised way. To the best of our knowledge, our analysis is
 the first to be carried out on data of this size and coverage. With respect to
 the state of the art, we validate the general pipeline used in most existing
-solutions, and improve by: (i) proposing phonetic-based blocking strategies,
+solutions, and improve by: (i) proposing new phonetic-based blocking strategies,
 thereby increasing recall; (ii) adding strong ethnicity-sensitive features for
 learning a linkage function, thereby tailoring disambiguation to non-Western
 author names whenever necessary; and (iii) showing the importance of balancing
@@ -244,8 +236,6 @@ The distinctive aspect of our work is the
 knowledge of more than 1 million crowdsourced annotations, indicating together that all signature $s \in
 c_i^\prime$ are known to correspond to the same individual $a_i$.
 
-\longpage
-
 Our algorithm is composed of three parts (Figure~\ref{fig:workflow}): (i) a blocking
 scheme whose goal is to pre-cluster signatures ${\cal S}$ into smaller groups; (ii) the construction of a linkage function
 $d$ between signatures using supervised learning; and (iii) the
@@ -319,10 +309,14 @@ new signature is assigned to the block of the last surname (case 2).
 Otherwise, the signature is assigned to the block of the first surname (case 3).
 Finally, to prevent the creation of too large blocks, signatures are further divided
 along their first given name initial.
-Cases 4 and 5 are not explicitly handled.
+The biggest limitation of this method is leaving the cases 4 and 5 unhandled.
+This method might result in blocking together signatures from many different authors
+with similar names.
 
 \subsection{Linkage function}
 \label{methods:linkage}
+
+\longpage
 
 \subsubsection{Supervised classification.} The second part of the algorithm is the
 automatic construction of a pair-wise linkage function between signatures for use
@@ -346,7 +340,7 @@ and Logistic Regression \cite{fan2008liblinear} as classifiers.
 \subsubsection{Input features.} Following previous works, pairs of signatures $(s_1, s_2)$ are first transformed to vectors $v \in \mathbb{R}^p$
 by building so-called similarity profiles \cite{treeratpituk2009disambiguating} on which supervised learning is carried out.
 In this work, we design and evaluate fifteen standard input
-features based on the comparison of signature fields, as reported in the first
+features \cite{ferreira2012brief, levin2012citation} based on the comparison of signature fields, as reported in the first
 half of Table~\ref{table:features}.
 As an illustrative example, the \textit{Full name} feature corresponds to the similarity between the (full)
 author name fields of the two signatures, as measured using as combination
@@ -362,6 +356,7 @@ might more/less often change affiliations, and this dependency, if learnt by the
 should improve the fit.
 To support our disambiguation algorithm, we added seven features to our feature set, with each
 evaluating the degree of belonging of both signatures to an ethnic group.
+
 
 \longpage
 
@@ -441,8 +436,6 @@ individuals) in order to improve the overall accuracy of the linkage function.
 
 \subsection{Semi-supervised clustering}
 \label{methods:clustering}
-
-\longpage
 
 The last component of our author disambiguation pipeline is clustering - 
 the process of grouping together, within a block, all signatures from the same
@@ -525,8 +518,8 @@ forming in total a set ${\cal S}$ of more than 10 million signatures.
 Out of these, around 13\% have been \textit{claimed} by their
 original authors, marked as such by professional curators or automatically assigned to their true authors thanks
 to persistent identifiers provided by publishers or other sources.
-Together, they constitute a trusted set $({\cal S}^\prime, {\cal C}^\prime)$ of 15388 distinct individuals sharing
-36340 unique author names spread within 1201763 signatures on 360066
+Together, they constitute a trusted set $({\cal S}^\prime, {\cal C}^\prime)$ of 15,388 distinct individuals sharing
+36,340 unique author names spread within 1,201,763 signatures on 360,066
 publications. This data covers several decades in time and dozens of author
 nationalities worldwide.
 
@@ -552,6 +545,7 @@ S}_\text{train}^\prime$ are used for testing.
 Therefore, ${\cal C}_\text{train}^\prime = \{ c^\prime \cap {\cal S}_\text{train}^\prime | c^\prime \in {\cal C}^\prime
 \}$ represents the partial known clusters on the training fold, while ${\cal
 C}_\text{test}^\prime$ are those used for testing.
+
 
 As commonly performed in author disambiguation research,
 we evaluate the predicted clusters over testing data  ${\cal C}_\text{test}^\prime$,
@@ -590,8 +584,6 @@ General conclusions drawn below remain however consistent for pairwise F.
 % process, we will use what have been reported by some related works as a best
 % method.
 
-\longpage
-
 \subsubsection{Baseline.} The simplest baseline against which we compare our results
 consists in grouping all signatures sharing the same (normalized) surname(s) and
 the same (normalized) first given name initial. It provides a simple and fast
@@ -601,7 +593,7 @@ Table~\ref{table:results}.
 
 \begin{small}
 \begin{table*}
-\caption{Average precision, recall and f-measure scores on test folds. - components correspond to the state-of-the-art choices.}
+\caption{Average precision, recall and f-measure scores on test folds. Components correspond to the state-of-the-art choices.}
 \label{table:results}
 \centering
 \begin{tabular}{|l|c c c | c c c|}
@@ -649,8 +641,6 @@ we consider hereon as the \textit{state-of-the-art} solution the following
 combination of components:
 
 
-\longpage
-
 \begin{itemize}
 	\item Blocking: same surname and the same first given name initial strategy (SFI);
 	\item Linkage function: all 22 features defined in Table~\ref{table:features},
@@ -675,16 +665,17 @@ Our experiments showed the maximum $B3$ recall (\ie, if within a block, all sign
 estimation of this technique on real data by \cite{torvik2009author}.
 At the price of fewer and therefore slightly larger blocks, the
 proposed phonetic-based blocking strategies show better maximum recall (all
-around $0.9905$), thereby pushing further the upper bound on the maximum
-performance of author disambiguation.
-Let us remind however that the reported maximum recalls for the blocking strategies using phonetization are
+around $0.9905$). Better recall pushes further the upper bound on the maximum
+performance of author disambiguation, as the signatures that belong to the same author
+and different groups can not be clustered together by our algorithm.
+Let us remind that the reported maximum recalls for the blocking strategies using phonetization are
 also raised due to the better handling of multiple surnames, as described in Section \ref{methods:blocking}.
 
 As Table~\ref{table:results} shows, switching to either Double metaphone or NYSIIS phonetic-based blocking allows
 to improve the overall F-measure score.
 In particular, the NYSIIS-based phonetic blocking shows to be the most effective when applied
 to the state-of-the-art (with an F-measure of $0.9850$) while also being the most
-efficient computationally (with 10857 blocks versus 12978 for the baseline).
+efficient computationally (with 10,857 blocks versus 12,978 for the baseline).
 
 %\begin{table*}
 %\caption{Maximum recall $R_\text{B3}^*$ and $R_\text{pairwise}^*$ of blocking strategies, and %their number of blocks on ${\cal S}^\prime$.}
@@ -725,6 +716,8 @@ tree-based methods is in our opinion not surprising.
 Indeed, given the fact that the optimal linkage function is likely to be non-linear, non-parametric
 methods are expected to yield better results, as the experiments here confirm.
 
+\longpage
+
 Second, properly constructing a training set of positive and negative pairs of
 signatures from which to learn a linkage function yields a significant
 improvement.
@@ -733,7 +726,7 @@ blocking into account, significantly impacts the overall performance
 ($0.9711$). When pairs are drawn only from blocks, performance increases
 ($0.9786$), which confirms our intuition that $d$ should be built only from
 pairs it will be used to eventually cluster. Finally, making the classification
-problem more difficult by oversampling complex cases proves to be relevant,
+problem more difficult by oversampling complex cases (see \ref{methods:linkage}) proves to be relevant,
 by further improving the disambiguation results ($0.9830$).
 
 Moreover, we observed that the ethnicity features serve a purpose. When these features were not
@@ -783,7 +776,6 @@ threshold to form clusters. Results from Table~\ref{table:results}
 first clearly indicate that average linkage is significantly better than
 both single and complete linkage.
 
-\longpage
 
 Clustering together all signatures from the same block (\ie, baseline) is the least effective
 strategy ($0.9409$), but yields anyhow surprisingly decent accuracy, given the
@@ -813,8 +805,6 @@ this combination exhibits both the high recall of phonetic blocking based on the
 
 \section{Conclusions}
 \label{conclusions}
-
-\longpage
 
 In this work, we have revisited and validated the general author disambiguation
 pipeline introduced in previous independent research work.
