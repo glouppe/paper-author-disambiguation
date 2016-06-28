@@ -52,6 +52,7 @@
 \newcommand*{\ie}{i.e.\@\xspace}
 \usepackage{color}
 \usepackage{microtype}
+\usepackage[small,compact]{titlesec} 
 
 \setlength{\intextsep}{5pt plus 0pt minus 0pt}
 %\def\baselinestretch{0.99}
@@ -71,7 +72,7 @@ Eamonn James Maguire\inst{1}}
 \institute{CERN, Switzerland,\\
 \email{\{g.louppe, eamonn.james.maguire\}@cern.ch},
 \and
-ISH, USR 3385,CNRS, and ERIC lab, EA 3083, Univ Lyon 2, France,\\
+ISH, USR 3385, CNRS, and ERIC lab, EA 3083, Univ Lyon 2, France,\\
 \email{hussein.al-natsheh@ish-lyon.cnrs.fr}
 \and
 University of Warsaw, Poland,\\
@@ -122,7 +123,7 @@ hiring professional collaborators or through developing services that invite aut
 their publications themselves (\eg, Google Scholar or Inspire-HEP).
 Recent efforts to create persistent digital identifiers assigned to researchers (\eg, ORCID or ResearcherID),
 with the objective to embed these identifiers in the submission workflow of publishers
-or repositories (\eg, Elsevier, arXiv or Inspire-HEP), would univocally solve any disambiguation issue.
+or repositories (\eg, Elsevier or arXiv), would univocally solve any disambiguation issue.
 As the centralized manual authorship control is expensive and the success of persistent digital
 identifiers requires large and ubiquitous adoption by both researchers and publishers, fully
 automated machine learning-based methods have been proposed to
@@ -133,7 +134,7 @@ identifying coreferring authors, and (ii) to guide the clustering of scientific
 publications by distinct authors in a semi-supervised way.
 Our analysis of parameters and features of this large dataset reveal that the general pipeline
 commonly used in existing solutions is an effective approach for author disambiguation.
-Moreover, we propose better strategies for blocking based on the
+Moreover, we propose better strategies for blocking (\ie, partitioning) based on the
 phonetization of author names to increase recall and ethnicity-sensitive features for learning a
 linkage function which tailor our author disambiguation to non-Western author names.
 
@@ -256,7 +257,7 @@ are grouped using hierarchical agglomerative clustering.}
 
 As in previous works, the first part of our algorithm consists of dividing
 signatures ${\cal S}$ into disjoint subsets ${\cal S}_{b_0}, ..., {\cal
-S}_{b_{K-1}}$, or \textit{blocks} \cite{fellegi69}, followed by carrying out
+S}_{b_{K-1}}$, or \textit{blocks} (\ie partitions) \cite{fellegi69}, followed by carrying out
 author disambiguation on each one of these blocks independently.
 By doing so, the computational complexity of clustering (see Section~\ref{methods:clustering})
 typically reduces from $O(|{\cal S}|^2)$ to $O(\sum_b |{\cal S}_b|^2)$.
@@ -339,7 +340,7 @@ and Logistic Regression \cite{fan2008liblinear} as classifiers.
 by building so-called similarity profiles \cite{treeratpituk2009disambiguating} on which supervised learning is carried out.
 In this work, we design and evaluate fifteen standard input
 features \cite{ferreira2012brief, levin2012citation} based on the comparison of signature fields, as reported in the first
-half of Table~\ref{table:features}.
+half of Table~\ref{table:features}. Noteworthy, the author metadata, both provided or derived, are far more important than the publication content itself.
 As an illustrative example, the \textit{Full name} feature corresponds to the similarity between the (full)
 author name fields of the two signatures, as measured using as combination
 operator the cosine similarity between their respective $(n,m)$-\emph{TF-IDF} vector
