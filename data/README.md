@@ -1,3 +1,12 @@
+Mirrors
+=======
+
+In case files cannot be downloaded from GitHub LFS, mirrors can be found at
+
+- https://drive.google.com/open?id=0B1kJ1OjakiU4SW8tSkVTM0NtaE0
+- https://drive.google.com/open?id=0B1kJ1OjakiU4MGt3T1dMNlJ1Uk0
+
+
 Data
 ====
 
