@@ -52,12 +52,11 @@
 \newcommand*{\ie}{i.e.\@\xspace}
 \usepackage{color}
 \usepackage{microtype}
-\usepackage[small,compact]{titlesec} 
 
 \setlength{\intextsep}{5pt plus 0pt minus 0pt}
-%\def\baselinestretch{0.99}
+\def\baselinestretch{0.99}
 
-\newcommand{\longpage}{\enlargethispage{1.5\baselineskip}}
+\newcommand{\longpage}{\enlargethispage{1.4\baselineskip}}
 
 \begin{document}
 
@@ -83,7 +82,7 @@ University of Warsaw, Poland,\\
 \maketitle
 \begin{abstract}
 
-Building on more than 1 million crowdsourced
+Building on more than one million crowdsourced
 annotations that we publicly release, we propose a new automated disambiguation
 solution exploiting
 this data (i) to learn an accurate classifier for identifying coreferring
@@ -355,7 +354,6 @@ might more/less often change affiliations, and this dependency, if learnt by the
 should improve the fit.
 To support our disambiguation algorithm, we added seven features to our feature set, with each
 evaluating the degree of belonging of both signatures to an ethnic group.
-
 
 \longpage
 
@@ -716,8 +714,6 @@ tree-based methods is in our opinion not surprising.
 Indeed, given the fact that the optimal linkage function is likely to be non-linear, non-parametric
 methods are expected to yield better results, as the experiments here confirm.
 
-\longpage
-
 Second, properly constructing a training set of positive and negative pairs of
 signatures from which to learn a linkage function yields a significant
 improvement.
@@ -804,8 +800,6 @@ this combination exhibits both the high recall of phonetic blocking based on the
 
 \section{Conclusions}
 \label{conclusions}
-
-\longpage
 
 In this work, we have revisited and validated the general author disambiguation
 pipeline introduced in previous independent research work.
