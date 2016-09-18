@@ -59,7 +59,7 @@
 \title{\bf Ethnicity Sensitive Author Disambiguation Using Semi-supervised Learning}
 \author{Gilles Louppe, Hussein Al-Natsheh, Mateusz Susik \\and 
 Eamonn Maguire}
-\institute{KESW 2016, Prague}
+\institute{International Conference on Knowledge Engineering and Semantic Web 2016, Prague}
 \date{September 23, 2016}
 
 \newcommand{\todo}[1]{\textcolor{red}{[TODO] #1}}
@@ -73,9 +73,34 @@ Eamonn Maguire}
 \end{frame}
 
 
-% Motivation ==================================================================
+% Motivation ==============================================================
 
 \begin{frame}{Motivation}
+
+Increasing number of publications means that every digital library needs a good
+disambiguation solution. Without it:
+
+\begin{enumerate}
+    \item Users can spend a lot of time looking for a specific author if there are
+    many authors with the same name in the database (homonym issues)
+    \item Users are not able to find a specific author's publication if he uses
+    multiple different names (synonym issues)
+    \item It is not possible to present important date about authors such as citations
+    or co-author network analysis.
+\end{enumerate}
+
+Our analysis was conducted on more than 1,2 millions of signatures from INSPIRE digital
+library.
+
+% IMPORTANT Explain what Inspire is.
+
+\end{frame}
+
+% Problem statement ==================================================================
+
+% IMPORTANT Explain what the boxes represent.
+
+\begin{frame}{Problem statement}
 For each author, group together all his publications, and only those.
 
 \footnotesize{
@@ -123,6 +148,22 @@ For each author, group together all his publications, and only those.
 \end{columns}}
 \end{frame}
 
+
+
+% Definitions ====================================================================
+
+\begin{frame} {Definitions}
+
+\begin{figure}
+   \centering
+   \includegraphics[width=\textwidth]{./figures/fig-pub-to-signature.pdf}
+\end{figure}
+
+\end{frame}
+
+
+% Author dismbiguation ====================================================================
+
 \begin{frame}
 
 \tikzstyle{block} = [rectangle, draw, text width=10em, text centered, rounded corners, minimum height=2em]
@@ -151,9 +192,9 @@ For each author, group together all his publications, and only those.
 As extracted from claimed publications in INSPIRE,
 
 \begin{itemize}
-\item {\color{blue} Authors have on average $2.06$ name variants (synonyms)}\\
+\item {\color{blue} Authors have on average $2.06$ name variants}\\
 Eg.: Doe, John; Doe, J.
-\item {\color{blue} Unique name variants are shared on average by $1.04$ authors (homonyms)}
+\item {\color{blue} Unique name variants are shared on average by $1.04$ authors}
 \end{itemize}
 
 Clustering on exact full names or last name + first initial, should
@@ -234,90 +275,6 @@ $$\varphi(s_1, s_2) = \begin{cases}
 \end{frame}
 
 
-% Supervised learning =========================================================
-
-\begin{frame}{Supervised learning}
-
-\begin{itemize}
-\item The \X{inputs} are random variables \X{$X = X_1$, ..., $X_p$};
-\item The \y{output} is a random variable \y{$Y$}.
-\end{itemize}
-
-\begin{itemize}
-\item Data comes as a finite learning set $${\cal L} = \{(\X{\mathbf{x}_i}, \y{y_i}) | i = 0, \dots, N-1 \},$$
-where \X{$\mathbf{x}_i \in {\cal X} = {\cal X}_1 \times ... \times {\cal X}_p$} and \y{$y_i \in {\cal Y}$}
-are randomly drawn from $P_{\X{X},\y{Y}}$.\\
-\vspace{0.3cm}
-\small{
-E.g.,:\\
-$(\X{\mathbf{x}_i}, \y{y_i}) = ((\X{\text{name sim.}=0.7, \X{\text{title sim.}=0.3}, ...)}, \y{\text{same authors}})$ \\
-$(\X{\mathbf{x}_j}, \y{y_j}) = ((\X{\text{name sim.}=0.1, \X{\text{title sim.}=0.5}, ...)}, \y{\text{different authors}})$
-}
-\end{itemize}
-
-\begin{itemize}
-\item The goal is to find a model $\model{\varphi_{\cal L}}: \X{{\cal X}} \mapsto \y{{\cal Y}}$ minimizing
-$$
-Err(\model{\varphi_{\cal L}}) = \mathbb{E}_{\X{X}, \y{Y}}\{ L(\y{Y}, \model{\varphi_{\cal L}}(\X{X})) \}.
-$$
-\end{itemize}
-
-\end{frame}
-
-
-
-% Publication to Signature ====================================================================
-
-\begin{frame} {Publication to Signature}
-
-\begin{figure}
-   \centering
-   \includegraphics[width=\textwidth]{./figures/fig-pub-to-signature.pdf}
-\end{figure}
-
-\end{frame}
-
-% Pipeline ====================================================================
-
-\begin{frame} {General Pipeline}
-
-\begin{figure}
-   \centering
-   \includegraphics[width=\textwidth]{./figures/fig-workflow.pdf}
-\end{figure}
-
-\end{frame}
-
-
-% GBRT ====================================================================
-
-\begin{frame}{Gradient Boosted Regression Trees [J. Friedman, 1999]}
-
-\begin{itemize}
-\item Ensemble of regression trees approximating the (negative) gradient of a loss function
-\item Each tree is a successive gradient descent step
-\item Low bias and low variance
-\end{itemize}
-
-
-\begin{figure}
-   \centering
-   \includegraphics[width=\textwidth]{./figures/residual_fitting_2.pdf}
-\end{figure}
-
-\tikzoverlay[text width=10cm] at (-0.2cm, 0.1cm) {
-\begin{columns}[c]
-\begin{column}{0.2\textwidth}
-    \begin{figure}
-      \includegraphics[width=2em]{./figures/scikit-learn-logo-thumb.png}
-    \end{figure}
-\end{column}
-\begin{column}{1.0\textwidth}
-    \vspace{-0.5cm}\hspace{-0.5cm}{\footnotesize \texttt{sklearn.ensemble.GradientBoostingClassifier|Regressor}}
-\end{column}
-\end{columns}
-};
-\end{frame}
 
 % Pair-wise Features Extraction ========================================================
 
@@ -331,46 +288,59 @@ $$
 \end{frame}
 
 
+% Features ===================================================
+
+\begin{frame} {Features}
+
+\begin{itemize}
+    \item {7 Ethnicity similarity features}
+    \item {Co-authors similarity}
+    \item {5 Name similarity features}
+    \item {Metadata similarity measures:}
+    \begin{itemize}
+        \item {Affiliations}
+        \item {Keywords}
+        \item {Publication year difference}
+        \item {Title}
+        \item {Abstract}
+        \item {Collaboration}
+        \item {References}
+        \item {Journal}
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
 % Feature Selection by Recursive Elimination ========================================================
 
 \begin{frame}{Feature Selection by Recursive Elimination}
 
 \begin{figure}
    \centering
-   \includegraphics[width=\textwidth]{./figures/fig-rfe.pdf}
+   \includegraphics[width=\textwidth]{./figures/fig-rfe.png}
 \end{figure}
 
 \end{frame}
 
 
-% Clustering ==================================================================
+% Pipeline ====================================================================
 
-\begin{frame}{Disambiguation as a Clustering Problem}
+\begin{frame} {General Pipeline}
+
+
+\begin{figure}
+   \centering
+   \includegraphics[width=\textwidth]{./figures/fig-workflow.pdf}
+\end{figure}
 
 \begin{itemize}
-\item Author disambiguation = {\color{red} clustering signatures that belong to the same author}.\\[1em]
+\item Being able to disambiguate a pair of signatures does not end the problem. \\[0.5em]
 
-\item Using our model $\model{\varphi}$, the probability
+\item Author disambiguation = {\color{red} clustering signatures that belong to the same author}.\\[0.5em]
+
+\item Using our model (called also linkage function), the probability
       that two signatures belong to different authors can be used as a (pseudo) distance metric.
 \end{itemize}
-
-\tikzstyle{block} = [rectangle, draw, text width=5em, text centered, rounded corners, minimum height=2em]
-\tikzstyle{line} = [draw, -latex']
-\tikzstyle{cloud} = []
-
-\begin{center}
-\begin{tikzpicture}[node distance = 2cm, auto]
-    % Place nodes
-    \node [block] (clustering) {Hierarchical clustering};
-    \node [cloud, above of=clustering] (input1) {$\{s_1, s_2, ..., s_N\}$};
-    \node [cloud, left of=clustering] (input2) {$\varphi$};
-    \node [cloud, below of=clustering] (output) {$\{ \underbrace{\{ s_1, s_3, s_4 \}}_{\text{author 1}}, \underbrace{\{ s_2, s_5\}}_{\text{author 2}}, ... \}$};
-    % Draw edges
-    \path [line] (input1) -- (clustering);
-    \path [line] (input2) -- (clustering);
-    \path [line] (clustering) -- (output);
-\end{tikzpicture}
-\end{center}
 
 \end{frame}
 
@@ -417,9 +387,10 @@ $$
 
 % Partitioning into Blocks =====================================================
 
+% No reason to describe the dataset here
+
 \begin{frame} {Solving Issue 1: Partitioning into Blocks}
 
-Talking about blocking goes here (photanic, LNFI...) or in a seperate slide
 
 \begin{columns}[T]
 
@@ -428,20 +399,46 @@ Talking about blocking goes here (photanic, LNFI...) or in a seperate slide
 \end{column}
 \begin{column}{0.5\textwidth}
 
-Without bloking, the clustering algorithm would deal with:
+With blocking, the complexity is practically linear. A good blocking algoriithm
+should minimize:
 \begin{itemize}
-\item more than $1.07$  million publications.
 
-\item more than $9.27$ millions signatures.
 
-\item more than $1.2$ million claimed signatures (Ground-truth).
+\item Number of pairs of signatures that belong to the same author but
+after blocking step can not be clustered together. 
+\item Sum of squares of the sizes of produced blocks.
+
 \end{itemize}
-
-With blocking, we, somehow, linearize the complexity
 
 \end{column}
 
 \end{columns}
+
+\end{frame}
+
+% Cases =====================================================
+
+
+\begin{frame} {Cases}
+
+Analysis of data showed that author can have multiple names in few cases:
+
+\begin {itemize}
+ \item There are different
+  ways of writing an author name, or signatures contain a typo
+  (e.g., "Mueller, R." and "Muller, R.").
+
+  \item An author has multiple surnames (or a patronymic) and some signatures place the first part of the surname within the given names (e.g., "Martinez Torres, A." and "Torres, A. Martinez").
+
+  \item An author has multiple surnames and, on some signatures, only the first surname is
+  present (e.g., "Smith-Jones, A." and "Smith, A.")
+
+  \item An author has multiple given names and they are not always all recorded (e.g.,
+  "Smith, Jack" and "Smith, A. J.")
+
+  \item An authors surname changed (e.g., due to marriage).
+
+\end {itemize}
 
 \end{frame}
 
@@ -450,7 +447,22 @@ With blocking, we, somehow, linearize the complexity
 
 \begin{frame} {Blocking Strategies}
 
-Talking about blocking goes here (photanic, LNFI...)
+Our solution:
+
+\begin {itemize}
+\item Group signatures with single family names by their phonetic represenations
+(we tried Soundex, NYSIIS and Metaphone algorithms)
+\item Match signatures with multiple given names with clusters that contain signatures
+with the first given name from the new signatures.
+\item Otherwise match signatures multiple given names with clusters that contain signatures
+with the last given name from the new signatures.
+\item Otherwise create new clusters.
+
+\end {itemize}
+
+This algorithm effectively solves paragraphs 1-3 from the previous page without introducing
+many errors. As the blocks were still too large, we split them over the first given name
+initital.
 
 \end{frame}
 
@@ -458,12 +470,10 @@ Talking about blocking goes here (photanic, LNFI...)
 % Cutting Strategy =====================================================
 
 
-\begin{frame} {Solving Issue 2: Threshold Cut_off Strategy}
+\begin{frame} {Solving Issue 2: Threshold Cut-off Strategy}
 
-\begin{figure}
-   \centering
-   \includegraphics[width=\textwidth]{./figures/fig-cuts.pdf}
-\end{figure}
+\includegraphics[width=\textwidth]{./figures/fig-cuts.pdf}
+
 
 \end{frame}
 
@@ -596,18 +606,38 @@ Best settings without ethnicity features & 0.9862 & 0.9819 & 0.9841 \\
 
 \end{frame}
 
+
+% Performance ================================================================
+
+\begin{frame}{Integration}
+
+The solution is currently being used by the INSPIRE and INVENIO projects at CERN. \\[1em]
+
+Execution time: $20$ hours to process the complete set of the labeled data (for 10M
+signatures, on a $16$ cores machine with $32$GB of RAM). It it possible to do
+a much faster incremental disambiguation by running the clustering step only over the blocks
+with new signatures.
+
+\end{frame}
+
 % Future Work ================================================================
 
 \begin{frame}{Future Work}
 
 \begin{itemize}
-\item Error analysis.\\[2em]
 
-\item Explore Author2Vec approach as a partitioning (blocking) strategy.\\[2em]
+\item Error analysis.\\[1em]
 
-\item Build more comprehensive name-ethnicity dataset. \\[2em]
+% I've read the paper and it does not seem like a very promising idea to me. - Mateusz
+\item Explore Author2Vec approach as a partitioning (blocking) strategy.\\[1em]
 
-\item Archive and utilize user's feedback to enhance the model \\[2em]
+\item Build more comprehensive name-ethnicity dataset. \\[1em]
+
+\item Build phonetic algorithm tailored to the disambiguation task. \\[1em]
+
+\item Archive and utilize user's feedback to enhance the model. \\[1em]
+
+\item Try our disambiguation solution for other types of entities. 
 
 \end{itemize}
 
