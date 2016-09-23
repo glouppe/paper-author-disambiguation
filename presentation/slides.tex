@@ -1,9 +1,10 @@
 \documentclass{beamer}
 \usepackage{etex}
-
+\usetheme{Copenhagen}
 \usepackage[utf8]{inputenc}
 \usepackage[frenchb]{babel}
 \usepackage{verbatim}
+\usepackage{framed}
 \usepackage{graphicx}
 \usepackage{color}
 \usepackage{hyperref}
@@ -59,7 +60,7 @@
 \title{\bf Ethnicity Sensitive Author Disambiguation Using Semi-supervised Learning}
 \author{Gilles Louppe, Hussein Al-Natsheh, Mateusz Susik \\and 
 Eamonn Maguire}
-\institute{International Conference on Knowledge Engineering and Semantic Web 2016, Prague}
+\institute{KESW 2016, Prague}
 \date{September 23, 2016}
 
 \newcommand{\todo}[1]{\textcolor{red}{[TODO] #1}}
@@ -70,87 +71,103 @@ Eamonn Maguire}
 
 \begin{frame}
 \titlepage
+   \centering
+   \begin{columns}[T]
+    \begin{column}{0.33\textwidth}
+    \begin{figure}
+        \includegraphics[height=.2\textheight]{./figures/uod.png}
+    \end{figure}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+    \begin{figure}
+        \includegraphics[height=.2\textheight]{./figures/cern.png}
+    \end{figure}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+    \begin{figure}
+        \includegraphics[height=.2\textheight]{./figures/uow.png}
+    \end{figure}
+    \end{column}
+    \end{columns}
 \end{frame}
 
 
-% Motivation ==============================================================
 
-\begin{frame}{Motivation}
 
-Increasing number of publications means that every digital library needs a good
-disambiguation solution. Without it:
+% How would you fare? =========================================================
 
-\begin{enumerate}
-    \item Users can spend a lot of time looking for a specific author if there are
-    many authors with the same name in the database (homonym issues)
-    \item Users are not able to find a specific author's publication if he uses
-    multiple different names (synonym issues)
-    \item It is not possible to present important date about authors such as citations
-    or co-author network analysis.
-\end{enumerate}
+\subsection{Examples}
 
-Our analysis was conducted on more than 1,2 millions of signatures from INSPIRE digital
-library.
+\begin{frame}{How would you fare?}
+\only<1-2>{
+\begin{figure}
+   \centering
+   \includegraphics[width=\textwidth]{./figures/howwouldyoufare1.png}
+\end{figure}
+\begin{figure}
+   \centering
+   \includegraphics[width=\textwidth]{./figures/howwouldyoufare2.png}
+\end{figure}
+\uncover<2>{\centering\color{red} \xmark~ Different authors}
+}
 
-% IMPORTANT Explain what Inspire is.
+\only<3-4>{
+\begin{figure}
+   \centering
+   \includegraphics[width=\textwidth]{./figures/howwouldyoufare3.png}
+\end{figure}
+\begin{figure}
+   \centering
+   \includegraphics[width=\textwidth]{./figures/howwouldyoufare4.png}
+\end{figure}
+\uncover<4>{\centering\color{blue} \cmark~ Same authors}
+}
 
 \end{frame}
 
-% Problem statement ==================================================================
 
-% IMPORTANT Explain what the boxes represent.
+% Homonym ==============================================================
 
-\begin{frame}{Problem statement}
-For each author, group together all his publications, and only those.
+\section{Motivation}
 
-\footnotesize{
-\begin{columns}[T]
+\begin{frame}{Homonymy in Asian Names Written in English}
 
-\begin{column}{0.33\textwidth}
+Please meet Yang Wang, Wang Yang, and Yang Wang!
+
 \begin{figure}
-\texttt{M.S.Smith.1}
-\includegraphics[width=\textwidth]{figures/no-more.png}
+   \centering
+   \includegraphics[width=\textwidth]{./figures/homonym.png}
 \end{figure}
-\end{column}
-\begin{column}{0.33\textwidth}
-\begin{figure}
-\texttt{Z.Liang.4}
-\includegraphics[width=\textwidth]{figures/no-less.png}
 
-\texttt{Z.Liang.5}
-\includegraphics[width=\textwidth]{figures/no-less.png}
-
-...
-
-\texttt{Z.Liang.83}
-\includegraphics[width=\textwidth]{figures/no-less.png}
-\end{figure}
-\end{column}
-\begin{column}{0.33\textwidth}
-\begin{figure}
-\texttt{S.W.Hawking.1}
-\includegraphics[width=\textwidth]{figures/exact.png}
-\end{figure}
-\end{column}
-
-\end{columns}
-
-\begin{columns}[T]
-\begin{column}{0.33\textwidth}
-\begin{center}{\it No more}\end{center}
-\end{column}
-\begin{column}{0.33\textwidth}
-\begin{center}{\it No less}\end{center}
-\end{column}
-\begin{column}{0.33\textwidth}
-\begin{center}{\it But all and only the correct ones}\end{center}
-\end{column}
-\end{columns}}
 \end{frame}
 
 
+% Entity Resolution ==============================================================
+
+
+\begin{frame}{Author Disambiguation as Entity Resolution Problem}
+
+\begin{figure}
+   \centering
+   \includegraphics[width=\textwidth]{./figures/entity_resolution.png}
+\end{figure}
+
+Image source: datacommunitydc.org
+\end{frame}
+
+
+% Table of content==========
+%\begin{frame}{Overview}
+%\tableofcontents[pausesections]
+%\end{frame}
+%==========
 
 % Definitions ====================================================================
+
+
+\section{Definitions}
+
+\subsection{From publications to signatures}
 
 \begin{frame} {Definitions}
 
@@ -162,9 +179,29 @@ For each author, group together all his publications, and only those.
 \end{frame}
 
 
-% Author dismbiguation ====================================================================
+% Problem statement ==================================================================
 
-\begin{frame}
+% IMPORTANT Explain what the boxes represent.
+
+\begin{frame}{Problem to Solve}
+For each author, group together all his publications, and only those.
+
+\begin{block}{Inspirehep.net is a digital library contains}
+\begin{itemize}
+\item  Over 1M publication forming more than 10M signatures
+\item  1.2M signatures are claimed by:\\[1em]
+\begin{itemize}
+\item Authors themselves (similar to Google Scholar). \\[1em]
+\item Universal identifiers (ORCiD) . \\[1em]
+\item Professional curators . \\[1em]
+\end{itemize}
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+%=================================================
+\begin{frame}{Problem Formulation}
 
 \tikzstyle{block} = [rectangle, draw, text width=10em, text centered, rounded corners, minimum height=2em]
 \tikzstyle{line} = [draw, -latex']
@@ -183,80 +220,10 @@ For each author, group together all his publications, and only those.
 \end{center}
 \end{frame}
 
-
-
-% Spread of the problem =======================================================
-
-\begin{frame}{Spread of the problem}
-
-As extracted from claimed publications in INSPIRE,
-
-\begin{itemize}
-\item {\color{blue} Authors have on average $2.06$ name variants}\\
-Eg.: Doe, John; Doe, J.
-\item {\color{blue} Unique name variants are shared on average by $1.04$ authors}
-\end{itemize}
-
-Clustering on exact full names or last name + first initial, should
-yield very good results on average.
-
-\vskip1em
-
-{\color{red} But}, disambiguation issues are expected to amplify with the rise of Asian researchers:
-Caucasian names (now representative of INSPIRE authors) are almost never
-ambiguous, while Asian names are very often.
-
-% compute average number of name variants per author (synonyms)
-% compute average number of authors per name variants
-% => easy but we want to do better
-
-\end{frame}
-
-
-% How would you fare? =========================================================
-
-\begin{frame}{How would \textit{you} fare?}
-
-\only<1-2>{
-\begin{figure}
-\includegraphics[scale=0.35]{figures/author1/1.png}\\[2em]
-\includegraphics[scale=0.35]{figures/author1/2.png}\\[2em]
-\uncover<2>{\color{blue} \cmark~ Same authors}
-\end{figure}
-}
-\only<3-4>{
-\begin{figure}
-\includegraphics[scale=0.25]{figures/author2/3.png}\\[2em]
-\includegraphics[scale=0.35]{figures/author2/1.png}\\[1em]
-\uncover<4>{\color{blue} \cmark~ Same authors}
-\end{figure}
-}
-% \only<5-6>{
-% \begin{figure}
-% \includegraphics[scale=0.35]{figures/author1/5.png}\\[2em]
-% \includegraphics[scale=0.35]{figures/author1/4.png}\\[2em]
-% \uncover<6>{\color{blue} \cmark~ Same authors}
-% \end{figure}
-% }
-\only<5-6>{
-\begin{figure}
-\includegraphics[scale=0.35]{figures/author1/6.png}\\[2em]
-\hspace*{-2cm}\includegraphics[scale=0.35]{figures/author2/2.png}\\[2em]
-\uncover<6>{\color{red} \xmark~ Different authors}
-\end{figure}
-}
-\only<7-8>{
-\begin{figure}
-\includegraphics[scale=0.35]{figures/author1/3.png}\\[2em]
-\includegraphics[scale=0.35]{figures/author1/4.png}\\[2em]
-\uncover<8>{\color{blue} \cmark~ Same authors}
-\end{figure}
-}
-
-\end{frame}
-
-
 % Learning ====================================================================
+
+
+\section{Linkage function}
 
 \begin{frame}{Learning from data}
 
@@ -275,9 +242,33 @@ $$\varphi(s_1, s_2) = \begin{cases}
 \end{frame}
 
 
+% Ethnicity Features ========================================================
+
+\subsection{Ethnicity Features}
+\begin{frame}{Ethnicity Features}
+
+\begin{figure}
+   \centering
+   \includegraphics[width=.7\textwidth]{./figures/ethnicity.pdf}
+\end{figure}
+ From (IPUMS-USA) we extracted:
+\begin{itemize}
+
+\item White: 20M
+\item Black: 3M
+\item American Indian or Alaska Native: 150K
+\item Chinese: 50K
+\item Japanese: 50K
+\item Other Asian or Pacific Islander: 30K
+\item Other race: 1K
+\end{itemize}
+
+
+\end{frame}
 
 % Pair-wise Features Extraction ========================================================
 
+\subsection{Feature engineering}
 \begin{frame}{Pair-wise Features Extraction}
 
 \begin{figure}
@@ -287,33 +278,46 @@ $$\varphi(s_1, s_2) = \begin{cases}
 
 \end{frame}
 
+% Features ====================================================================
 
-% Features ===================================================
-
-\begin{frame} {Features}
-
-\begin{itemize}
-    \item {7 Ethnicity similarity features}
-    \item {Co-authors similarity}
-    \item {5 Name similarity features}
-    \item {Metadata similarity measures:}
-    \begin{itemize}
-        \item {Affiliations}
-        \item {Keywords}
-        \item {Publication year difference}
-        \item {Title}
-        \item {Abstract}
-        \item {Collaboration}
-        \item {References}
-        \item {Journal}
-    \end{itemize}
-\end{itemize}
-
+\begin{frame}{Features set}
+\begin{table}
+\label{table:features}
+\centering
+{\small
+\begin{tabular}{|l|l|}
+  \hline
+  \textbf{Feature} & \textbf{Combination operator}\\
+  \hline
+  \hline
+  Full name & Cosine similarity of $(2,4)$-TF-IDF\\
+  Given names & Cosine similarity of $(2,4)$-TF-IDF\\
+  First given name & Jaro-Winkler distance\\
+  Second given name & Jaro-Winkler distance\\
+  Given name initial & Equality\\
+  Affiliation & Cosine similarity of $(2,4)$-TF-IDF\\
+  Co-authors & Cosine similarity of TF-IDF\\
+  Title & Cosine similarity of $(2,4)$-TF-IDF\\
+  Journal & Cosine similarity of $(2,4)$-TF-IDF\\
+  Abstract & Cosine similarity of TF-IDF\\
+  Keywords & Cosine similarity of TF-IDF\\
+  Collaborations & Cosine similarity of TF-IDF\\
+  References & Cosine similarity of TF-IDF\\
+  Subject & Cosine similarity of TF-IDF\\
+  Year difference & Absolute difference\\
+  \hline
+  Any ethnicity feature & Product of probabilities estimated by SVM\\
+  \hline
+\end{tabular}}
+\end{table}
 \end{frame}
 
-% Feature Selection by Recursive Elimination ========================================================
 
-\begin{frame}{Feature Selection by Recursive Elimination}
+
+
+% Feature Importances by Recursive Elimination ========================================================
+
+\begin{frame}{Feature Importances by Recursive Elimination}
 
 \begin{figure}
    \centering
@@ -323,25 +327,25 @@ $$\varphi(s_1, s_2) = \begin{cases}
 \end{frame}
 
 
-% Pipeline ====================================================================
+\section{Clustering}
 
-\begin{frame} {General Pipeline}
+\begin{frame}{Disambiguation as a clustering problem}
 
+\tikzstyle{block} = [rectangle, draw, text width=10em, text centered, rounded corners, minimum height=2em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = []
 
-\begin{figure}
-   \centering
-   \includegraphics[width=\textwidth]{./figures/fig-workflow.pdf}
-\end{figure}
-
-\begin{itemize}
-\item Being able to disambiguate a pair of signatures does not end the problem. \\[0.5em]
-
-\item Author disambiguation = {\color{red} clustering signatures that belong to the same author}.\\[0.5em]
-
-\item Using our model (called also linkage function), the probability
-      that two signatures belong to different authors can be used as a (pseudo) distance metric.
-\end{itemize}
-
+\begin{center}
+\begin{tikzpicture}[node distance = 2cm, auto]
+    % Place nodes
+    \node [block] (clustering) {Author disambiguation};
+    \node [cloud, above of=clustering] (input1) {$\{s_1, s_2, ..., s_N\}$};
+    \node [cloud, below of=clustering] (output) {$\{ \underbrace{\{ s_1, s_3, s_4 \}}_{\text{author 1}}, \underbrace{\{ s_2, s_5\}}_{\text{author 2}}, ... \}$};
+    % Draw edges
+    \path [line] (input1) -- (clustering);
+    \path [line] (clustering) -- (output);
+\end{tikzpicture}
+\end{center}
 \end{frame}
 
 
@@ -371,17 +375,30 @@ $$\varphi(s_1, s_2) = \begin{cases}
 
 % Implementation issues =====================================================
 
-\begin{frame}{Issues}
+\section{Clustering issues}
+
+\begin{frame}{Clustering Issues}
 
 \begin{itemize}
 \item The complexity of hierarchical clustering is {\color{red} $O(N^2)$}. For $N=10^7$ signatures, this is impractical.
 
-{\it Solution:} pre-cluster into blocks all signatures with the same last name + first initial, then cluster each of these blocks.\\[2em]
+{\it {\color{blue}Solution:}} partitioning into blocks all signatures with the same last name + first initial, then cluster each of these blocks.\\[2em]
 
 \item How do you set the {\color{red} cut-off threshold}?
 
-{\it Solution:} using training data (e.g., claimed signatures), pick the threshold that locally maximizes some criterion.
+{\it {\color{blue}Solution:}} using training data (e.g., claimed signatures), pick the threshold that locally maximizes some criterion.
 \end{itemize}
+
+\end{frame}
+
+
+\begin{frame} {General Pipeline}
+
+
+\begin{figure}
+   \centering
+   \includegraphics[width=\textwidth]{./figures/fig-workflow.pdf}
+\end{figure}
 
 \end{frame}
 
@@ -389,30 +406,41 @@ $$\varphi(s_1, s_2) = \begin{cases}
 
 % No reason to describe the dataset here
 
+
+\subsection{Blocking}
+
 \begin{frame} {Solving Issue 1: Partitioning into Blocks}
 
 
-\begin{columns}[T]
+\begin{figure}
+   \centering
+   \includegraphics[width=0.7\textwidth]{./figures/blocking.png}
+\end{figure}
 
-\begin{column}{0.5\textwidth}
-\includegraphics[width=\textwidth]{./figures/blocking.png}
-\end{column}
-\begin{column}{0.5\textwidth}
+% What we need to do in order to reduce the complexity of the clustering step is to
+% partition all the signatures into blocks and then run the clustering algorithm for all
+% the blocks. This step in the previous works was called blocking and thus we will stick to
+% this name. It's important to say here what a good blocking algorithm should do. Firstly,
+% should minimize the number of pairs of signatures that belong to the same author but
+% after blocking step can not be clustered together, and sum of squares of the sizes of
+% produced blocks, so basically the computational cost of the clustering. 
 
-With blocking, the complexity is practically linear. A good blocking algoriithm
-should minimize:
-\begin{itemize}
+% It is important to say here that if the size of the blocks is on average around 100, maybe
+% sometimes  1000 signatures, than effectively the algorithm becomes linear.
 
+% However, those two objectives that I mentioned are hard to achieve together.
 
-\item Number of pairs of signatures that belong to the same author but
-after blocking step can not be clustered together. 
-\item Sum of squares of the sizes of produced blocks.
+% The simpliest strategy, that was commonly used in the past is what we call "Surname
+% and first initial". It works like this: we take all the signatures with the same
+% surname and the same first initial, and we group them together. 
+% (describe image)
 
-\end{itemize}
+% There are some limitations of this method.
 
-\end{column}
+%\end{itemize}
 
-\end{columns}
+%\end{column}
+
 
 \end{frame}
 
@@ -424,45 +452,41 @@ after blocking step can not be clustered together.
 Analysis of data showed that author can have multiple names in few cases:
 
 \begin {itemize}
- \item There are different
-  ways of writing an author name, or signatures contain a typo
-  (e.g., "Mueller, R." and "Muller, R.").
+ \item "Mueller, R." and "Muller, R."
 
-  \item An author has multiple surnames (or a patronymic) and some signatures place the first part of the surname within the given names (e.g., "Martinez Torres, A." and "Torres, A. Martinez").
+  \item "Martinez Torres, A." and "Torres, A. Martinez"
 
-  \item An author has multiple surnames and, on some signatures, only the first surname is
-  present (e.g., "Smith-Jones, A." and "Smith, A.")
+  \item "Smith-Jones, A." and "Smith, A."
 
-  \item An author has multiple given names and they are not always all recorded (e.g.,
-  "Smith, Jack" and "Smith, A. J.")
+  \item "Smith, Jack" and "Smith, A. J."
 
   \item An authors surname changed (e.g., due to marriage).
 
 \end {itemize}
+
+% We decided to do some analysis on our training set. We took the pairs that belong to the
+% same author but are represented by different names and we noticed that 1). it happens
+% often and 2). there are some patterns. We manually decided what the patterns are, and
+% here they are:
 
 \end{frame}
 
 % Blocking Strategies =====================================================
 
 
-\begin{frame} {Blocking Strategies}
+\begin{frame} {Solution}
 
-Our solution:
 
-\begin {itemize}
-\item Group signatures with single family names by their phonetic represenations
-(we tried Soundex, NYSIIS and Metaphone algorithms)
-\item Match signatures with multiple given names with clusters that contain signatures
-with the first given name from the new signatures.
-\item Otherwise match signatures multiple given names with clusters that contain signatures
-with the last given name from the new signatures.
-\item Otherwise create new clusters.
+\begin{figure}
+   \centering
+   \includegraphics[width=0.9\textwidth]{./figures/Blocking.png}
+\end{figure}
 
-\end {itemize}
+% Name the phonetic algorithms (Soundex, NYSIIS, Metaphone)
 
-This algorithm effectively solves paragraphs 1-3 from the previous page without introducing
-many errors. As the blocks were still too large, we split them over the first given name
-initital.
+%This algorithm effectively solves paragraphs 1-3 from the previous page without %introducing
+%many errors. As the blocks were still too large, we split them over the first given name
+%initital.
 
 \end{frame}
 
@@ -470,15 +494,27 @@ initital.
 % Cutting Strategy =====================================================
 
 
+\subsection{Cut-off strategies}
+
 \begin{frame} {Solving Issue 2: Threshold Cut-off Strategy}
 
 \includegraphics[width=\textwidth]{./figures/fig-cuts.pdf}
 
+% The second problem that Hussein mentioned is that we need to decide how to cut the
+% dendograms that are produced. So, first of all notice that if we have a blocking phase,
+% than we have one dendogram for every block. We decided to try 3 different approaches.
+
+
+% Simply by iterating over all possible
+
+% Blocks cut (new concept)
 
 \end{frame}
 
 
 % Evaluation =====================================================================
+
+\section{Evaluation}
 
 \begin{frame}{Evaluation}
 
@@ -493,53 +529,45 @@ initital.
 where $C(s)$ (resp., $\hat{C}(s)$) is the true (resp., predicted) set of signatures to which $s$ belongs.
 
 
-% disambiguation is clustering
-% how to evaluate clustering?
+% As our task is clustering, we need to have a measure for comparing the scores.
+% There are two popular approaches. //paired and b3
+
+% We chose b3 as ... (balancing...)
+
 % give number for simple strategy (all same names baseline 0.5, all same block baseline 1.0)
 \end{frame}
 
 % Results =====================================================================
 
-\begin{frame}{Results}
 
-\begin{table}
-    \centering
-    \begin{tabular}{| l c |}
-    \hline
-        \textit{Method} & \textit{$B^3 \text{F-score}$}  \\
-    \hline
-    \hline
-    Full name & 0.8183 \\
-    Last name + First initial & 0.9409 \\
-    \hline
-    Our model & {\color{blue} 0.9868} \\
-    \hline
-    \end{tabular}
-\end{table}
-
-\end{frame}
-
-% Results =====================================================================
+\section{Results}
 
 \begin{frame}{Results 1 of 2}
 
+% What is baseline
+
+% Mention recall improvement
+
+% Ensemble because better for heterogenous data, can easily find non-linear dependencies
+% (and they are in the dataset).
+
 \begin{table}
-\caption{Average precision, recall and f-measure scores on test folds. CUnderlined row corresponds to the state-of-the-art choices.}
+%\caption{Average precision, recall and f-measure scores on test folds. Underlined row %corresponds to the state-of-the-art choices.}
 \centering
 \begin{tabular}{|l|c c c |}
   \hline
-                       & \multicolumn{3}{|c|}{\textbf{B3}}\\
-  \textbf{Description} & $P$ & $R$ & $F$ \\
+                       & \multicolumn{3}{|c|}{\textbf{$B^{3}$}}\\
+  \textbf{Description} & $Prec.$ & $Recall$ & $F1$ \\
   \hline
   \hline
 Baseline & 0.9024 & 0.9828 & 0.9409  \\
 \hline
-\underline{Blocking = SFI} & 0.9901 & 0.9760 & 0.9830  \\
+\underline{Blocking = Surname \& First Initial} & 0.9901 & 0.9760 & 0.9830  \\
 Blocking = Double metaphone & 0.9856 & 0.9827 & 0.9841  \\
 Blocking = NYSIIS & 0.9875 & 0.9826 & \textbf{0.9850}   \\
 Blocking = Soundex & 0.9886 & 0.9745 & 0.9815  \\
 \hline
-\underline{Classifier = GBRT} & 0.9901 & 0.9760 & 0.9830   \\
+\underline{Classifier = Gradient Boosting Classifier} & 0.9901 & 0.9760 & 0.9830   \\
 Classifier = Random Forests & 0.9909 & 0.9783 & \textbf{0.9846}  \\
 Classifier = Linear Regression & 0.9749 & 0.9584 & 0.9666 \\
 \hline
@@ -555,15 +583,18 @@ Training pairs = Blocked, uniform & 0.9854 & 0.9720 & 0.9786   \\
 
 % Results =====================================================================
 
+% One can say it's not much, but if you take a look into the number of the problems solved,
+% then ..
+
 \begin{frame}{Results 2 of 2}
 
 \begin{table}
-\caption{Average precision, recall and f-measure scores on test folds. Underlined row corresponds to the state-of-the-art choices.}
+%\caption{Average precision, recall and f-measure scores on test folds. Underlined row %corresponds to the state-of-the-art choices.}
 \centering
 \begin{tabular}{|l|c c c |}
   \hline
-                       & \multicolumn{3}{|c|}{\textbf{B3}}\\
-  \textbf{Description} & $P$ & $R$ & $F$ \\
+                       & \multicolumn{3}{|c|}{\textbf{$B^{3}$}}\\
+  \textbf{Description} & $Prec.$ & $Recall$ & $F1$ \\
   \hline
   \hline
 Baseline & 0.9024 & 0.9828 & 0.9409  \\
@@ -609,14 +640,38 @@ Best settings without ethnicity features & 0.9862 & 0.9819 & 0.9841 \\
 
 % Performance ================================================================
 
-\begin{frame}{Integration}
+\begin{frame}{Implementation}
 
 The solution is currently being used by the INSPIRE and INVENIO projects at CERN. \\[1em]
 
-Execution time: $20$ hours to process the complete set of the labeled data (for 10M
-signatures, on a $16$ cores machine with $32$GB of RAM). It it possible to do
-a much faster incremental disambiguation by running the clustering step only over the blocks
-with new signatures.
+% mention that we are aware of two companies that use our solution
+
+Execution time: $20$ hours for 10M signatures, on a $16$ cores machine with $32$GB of RAM. 
+
+{\color{red} But}, even only few minutes for incremental disambiguation! \\[1em]
+
+% explain
+
+% why did you release?
+
+% mention the work from the previous day, you can install library with pip (python package
+% manager)
+
+Our solution is open-source\footnote{\url{github.com/inspirehep/beard}} and we released the
+dataset\footnote{\url{github.com/glouppe/paper-author-disambiguation/data}}.
+
+% use by other companies
+
+\end{frame}
+
+\begin{frame}{Conclusions}
+
+\begin{itemize}
+\item Semi-supervised approach on the biggest dataset ever used for author disambiguation.
+\item Novel blocking technique based on phonetization.
+\item Showing the significancy of inferred name ethnicity.
+\item Showing the importance of balancing the training set.
+\end{itemize}
 
 \end{frame}
 
@@ -628,16 +683,15 @@ with new signatures.
 
 \item Error analysis.\\[1em]
 
-% I've read the paper and it does not seem like a very promising idea to me. - Mateusz
-\item Explore Author2Vec approach as a partitioning (blocking) strategy.\\[1em]
+\item Build or find more comprehensive name-ethnicity dataset. \\[1em]
 
-\item Build more comprehensive name-ethnicity dataset. \\[1em]
+\item Explore author embedding approaches as a blocking strategy.\\[1em]
 
 \item Build phonetic algorithm tailored to the disambiguation task. \\[1em]
 
 \item Archive and utilize user's feedback to enhance the model. \\[1em]
 
-\item Try our disambiguation solution for other types of entities. 
+\item Try our disambiguation solution for other tasks. 
 
 \end{itemize}
 
